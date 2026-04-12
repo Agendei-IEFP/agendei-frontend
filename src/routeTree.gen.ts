@@ -9,12 +9,39 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AboutRouteImport } from './routes/about'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LojasIndexRouteImport } from './routes/lojas/index'
+import { Route as ProfissionalHorariosRouteImport } from './routes/profissional/horarios'
+import { Route as ProfissionalDashboardRouteImport } from './routes/profissional/dashboard'
+import { Route as Profissional_layoutRouteImport } from './routes/profissional/__layout'
+import { Route as ClienteLayoutRouteImport } from './routes/cliente/layout'
+import { Route as ClienteContaRouteImport } from './routes/cliente/conta'
+import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
+import { Route as Admin_layoutRouteImport } from './routes/admin/__layout'
+import { Route as ProfissionalServicosIndexRouteImport } from './routes/profissional/servicos/index'
+import { Route as LojasLojaIdIndexRouteImport } from './routes/lojas/$lojaId/index'
+import { Route as ClienteAgendamentosIndexRouteImport } from './routes/cliente/agendamentos/index'
+import { Route as AdminProfissionaisIndexRouteImport } from './routes/admin/profissionais/index'
+import { Route as ProfissionalServicosNovoRouteImport } from './routes/profissional/servicos/novo'
+import { Route as ProfissionalServicosIdRouteImport } from './routes/profissional/servicos/$id'
+import { Route as ProfissionalAgendamentosIdRouteImport } from './routes/profissional/agendamentos/$id'
+import { Route as ClienteAgendamentosIdRouteImport } from './routes/cliente/agendamentos/$id'
+import { Route as AdminProfissionaisAdicionarRouteImport } from './routes/admin/profissionais/adicionar'
+import { Route as AdminLojaEditarRouteImport } from './routes/admin/loja/editar'
+import { Route as LojasLojaIdAgendarIndexRouteImport } from './routes/lojas/$lojaId/agendar/index'
+import { Route as LojasLojaIdAgendarHorarioRouteImport } from './routes/lojas/$lojaId/agendar/horario'
+import { Route as LojasLojaIdAgendarConfirmarRouteImport } from './routes/lojas/$lojaId/agendar/confirmar'
 
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CadastroRoute = CadastroRouteImport.update({
+  id: '/cadastro',
+  path: '/cadastro',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -22,40 +49,320 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LojasIndexRoute = LojasIndexRouteImport.update({
+  id: '/lojas/',
+  path: '/lojas/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfissionalHorariosRoute = ProfissionalHorariosRouteImport.update({
+  id: '/profissional/horarios',
+  path: '/profissional/horarios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfissionalDashboardRoute = ProfissionalDashboardRouteImport.update({
+  id: '/profissional/dashboard',
+  path: '/profissional/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Profissional_layoutRoute = Profissional_layoutRouteImport.update({
+  id: '/profissional/__layout',
+  path: '/profissional',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClienteLayoutRoute = ClienteLayoutRouteImport.update({
+  id: '/cliente/layout',
+  path: '/cliente/layout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClienteContaRoute = ClienteContaRouteImport.update({
+  id: '/cliente/conta',
+  path: '/cliente/conta',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Admin_layoutRoute = Admin_layoutRouteImport.update({
+  id: '/admin/__layout',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfissionalServicosIndexRoute =
+  ProfissionalServicosIndexRouteImport.update({
+    id: '/profissional/servicos/',
+    path: '/profissional/servicos/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const LojasLojaIdIndexRoute = LojasLojaIdIndexRouteImport.update({
+  id: '/lojas/$lojaId/',
+  path: '/lojas/$lojaId/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClienteAgendamentosIndexRoute =
+  ClienteAgendamentosIndexRouteImport.update({
+    id: '/cliente/agendamentos/',
+    path: '/cliente/agendamentos/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminProfissionaisIndexRoute = AdminProfissionaisIndexRouteImport.update({
+  id: '/admin/profissionais/',
+  path: '/admin/profissionais/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfissionalServicosNovoRoute =
+  ProfissionalServicosNovoRouteImport.update({
+    id: '/profissional/servicos/novo',
+    path: '/profissional/servicos/novo',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ProfissionalServicosIdRoute = ProfissionalServicosIdRouteImport.update({
+  id: '/profissional/servicos/$id',
+  path: '/profissional/servicos/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfissionalAgendamentosIdRoute =
+  ProfissionalAgendamentosIdRouteImport.update({
+    id: '/profissional/agendamentos/$id',
+    path: '/profissional/agendamentos/$id',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ClienteAgendamentosIdRoute = ClienteAgendamentosIdRouteImport.update({
+  id: '/cliente/agendamentos/$id',
+  path: '/cliente/agendamentos/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminProfissionaisAdicionarRoute =
+  AdminProfissionaisAdicionarRouteImport.update({
+    id: '/admin/profissionais/adicionar',
+    path: '/admin/profissionais/adicionar',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminLojaEditarRoute = AdminLojaEditarRouteImport.update({
+  id: '/admin/loja/editar',
+  path: '/admin/loja/editar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LojasLojaIdAgendarIndexRoute = LojasLojaIdAgendarIndexRouteImport.update({
+  id: '/lojas/$lojaId/agendar/',
+  path: '/lojas/$lojaId/agendar/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LojasLojaIdAgendarHorarioRoute =
+  LojasLojaIdAgendarHorarioRouteImport.update({
+    id: '/lojas/$lojaId/agendar/horario',
+    path: '/lojas/$lojaId/agendar/horario',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const LojasLojaIdAgendarConfirmarRoute =
+  LojasLojaIdAgendarConfirmarRouteImport.update({
+    id: '/lojas/$lojaId/agendar/confirmar',
+    path: '/lojas/$lojaId/agendar/confirmar',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/cadastro': typeof CadastroRoute
+  '/login': typeof LoginRoute
+  '/admin': typeof Admin_layoutRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/cliente/conta': typeof ClienteContaRoute
+  '/cliente/layout': typeof ClienteLayoutRoute
+  '/profissional': typeof Profissional_layoutRoute
+  '/profissional/dashboard': typeof ProfissionalDashboardRoute
+  '/profissional/horarios': typeof ProfissionalHorariosRoute
+  '/lojas/': typeof LojasIndexRoute
+  '/admin/loja/editar': typeof AdminLojaEditarRoute
+  '/admin/profissionais/adicionar': typeof AdminProfissionaisAdicionarRoute
+  '/cliente/agendamentos/$id': typeof ClienteAgendamentosIdRoute
+  '/profissional/agendamentos/$id': typeof ProfissionalAgendamentosIdRoute
+  '/profissional/servicos/$id': typeof ProfissionalServicosIdRoute
+  '/profissional/servicos/novo': typeof ProfissionalServicosNovoRoute
+  '/admin/profissionais/': typeof AdminProfissionaisIndexRoute
+  '/cliente/agendamentos/': typeof ClienteAgendamentosIndexRoute
+  '/lojas/$lojaId/': typeof LojasLojaIdIndexRoute
+  '/profissional/servicos/': typeof ProfissionalServicosIndexRoute
+  '/lojas/$lojaId/agendar/confirmar': typeof LojasLojaIdAgendarConfirmarRoute
+  '/lojas/$lojaId/agendar/horario': typeof LojasLojaIdAgendarHorarioRoute
+  '/lojas/$lojaId/agendar/': typeof LojasLojaIdAgendarIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/cadastro': typeof CadastroRoute
+  '/login': typeof LoginRoute
+  '/admin': typeof Admin_layoutRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/cliente/conta': typeof ClienteContaRoute
+  '/cliente/layout': typeof ClienteLayoutRoute
+  '/profissional': typeof Profissional_layoutRoute
+  '/profissional/dashboard': typeof ProfissionalDashboardRoute
+  '/profissional/horarios': typeof ProfissionalHorariosRoute
+  '/lojas': typeof LojasIndexRoute
+  '/admin/loja/editar': typeof AdminLojaEditarRoute
+  '/admin/profissionais/adicionar': typeof AdminProfissionaisAdicionarRoute
+  '/cliente/agendamentos/$id': typeof ClienteAgendamentosIdRoute
+  '/profissional/agendamentos/$id': typeof ProfissionalAgendamentosIdRoute
+  '/profissional/servicos/$id': typeof ProfissionalServicosIdRoute
+  '/profissional/servicos/novo': typeof ProfissionalServicosNovoRoute
+  '/admin/profissionais': typeof AdminProfissionaisIndexRoute
+  '/cliente/agendamentos': typeof ClienteAgendamentosIndexRoute
+  '/lojas/$lojaId': typeof LojasLojaIdIndexRoute
+  '/profissional/servicos': typeof ProfissionalServicosIndexRoute
+  '/lojas/$lojaId/agendar/confirmar': typeof LojasLojaIdAgendarConfirmarRoute
+  '/lojas/$lojaId/agendar/horario': typeof LojasLojaIdAgendarHorarioRoute
+  '/lojas/$lojaId/agendar': typeof LojasLojaIdAgendarIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/cadastro': typeof CadastroRoute
+  '/login': typeof LoginRoute
+  '/admin/__layout': typeof Admin_layoutRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/cliente/conta': typeof ClienteContaRoute
+  '/cliente/layout': typeof ClienteLayoutRoute
+  '/profissional/__layout': typeof Profissional_layoutRoute
+  '/profissional/dashboard': typeof ProfissionalDashboardRoute
+  '/profissional/horarios': typeof ProfissionalHorariosRoute
+  '/lojas/': typeof LojasIndexRoute
+  '/admin/loja/editar': typeof AdminLojaEditarRoute
+  '/admin/profissionais/adicionar': typeof AdminProfissionaisAdicionarRoute
+  '/cliente/agendamentos/$id': typeof ClienteAgendamentosIdRoute
+  '/profissional/agendamentos/$id': typeof ProfissionalAgendamentosIdRoute
+  '/profissional/servicos/$id': typeof ProfissionalServicosIdRoute
+  '/profissional/servicos/novo': typeof ProfissionalServicosNovoRoute
+  '/admin/profissionais/': typeof AdminProfissionaisIndexRoute
+  '/cliente/agendamentos/': typeof ClienteAgendamentosIndexRoute
+  '/lojas/$lojaId/': typeof LojasLojaIdIndexRoute
+  '/profissional/servicos/': typeof ProfissionalServicosIndexRoute
+  '/lojas/$lojaId/agendar/confirmar': typeof LojasLojaIdAgendarConfirmarRoute
+  '/lojas/$lojaId/agendar/horario': typeof LojasLojaIdAgendarHorarioRoute
+  '/lojas/$lojaId/agendar/': typeof LojasLojaIdAgendarIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths:
+    | '/'
+    | '/cadastro'
+    | '/login'
+    | '/admin'
+    | '/admin/dashboard'
+    | '/cliente/conta'
+    | '/cliente/layout'
+    | '/profissional'
+    | '/profissional/dashboard'
+    | '/profissional/horarios'
+    | '/lojas/'
+    | '/admin/loja/editar'
+    | '/admin/profissionais/adicionar'
+    | '/cliente/agendamentos/$id'
+    | '/profissional/agendamentos/$id'
+    | '/profissional/servicos/$id'
+    | '/profissional/servicos/novo'
+    | '/admin/profissionais/'
+    | '/cliente/agendamentos/'
+    | '/lojas/$lojaId/'
+    | '/profissional/servicos/'
+    | '/lojas/$lojaId/agendar/confirmar'
+    | '/lojas/$lojaId/agendar/horario'
+    | '/lojas/$lojaId/agendar/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to:
+    | '/'
+    | '/cadastro'
+    | '/login'
+    | '/admin'
+    | '/admin/dashboard'
+    | '/cliente/conta'
+    | '/cliente/layout'
+    | '/profissional'
+    | '/profissional/dashboard'
+    | '/profissional/horarios'
+    | '/lojas'
+    | '/admin/loja/editar'
+    | '/admin/profissionais/adicionar'
+    | '/cliente/agendamentos/$id'
+    | '/profissional/agendamentos/$id'
+    | '/profissional/servicos/$id'
+    | '/profissional/servicos/novo'
+    | '/admin/profissionais'
+    | '/cliente/agendamentos'
+    | '/lojas/$lojaId'
+    | '/profissional/servicos'
+    | '/lojas/$lojaId/agendar/confirmar'
+    | '/lojas/$lojaId/agendar/horario'
+    | '/lojas/$lojaId/agendar'
+  id:
+    | '__root__'
+    | '/'
+    | '/cadastro'
+    | '/login'
+    | '/admin/__layout'
+    | '/admin/dashboard'
+    | '/cliente/conta'
+    | '/cliente/layout'
+    | '/profissional/__layout'
+    | '/profissional/dashboard'
+    | '/profissional/horarios'
+    | '/lojas/'
+    | '/admin/loja/editar'
+    | '/admin/profissionais/adicionar'
+    | '/cliente/agendamentos/$id'
+    | '/profissional/agendamentos/$id'
+    | '/profissional/servicos/$id'
+    | '/profissional/servicos/novo'
+    | '/admin/profissionais/'
+    | '/cliente/agendamentos/'
+    | '/lojas/$lojaId/'
+    | '/profissional/servicos/'
+    | '/lojas/$lojaId/agendar/confirmar'
+    | '/lojas/$lojaId/agendar/horario'
+    | '/lojas/$lojaId/agendar/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
+  CadastroRoute: typeof CadastroRoute
+  LoginRoute: typeof LoginRoute
+  Admin_layoutRoute: typeof Admin_layoutRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  ClienteContaRoute: typeof ClienteContaRoute
+  ClienteLayoutRoute: typeof ClienteLayoutRoute
+  Profissional_layoutRoute: typeof Profissional_layoutRoute
+  ProfissionalDashboardRoute: typeof ProfissionalDashboardRoute
+  ProfissionalHorariosRoute: typeof ProfissionalHorariosRoute
+  LojasIndexRoute: typeof LojasIndexRoute
+  AdminLojaEditarRoute: typeof AdminLojaEditarRoute
+  AdminProfissionaisAdicionarRoute: typeof AdminProfissionaisAdicionarRoute
+  ClienteAgendamentosIdRoute: typeof ClienteAgendamentosIdRoute
+  ProfissionalAgendamentosIdRoute: typeof ProfissionalAgendamentosIdRoute
+  ProfissionalServicosIdRoute: typeof ProfissionalServicosIdRoute
+  ProfissionalServicosNovoRoute: typeof ProfissionalServicosNovoRoute
+  AdminProfissionaisIndexRoute: typeof AdminProfissionaisIndexRoute
+  ClienteAgendamentosIndexRoute: typeof ClienteAgendamentosIndexRoute
+  LojasLojaIdIndexRoute: typeof LojasLojaIdIndexRoute
+  ProfissionalServicosIndexRoute: typeof ProfissionalServicosIndexRoute
+  LojasLojaIdAgendarConfirmarRoute: typeof LojasLojaIdAgendarConfirmarRoute
+  LojasLojaIdAgendarHorarioRoute: typeof LojasLojaIdAgendarHorarioRoute
+  LojasLojaIdAgendarIndexRoute: typeof LojasLojaIdAgendarIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cadastro': {
+      id: '/cadastro'
+      path: '/cadastro'
+      fullPath: '/cadastro'
+      preLoaderRoute: typeof CadastroRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -65,12 +372,181 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/lojas/': {
+      id: '/lojas/'
+      path: '/lojas'
+      fullPath: '/lojas/'
+      preLoaderRoute: typeof LojasIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profissional/horarios': {
+      id: '/profissional/horarios'
+      path: '/profissional/horarios'
+      fullPath: '/profissional/horarios'
+      preLoaderRoute: typeof ProfissionalHorariosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profissional/dashboard': {
+      id: '/profissional/dashboard'
+      path: '/profissional/dashboard'
+      fullPath: '/profissional/dashboard'
+      preLoaderRoute: typeof ProfissionalDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profissional/__layout': {
+      id: '/profissional/__layout'
+      path: '/profissional'
+      fullPath: '/profissional'
+      preLoaderRoute: typeof Profissional_layoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cliente/layout': {
+      id: '/cliente/layout'
+      path: '/cliente/layout'
+      fullPath: '/cliente/layout'
+      preLoaderRoute: typeof ClienteLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cliente/conta': {
+      id: '/cliente/conta'
+      path: '/cliente/conta'
+      fullPath: '/cliente/conta'
+      preLoaderRoute: typeof ClienteContaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/__layout': {
+      id: '/admin/__layout'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof Admin_layoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profissional/servicos/': {
+      id: '/profissional/servicos/'
+      path: '/profissional/servicos'
+      fullPath: '/profissional/servicos/'
+      preLoaderRoute: typeof ProfissionalServicosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lojas/$lojaId/': {
+      id: '/lojas/$lojaId/'
+      path: '/lojas/$lojaId'
+      fullPath: '/lojas/$lojaId/'
+      preLoaderRoute: typeof LojasLojaIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cliente/agendamentos/': {
+      id: '/cliente/agendamentos/'
+      path: '/cliente/agendamentos'
+      fullPath: '/cliente/agendamentos/'
+      preLoaderRoute: typeof ClienteAgendamentosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/profissionais/': {
+      id: '/admin/profissionais/'
+      path: '/admin/profissionais'
+      fullPath: '/admin/profissionais/'
+      preLoaderRoute: typeof AdminProfissionaisIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profissional/servicos/novo': {
+      id: '/profissional/servicos/novo'
+      path: '/profissional/servicos/novo'
+      fullPath: '/profissional/servicos/novo'
+      preLoaderRoute: typeof ProfissionalServicosNovoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profissional/servicos/$id': {
+      id: '/profissional/servicos/$id'
+      path: '/profissional/servicos/$id'
+      fullPath: '/profissional/servicos/$id'
+      preLoaderRoute: typeof ProfissionalServicosIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profissional/agendamentos/$id': {
+      id: '/profissional/agendamentos/$id'
+      path: '/profissional/agendamentos/$id'
+      fullPath: '/profissional/agendamentos/$id'
+      preLoaderRoute: typeof ProfissionalAgendamentosIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cliente/agendamentos/$id': {
+      id: '/cliente/agendamentos/$id'
+      path: '/cliente/agendamentos/$id'
+      fullPath: '/cliente/agendamentos/$id'
+      preLoaderRoute: typeof ClienteAgendamentosIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/profissionais/adicionar': {
+      id: '/admin/profissionais/adicionar'
+      path: '/admin/profissionais/adicionar'
+      fullPath: '/admin/profissionais/adicionar'
+      preLoaderRoute: typeof AdminProfissionaisAdicionarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/loja/editar': {
+      id: '/admin/loja/editar'
+      path: '/admin/loja/editar'
+      fullPath: '/admin/loja/editar'
+      preLoaderRoute: typeof AdminLojaEditarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lojas/$lojaId/agendar/': {
+      id: '/lojas/$lojaId/agendar/'
+      path: '/lojas/$lojaId/agendar'
+      fullPath: '/lojas/$lojaId/agendar/'
+      preLoaderRoute: typeof LojasLojaIdAgendarIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lojas/$lojaId/agendar/horario': {
+      id: '/lojas/$lojaId/agendar/horario'
+      path: '/lojas/$lojaId/agendar/horario'
+      fullPath: '/lojas/$lojaId/agendar/horario'
+      preLoaderRoute: typeof LojasLojaIdAgendarHorarioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lojas/$lojaId/agendar/confirmar': {
+      id: '/lojas/$lojaId/agendar/confirmar'
+      path: '/lojas/$lojaId/agendar/confirmar'
+      fullPath: '/lojas/$lojaId/agendar/confirmar'
+      preLoaderRoute: typeof LojasLojaIdAgendarConfirmarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
+  CadastroRoute: CadastroRoute,
+  LoginRoute: LoginRoute,
+  Admin_layoutRoute: Admin_layoutRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
+  ClienteContaRoute: ClienteContaRoute,
+  ClienteLayoutRoute: ClienteLayoutRoute,
+  Profissional_layoutRoute: Profissional_layoutRoute,
+  ProfissionalDashboardRoute: ProfissionalDashboardRoute,
+  ProfissionalHorariosRoute: ProfissionalHorariosRoute,
+  LojasIndexRoute: LojasIndexRoute,
+  AdminLojaEditarRoute: AdminLojaEditarRoute,
+  AdminProfissionaisAdicionarRoute: AdminProfissionaisAdicionarRoute,
+  ClienteAgendamentosIdRoute: ClienteAgendamentosIdRoute,
+  ProfissionalAgendamentosIdRoute: ProfissionalAgendamentosIdRoute,
+  ProfissionalServicosIdRoute: ProfissionalServicosIdRoute,
+  ProfissionalServicosNovoRoute: ProfissionalServicosNovoRoute,
+  AdminProfissionaisIndexRoute: AdminProfissionaisIndexRoute,
+  ClienteAgendamentosIndexRoute: ClienteAgendamentosIndexRoute,
+  LojasLojaIdIndexRoute: LojasLojaIdIndexRoute,
+  ProfissionalServicosIndexRoute: ProfissionalServicosIndexRoute,
+  LojasLojaIdAgendarConfirmarRoute: LojasLojaIdAgendarConfirmarRoute,
+  LojasLojaIdAgendarHorarioRoute: LojasLojaIdAgendarHorarioRoute,
+  LojasLojaIdAgendarIndexRoute: LojasLojaIdAgendarIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
