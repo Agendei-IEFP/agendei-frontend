@@ -55,7 +55,11 @@ api.interceptors.response.use(
     try {
       // Se já existe um refresh em andamento, espera ele em vez de disparar outro
       if (!refreshPromise) {
-        refreshPromise = refresh().then((data) => data.access_token);
+        refreshPromise = refresh()
+          .then((data) => data.access_token)
+          .finally(() => {
+            refreshPromise = null;
+          });
       }
 
       const newToken = await refreshPromise;
@@ -69,8 +73,6 @@ api.interceptors.response.use(
       useAuthStore.getState().logout();
       window.location.replace("/login");
       return Promise.reject(error);
-    } finally {
-      refreshPromise = null;
     }
   },
 );
