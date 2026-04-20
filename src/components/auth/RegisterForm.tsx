@@ -1,0 +1,225 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Calendar, Mail, Lock, AlertTriangle, User } from "lucide-react";
+
+export function RegisterForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [apiError, setApiError] = useState<string | null>(null); // Talvez esse estado saia mas por enquanto pode ficar assim
+
+  // Depois ainda vamos adicionar aqui a validação do formulário com zod e RHF, enviar os dados pro backend, esperar o resultado e então mostrar o resultado para o cliente
+
+  return (
+    // Página — fundo vermelho visível em sm+, tela cheia em mobile
+    <div className="min-h-screen bg-brand-panel flex flex-col sm:items-center sm:justify-center sm:p-6">
+      {/* Card — sem chrome em mobile, bordas arredondadas e sombra em sm+ */}
+      <div className="flex-1 sm:flex-none w-full sm:max-w-4xl sm:rounded-2xl overflow-hidden sm:shadow-xl sm:border sm:border-primary flex flex-col md:flex-row">
+        {/* Painel esquerdo — marca (visível apenas em md+) */}
+        <div className="hidden md:flex flex-1 flex-col justify-between p-10 relative overflow-hidden bg-brand-panel">
+          {/* Círculos decorativos de fundo */}
+          <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-white/7" />
+          <div className="absolute bottom-10 -left-12 w-40 h-40 rounded-full bg-white/5" />
+          <div className="absolute top-1/2 -translate-y-1/2 right-8 w-20 h-20 rounded-full bg-white/6" />
+
+          {/* Bloco superior — logo, título e descrição */}
+          <div className="relative">
+            {/* Logo + nome da marca */}
+            <div className="flex items-center gap-2.5 mb-10">
+              <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
+                <Calendar className="w-4 h-4 text-white" />
+              </div>
+              <span className="font-heading font-black text-white text-xl tracking-[-0.02em]">
+                Agendei
+              </span>
+            </div>
+
+            {/* Headline e tagline */}
+            <h2 className="font-heading font-black text-white text-[1.7rem] tracking-[-0.03em] leading-[1.2] mb-3">
+              Comece grátis
+              <br />
+              em 2 minutos.
+            </h2>
+            <p className="text-sm text-white/75 leading-[1.6] mb-30">
+              Crie a sua conta e comece a receber agendamentos online ainda
+              hoje.
+            </p>
+          </div>
+
+          {/* Depoimento */}
+          <div
+            className="relative rounded-2xl p-5"
+            style={{ background: "rgba(255,255,255,0.14)" }}
+          >
+            {/* Estrelas */}
+            <div className="flex gap-0.5 mb-2">
+              {[...Array(5)].map((_, i) => (
+                <svg
+                  key={i}
+                  className="w-3.5 h-3.5 text-amber-300 fill-current"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
+            </div>
+            {/* Citação */}
+            <p className="text-xs text-white mb-3 leading-relaxed">
+              "Antes ficava o dia todo no WhatsApp. Agora os clientes agendam
+              sozinhos."
+            </p>
+            {/* Autor */}
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded-full bg-white/25 flex items-center justify-center text-xs font-bold text-white">
+                JS
+              </div>
+              <span className="text-xs text-white font-medium">
+                João Silva — Cabeleireiro
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Painel direito — formulário */}
+        <div className="flex-1 md:flex-none md:w-96 flex flex-col justify-center p-5 sm:p-8 md:p-10 bg-white">
+          {/* Logo compacto — substitui o painel de marca em mobile e sm */}
+          <div className="flex items-center gap-2.5 mb-8 md:hidden">
+            <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center">
+              <Calendar className="w-4 h-4 text-white" />
+            </div>
+            <span className="font-heading font-black text-slate-900 text-xl tracking-[-0.02em]">
+              Agendei
+            </span>
+          </div>
+
+          {/* Cabeçalho do formulário — título e link de cadastro */}
+          <div className="mb-8">
+            <h3 className="font-heading font-black text-slate-900 text-2xl tracking-[-0.025em] mb-1.5">
+              Criar conta
+            </h3>
+            <p className="text-sm text-slate-500">
+              Já tem conta?{" "}
+              <a href="/login" className="font-semibold text-chart-3">
+                Entrar
+              </a>
+            </p>
+          </div>
+
+          {/* Formulário de cadastro */}
+          <form
+            className="space-y-4"
+            onSubmit={handleSubmit((data) => {
+              setApiError(null);
+              console.log(data);
+            })}
+          >
+            {/* Campo de nome */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-semibold text-slate-700">
+                Nome completo
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <input
+                  className="w-full border border-input rounded-lg px-3 py-2 text-sm outline-none pl-10"
+                  {...register("nome")}
+                  type="text"
+                  placeholder="Flávia Pereira de Melo"
+                />
+              </div>
+              {errors.nome && (
+                <p className="text-red-500 text-xs mt-1">
+                  {String(errors.nome.message)}
+                </p>
+              )}
+            </div>
+
+            {/* Campo de email */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-semibold text-slate-700">
+                Email
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <input
+                  className="w-full border border-input rounded-lg px-3 py-2 text-sm outline-none pl-10"
+                  {...register("email")}
+                  type="email"
+                  placeholder="seu@email.com"
+                />
+              </div>
+              {errors.email && (
+                <p className="text-red-500 text-xs mt-1">
+                  {String(errors.email.message)}
+                </p>
+              )}
+            </div>
+
+            {/* Campo de senha */}
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-semibold text-slate-700">
+                  Senha
+                </label>
+              </div>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <input
+                  className="w-full border border-input rounded-lg px-3 py-2 text-sm outline-none pl-10"
+                  {...register("password")}
+                  type="password"
+                  placeholder="••••••••"
+                />
+              </div>
+              {errors.password && (
+                <p className="text-red-500 text-xs mt-1">
+                  {String(errors.password.message)}
+                </p>
+              )}
+            </div>
+
+            <div className="flex items-start gap-2.5 pt-1">
+              <input
+                type="checkbox"
+                id="accept_terms"
+                className="mt-0.5 w-4 h-4 rounded flex-shrink-0"
+                {...register("accept_terms")}
+              />
+              <label
+                htmlFor="accept_terms"
+                className="text-xs text-slate-600 leading-relaxed"
+              >
+                Li e aceito os{" "}
+                <a href="#" className="font-semibold text-chart-3">
+                  Termos e Condições
+                </a>{" "}
+                e a{" "}
+                <a href="#" className="font-semibold text-chart-3">
+                  Política de Privacidade
+                </a>
+              </label>
+            </div>
+
+            {/* Botão de submit */}
+            <button
+              className="w-full py-2.5 text-sm font-bold text-white rounded-lg cursor-pointer mt-2 btn-salmon"
+              type="submit"
+            >
+              Criar conta grátis →
+            </button>
+          </form>
+
+          {/* Banner de erro genérico da API — nunca revelar qual campo está errado */}
+          {apiError && (
+            <div className="mt-4 flex items-start gap-2.5 rounded-xl px-4 py-3 bg-red-50 border border-red-200">
+              <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+              <span className="text-red-700 text-xs">{apiError}</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
