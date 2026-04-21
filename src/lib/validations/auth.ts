@@ -9,7 +9,7 @@ export const registerSchema = z.object({
   nome: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
   email: z.email("Email inválido"),
   password: z.string().min(8, "Senha deve ter pelo menos 8 caracteres"),
-  role: z.enum(["cliente", "profissional", "admin_loja"]),
+  role: z.enum(["cliente", "admin_loja"]),
   // .refine() garante que só aceita checked — false ou undefined rejeitado
   accept_terms: z.boolean().refine((val) => val === true, {
     message: "Você deve aceitar os Termos e Condições",
