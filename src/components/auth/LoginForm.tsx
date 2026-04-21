@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Calendar, Mail, Lock, AlertTriangle } from "lucide-react";
+import { Calendar, Mail, Lock, Check } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 export function LoginForm() {
   const {
@@ -8,7 +9,7 @@ export function LoginForm() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [apiError, setApiError] = useState<string | null>(null); // Talvez esse estado saia mas por enquanto pode ficar assim
+  const [apiError, setApiError] = useState<string | null>(null);
 
   // Depois ainda vamos adicionar aqui a validação do formulário com zod e RHF, enviar os dados pro backend, esperar o resultado e então mostrar o resultado para o cliente
 
@@ -58,19 +59,7 @@ export function LoginForm() {
                 key={text}
                 className="flex items-center gap-3 rounded-xl px-4 py-3 bg-white/15 backdrop-blur"
               >
-                <svg
-                  className="w-4 h-4 text-white shrink-0"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
+                <Check className="w-4 h-4 text-white shrink-0" />
                 <span className="text-white text-xs font-medium">{text}</span>
               </div>
             ))}
@@ -96,9 +85,9 @@ export function LoginForm() {
             </h3>
             <p className="text-sm text-slate-500">
               Não tem conta?{" "}
-              <a href="/cadastro" className="font-semibold text-chart-3">
-                Cadastre-se grátis
-              </a>
+              <Link to="/cadastro" className="font-semibold text-chart-3">
+                Cadastrar-se
+              </Link>
             </p>
           </div>
 
@@ -157,22 +146,19 @@ export function LoginForm() {
               )}
             </div>
 
-            {/* Botão de submit */}
             <button
               className="w-full py-2.5 text-sm font-bold text-white rounded-lg cursor-pointer mt-2 btn-salmon"
               type="submit"
             >
               Entrar na conta
             </button>
-          </form>
 
-          {/* Banner de erro genérico da API — nunca revelar qual campo está errado */}
-          {apiError && (
-            <div className="mt-4 flex items-start gap-2.5 rounded-xl px-4 py-3 bg-red-50 border border-red-200">
-              <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
-              <span className="text-red-700 text-xs">{apiError}</span>
-            </div>
-          )}
+            {apiError && (
+              <div className="rounded-lg border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+                {apiError}
+              </div>
+            )}
+          </form>
         </div>
       </div>
     </div>
