@@ -1,13 +1,14 @@
-import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "@tanstack/react-router";
-import { Calendar, Mail, Lock, User, Star } from "lucide-react";
+import { Calendar, Mail, Lock, User, Star, Loader2 } from "lucide-react";
 import { registerSchema, type RegisterFormData } from "@/lib/validations/auth";
+import { useRegister } from "@/hooks/useAuth";
+import { getApiErrorMessage } from "@/lib/api/errorUtils";
 
 export function RegisterForm() {
   const {
-    register,
+    register: registerField,
     handleSubmit,
     control,
     setValue,
@@ -16,7 +17,7 @@ export function RegisterForm() {
     resolver: zodResolver(registerSchema),
     defaultValues: { role: "cliente" },
   });
-  const [apiError, setApiError] = useState<string | null>(null);
+  const { mutate: registerUser, isPending, error } = useRegister();
 
   // useWatch subscribes only to the "role" field — avoids re-rendering the whole form on every keystroke
   const selectedRole = useWatch({ control, name: "role" });
@@ -26,7 +27,6 @@ export function RegisterForm() {
     <div className="min-h-screen bg-brand-panel flex flex-col sm:items-center sm:justify-center sm:p-6">
       {/* Card — no border/shadow on mobile, rounded with shadow on sm+ */}
       <div className="flex-1 sm:flex-none w-full sm:max-w-4xl sm:rounded-2xl overflow-hidden sm:shadow-xl sm:border sm:border-primary flex flex-col md:flex-row">
-
         {/* Left panel — brand/marketing (visible only on md+) */}
         <div className="hidden md:flex flex-1 flex-col justify-between p-10 relative overflow-hidden bg-brand-panel">
           {/* Decorative background circles */}
@@ -135,13 +135,10 @@ export function RegisterForm() {
 
           <form
             className="space-y-4"
-            onSubmit={handleSubmit((data) => {
-              setApiError(null);
-              console.log(data);
-            })}
+            onSubmit={handleSubmit((data) => registerUser(data))}
           >
             {/* Role selector — sets hidden "role" field value */}
-            <input type="hidden" {...register("role")} />
+            <input type="hidden" {...registerField("role")} />
             <div className="flex rounded-lg border border-input p-1 gap-1">
               <button
                 type="button"
@@ -176,7 +173,7 @@ export function RegisterForm() {
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   className="w-full border border-input rounded-lg px-3 py-2 text-sm outline-none pl-10"
-                  {...register("nome")}
+                  {...registerField("nome")}
                   type="text"
                   placeholder="Flávia Pereira de Melo"
                 />
@@ -197,7 +194,7 @@ export function RegisterForm() {
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   className="w-full border border-input rounded-lg px-3 py-2 text-sm outline-none pl-10"
-                  {...register("email")}
+                  {...registerField("email")}
                   type="email"
                   placeholder="seu@email.com"
                 />
@@ -218,7 +215,7 @@ export function RegisterForm() {
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                 <input
                   className="w-full border border-input rounded-lg px-3 py-2 text-sm outline-none pl-10"
-                  {...register("password")}
+                  {...registerField("password")}
                   type="password"
                   placeholder="••••••••"
                 />
@@ -234,12 +231,12 @@ export function RegisterForm() {
             <div className="flex items-start gap-2.5 pt-1">
               <input
                 type="checkbox"
-                id="accept_terms"
+                id="accepted_terms"
                 className="mt-0.5 w-4 h-4 rounded shrink-0"
-                {...register("accept_terms")}
+                {...registerField("accepted_terms")}
               />
               <label
-                htmlFor="accept_terms"
+                htmlFor="accepted_terms"
                 className="text-xs text-slate-600 leading-relaxed"
               >
                 Li e aceito os{" "}
@@ -252,24 +249,25 @@ export function RegisterForm() {
                 </a>
               </label>
             </div>
-            {errors.accept_terms && (
+            {errors.accepted_terms && (
               <p className="text-destructive text-xs -mt-2">
-                {errors.accept_terms.message}
+                {errors.accepted_terms.message}
               </p>
             )}
 
             {/* Submit button */}
             <button
-              className="w-full py-2.5 text-sm font-bold text-white rounded-lg cursor-pointer mt-2 btn-salmon"
+              className="w-full py-2.5 text-sm font-bold text-white rounded-lg mt-2 btn-salmon flex items-center justify-center gap-2 disabled:opacity-55 disabled:cursor-not-allowed"
               type="submit"
+              disabled={isPending}
             >
-              Criar conta grátis →
+              {isPending && <Loader2 className="w-4 h-4 animate-spin" />}
+              {isPending ? "Criando conta..." : "Criar conta grátis →"}
             </button>
 
-            {/* Generic API error banner — never reveals which field failed */}
-            {apiError && (
+            {error && (
               <div className="rounded-lg border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm text-destructive">
-                {apiError}
+                {getApiErrorMessage(error)}
               </div>
             )}
           </form>
