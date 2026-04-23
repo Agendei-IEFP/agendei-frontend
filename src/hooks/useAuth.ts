@@ -13,7 +13,7 @@ function redirectByRole(
   } else if (role === "profissional") {
     navigate({ to: "/profissional/dashboard" })
   } else {
-    navigate({ to: "/cliente/agendamentos/" })
+    navigate({ to: "/lojas" })
   }
 }
 
