@@ -10,7 +10,7 @@ function redirectByRole(navigate: ReturnType<typeof useNavigate>, role: RoleEnum
   } else if (role === "profissional") {
     navigate({ to: "/profissional/dashboard" });
   } else {
-    navigate({ to: "/cliente/agendamentos/" });
+    navigate({ to: "/lojas" })
   }
 }
 

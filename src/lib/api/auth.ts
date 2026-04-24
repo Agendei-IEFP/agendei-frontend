@@ -15,7 +15,8 @@ interface RegisterInput {
   nome: string;
   email: string;
   password: string;
-  role: Exclude<RoleEnum, "admin_loja">;
+  role: Exclude<RoleEnum, "profissional">;
+  accepted_terms: boolean;
 }
 
 // ---------------------------------------------------------------------------
