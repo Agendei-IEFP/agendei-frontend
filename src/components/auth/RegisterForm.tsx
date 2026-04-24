@@ -8,6 +8,22 @@ import { getApiErrorMessage } from "@/lib/api/errorUtils";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+function getPasswordStrength(password: string): number {
+  return [
+    password.length >= 8,
+    /[A-Z]/.test(password),
+    /[0-9]/.test(password),
+    /[^A-Za-z0-9]/.test(password),
+  ].filter(Boolean).length;
+}
+
+const strengthConfig = [
+  { label: "Fraca", color: "bg-red-500" },
+  { label: "Fraca", color: "bg-red-500" },
+  { label: "Razoável", color: "bg-orange-400" },
+  { label: "Boa", color: "bg-amber-400" },
+  { label: "Forte", color: "bg-green-500" },
+] as const;
 
 export function RegisterForm() {
   const {
@@ -24,6 +40,8 @@ export function RegisterForm() {
 
   // useWatch subscribes only to the "role" field — avoids re-rendering the whole form on every keystroke
   const selectedRole = useWatch({ control, name: "role" });
+  const passwordValue = useWatch({ control, name: "password" }) ?? "";
+  const strength = getPasswordStrength(passwordValue);
 
   return (
     // Page wrapper — salmon background visible on sm+, full screen on mobile
@@ -231,6 +249,28 @@ export function RegisterForm() {
                   placeholder="••••••••"
                   aria-invalid={!!errors.password}
                 />
+              </div>
+              <div
+                className={`mt-2 flex flex-col gap-1.5 transition-opacity duration-200 ${passwordValue.length === 0 ? "invisible" : ""}`}
+              >
+                <div className="flex gap-1">
+                  {[1, 2, 3, 4].map((level) => (
+                    <div
+                      key={level}
+                      className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
+                        strength >= level
+                          ? strengthConfig[strength].color
+                          : "bg-border"
+                      }`}
+                    />
+                  ))}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Força:{" "}
+                  <span className="font-medium text-foreground">
+                    {strengthConfig[strength].label}
+                  </span>
+                </p>
               </div>
               {errors.password && (
                 <p className="text-destructive text-xs mt-1">
