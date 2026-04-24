@@ -1,11 +1,12 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Calendar, Mail, Lock, Check } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginFormData } from "@/lib/validations/auth";
 import { useLogin } from "@/hooks/useAuth";
-import axios from "axios";
+import { getApiErrorMessage } from "@/lib/api/errorUtils";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export function LoginForm() {
   const {
@@ -13,8 +14,7 @@ export function LoginForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
-  const { mutate: loginMutate, isPending } = useLogin();
-  const [apiError, setApiError] = useState<string | null>(null);
+  const { mutate: loginMutate, isPending, error } = useLogin();
 
   return (
     // Página — fundo vermelho visível em sm+, tela cheia em mobile
@@ -97,39 +97,27 @@ export function LoginForm() {
           {/* Formulário de login */}
           <form
             className="space-y-4"
-            onSubmit={handleSubmit((data) => {
-              setApiError(null);
-              loginMutate(data, {
-                onError: (error: unknown) => {
-                  if (axios.isAxiosError(error)) {
-                    const detail = error.response?.data?.detail;
-                    if (detail) {
-                      setApiError(detail);
-                      return;
-                    }
-                  }
-                  setApiError("Email ou senha incorretos. Tente novamente.");
-                },
-              });
-            })}
+            onSubmit={handleSubmit((data) => loginMutate(data))}
           >
             {/* Campo de email */}
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold text-slate-700">
+              <Label className="font-semibold text-slate-700" htmlFor="email">
                 Email
-              </label>
+              </Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input
-                  className="w-full border border-input rounded-lg px-3 py-2 text-sm outline-none pl-10"
+                <Input
+                  id="email"
+                  className="pl-10"
                   {...register("email")}
                   type="email"
                   placeholder="seu@email.com"
+                  aria-invalid={!!errors.email}
                 />
               </div>
               {errors.email && (
-                <p className="text-red-500 text-xs mt-1">
-                  {String(errors.email.message)}
+                <p className="text-destructive text-xs mt-1">
+                  {errors.email.message}
                 </p>
               )}
             </div>
@@ -137,25 +125,30 @@ export function LoginForm() {
             {/* Campo de senha */}
             <div className="flex flex-col gap-1">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-semibold text-slate-700">
+                <Label
+                  className="font-semibold text-slate-700"
+                  htmlFor="password"
+                >
                   Senha
-                </label>
-                <a href="#" className="text-xs font-medium text-chart-3">
+                </Label>
+                <Link to="/login" className="text-xs font-medium text-chart-3">
                   Esqueceu?
-                </a>
+                </Link>
               </div>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input
-                  className="w-full border border-input rounded-lg px-3 py-2 text-sm outline-none pl-10"
+                <Input
+                  id="password"
+                  className="pl-10"
                   {...register("password")}
                   type="password"
                   placeholder="••••••••"
+                  aria-invalid={!!errors.password}
                 />
               </div>
               {errors.password && (
-                <p className="text-red-500 text-xs mt-1">
-                  {String(errors.password.message)}
+                <p className="text-destructive text-xs mt-1">
+                  {errors.password.message}
                 </p>
               )}
             </div>
@@ -168,9 +161,9 @@ export function LoginForm() {
               {isPending ? "Entrando..." : "Entrar na conta"}
             </button>
 
-            {apiError && (
+            {error && (
               <div className="rounded-lg border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm text-destructive">
-                {apiError}
+                {getApiErrorMessage(error)}
               </div>
             )}
           </form>

@@ -5,6 +5,9 @@ import { Calendar, Mail, Lock, User, Star, Loader2 } from "lucide-react";
 import { registerSchema, type RegisterFormData } from "@/lib/validations/auth";
 import { useRegister } from "@/hooks/useAuth";
 import { getApiErrorMessage } from "@/lib/api/errorUtils";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
 
 export function RegisterForm() {
   const {
@@ -166,16 +169,18 @@ export function RegisterForm() {
 
             {/* Full name field */}
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold text-slate-700">
+              <Label className="font-semibold text-slate-700" htmlFor="nome">
                 Nome completo
-              </label>
+              </Label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input
-                  className="w-full border border-input rounded-lg px-3 py-2 text-sm outline-none pl-10"
+                <Input
+                  id="nome"
+                  className="pl-10"
                   {...registerField("nome")}
                   type="text"
-                  placeholder="Flávia Pereira de Melo"
+                  placeholder="Jessé Jacinto José"
+                  aria-invalid={!!errors.nome}
                 />
               </div>
               {errors.nome && (
@@ -187,16 +192,18 @@ export function RegisterForm() {
 
             {/* Email field */}
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold text-slate-700">
+              <Label className="font-semibold text-slate-700" htmlFor="email">
                 Email
-              </label>
+              </Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input
-                  className="w-full border border-input rounded-lg px-3 py-2 text-sm outline-none pl-10"
+                <Input
+                  id="email"
+                  className="pl-10"
                   {...registerField("email")}
                   type="email"
                   placeholder="seu@email.com"
+                  aria-invalid={!!errors.email}
                 />
               </div>
               {errors.email && (
@@ -207,17 +214,22 @@ export function RegisterForm() {
             </div>
 
             {/* Password field */}
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold text-slate-700">
+            <div className="flex flex-col gap-1 mb-2">
+              <Label
+                className="font-semibold text-slate-700"
+                htmlFor="password"
+              >
                 Senha
-              </label>
+              </Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input
-                  className="w-full border border-input rounded-lg px-3 py-2 text-sm outline-none pl-10"
+                <Input
+                  id="password"
+                  className="pl-10"
                   {...registerField("password")}
                   type="password"
                   placeholder="••••••••"
+                  aria-invalid={!!errors.password}
                 />
               </div>
               {errors.password && (
