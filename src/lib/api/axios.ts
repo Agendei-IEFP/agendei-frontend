@@ -42,11 +42,17 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    // O próprio endpoint de refresh retornou 401 — refresh token expirou
-    // Não adianta tentar de novo: desloga e redireciona
-    if (originalRequest.url?.includes("/auth/")) {
-      useAuthStore.getState().logout();
-      window.location.replace("/login");
+    // Endpoints de auth pública (login, register, refresh) não devem entrar no
+    // ciclo de refresh — rejeita diretamente para o erro chegar ao componente
+    if (
+      originalRequest.url?.includes("/auth/login") ||
+      originalRequest.url?.includes("/auth/register") ||
+      originalRequest.url?.includes("/auth/refresh")
+    ) {
+      if (originalRequest.url?.includes("/auth/refresh")) {
+        useAuthStore.getState().logout();
+        window.location.replace("/login");
+      }
       return Promise.reject(error);
     }
 
