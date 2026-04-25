@@ -2,6 +2,7 @@ import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { useAuthStore } from "@/store/authStore";
 import { refresh } from "@/lib/api/auth";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 
 export const Route = createFileRoute("/admin")({
   beforeLoad: async () => {
@@ -27,11 +28,11 @@ export const Route = createFileRoute("/admin")({
 
 function AdminLayout() {
   return (
-    <div className="flex min-h-screen bg-background">
+    <SidebarProvider>
       <AdminSidebar />
-      <div className="flex-1 flex flex-col ml-56">
+      <SidebarInset>
         <Outlet />
-      </div>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

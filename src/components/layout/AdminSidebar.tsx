@@ -1,10 +1,22 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Home, Store, Users, ClipboardList, Calendar, Settings, LogOut } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/authStore";
 import { useMinhasLojas } from "@/hooks/useLojas";
 import { useLogout } from "@/hooks/useAuth";
 import { Logo } from "@/components/shared/Logo";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuBadge,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
 
 function getInitials(nome: string): string {
   return nome
@@ -13,54 +25,6 @@ function getInitials(nome: string): string {
     .slice(0, 2)
     .map((w) => w[0].toUpperCase())
     .join("");
-}
-
-interface SidebarNavItemProps {
-  to?: string;
-  icon: React.ReactNode;
-  label: string;
-  badge?: React.ReactNode;
-  disabled?: boolean;
-  active?: boolean;
-}
-
-function SidebarNavItem({
-  to,
-  icon,
-  label,
-  badge,
-  disabled = false,
-  active = false,
-}: SidebarNavItemProps) {
-  const className = cn(
-    "flex items-center gap-2 px-2.5 py-[0.45rem] text-[0.8125rem] rounded-lg transition-colors",
-    active
-      ? "bg-muted text-chart-3 font-semibold"
-      : "text-slate-600 hover:bg-background hover:text-slate-800",
-    disabled && "opacity-45 pointer-events-none",
-  );
-
-  const content = (
-    <>
-      <span className="shrink-0 [&>svg]:w-4 [&>svg]:h-4">{icon}</span>
-      {label}
-      {badge !== undefined && (
-        <span className="ml-auto text-[0.62rem] font-semibold px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-400 leading-none">
-          {badge}
-        </span>
-      )}
-    </>
-  );
-
-  if (disabled || !to) {
-    return <div className={className}>{content}</div>;
-  }
-
-  return (
-    <Link to={to} className={className}>
-      {content}
-    </Link>
-  );
 }
 
 export function AdminSidebar() {
@@ -73,49 +37,87 @@ export function AdminSidebar() {
   const isActive = (path: string) => pathname === path;
 
   return (
-    <aside className="fixed top-0 left-0 bottom-0 w-56 flex flex-col z-30 bg-card border-r border-border">
-      {/* Logo */}
-      <div className="p-4 border-b border-border">
+    <Sidebar collapsible="offcanvas">
+      <SidebarHeader className="p-4 border-b border-sidebar-border">
         <Logo size="sm" variant="on-white" />
-      </div>
+      </SidebarHeader>
 
-      {/* Nav */}
-      <nav className="flex-1 overflow-y-auto p-3 space-y-0.5">
-        <p className="text-[0.7rem] font-bold uppercase tracking-widest px-2.5 pt-2 pb-1.5 text-muted-warm">
-          Geral
-        </p>
+      <SidebarContent className="px-3 py-3 **:data-[sidebar='menu-button']:h-10 md:**:data-[sidebar='menu-button']:h-8">
+        <SidebarGroup className="p-0">
+          <SidebarGroupLabel className="text-[0.7rem] font-bold uppercase tracking-widest px-2.5 pt-2 pb-1.5 text-muted-warm h-auto">
+            Geral
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={isActive("/admin/dashboard")}>
+                  <Link to="/admin/dashboard">
+                    <Home />
+                    <span>Painel</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={false}>
+                  <Link to="/admin/dashboard">
+                    <Store />
+                    <span>Minhas Lojas</span>
+                  </Link>
+                </SidebarMenuButton>
+                <SidebarMenuBadge className="bg-slate-100 text-slate-400 text-[0.62rem]">
+                  {lojaCount}
+                </SidebarMenuBadge>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
 
-        <SidebarNavItem
-          to="/admin/dashboard"
-          icon={<Home />}
-          label="Painel"
-          active={isActive("/admin/dashboard")}
-        />
-        <SidebarNavItem
-          to="/admin/dashboard"
-          icon={<Store />}
-          label="Minhas Lojas"
-          badge={lojaCount}
-          active={false}
-        />
+        <SidebarGroup className="p-0 mt-2">
+          <SidebarGroupLabel className="text-[0.7rem] font-bold uppercase tracking-widest px-2.5 pt-2 pb-1.5 text-muted-warm h-auto">
+            Gestão
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton disabled>
+                  <Users />
+                  <span>Profissionais</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton disabled>
+                  <ClipboardList />
+                  <span>Serviços</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton disabled>
+                  <Calendar />
+                  <span>Agendamentos</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
 
-        <p className="text-[0.7rem] font-bold uppercase tracking-widest px-2.5 pt-4 pb-1.5 text-muted-warm">
-          Gestão
-        </p>
+        <SidebarGroup className="p-0 mt-2">
+          <SidebarGroupLabel className="text-[0.7rem] font-bold uppercase tracking-widest px-2.5 pt-2 pb-1.5 text-muted-warm h-auto">
+            Conta
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton disabled>
+                  <Settings />
+                  <span>Configurações</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
 
-        <SidebarNavItem icon={<Users />} label="Profissionais" disabled />
-        <SidebarNavItem icon={<ClipboardList />} label="Serviços" disabled />
-        <SidebarNavItem icon={<Calendar />} label="Agendamentos" disabled />
-
-        <p className="text-[0.7rem] font-bold uppercase tracking-widest px-2.5 pt-4 pb-1.5 text-muted-warm">
-          Conta
-        </p>
-
-        <SidebarNavItem icon={<Settings />} label="Configurações" disabled />
-      </nav>
-
-      {/* User footer */}
-      <div className="p-3 border-t border-border">
+      <SidebarFooter className="p-3 border-t border-sidebar-border">
         <button
           onClick={() => logoutUser()}
           className="w-full flex items-center gap-2.5 px-1.5 py-1 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors text-left"
@@ -129,7 +131,7 @@ export function AdminSidebar() {
           </div>
           <LogOut className="size-3.5 shrink-0 text-slate-400" />
         </button>
-      </div>
-    </aside>
+      </SidebarFooter>
+    </Sidebar>
   );
 }

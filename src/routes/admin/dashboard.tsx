@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Bell, Plus, Store, Users, ClipboardList, Calendar } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { useMinhasLojas } from "@/hooks/useLojas";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export const Route = createFileRoute("/admin/dashboard")({
   component: AdminDashboard,
@@ -34,12 +35,15 @@ function AdminDashboard() {
   return (
     <div className="flex flex-col flex-1">
       {/* ── Header ── */}
-      <header className="sticky top-0 z-20 px-8 py-3.5 flex items-center justify-between bg-background/93 backdrop-blur-sm border-b border-border">
-        <div>
-          <h1 className="font-heading font-bold text-slate-900 text-lg tracking-[-0.02em]">
-            Painel
-          </h1>
-          <p className="text-xs text-muted-foreground">{capitalize(formatDate())}</p>
+      <header className="sticky top-0 z-20 px-4 md:px-8 py-3.5 flex items-center justify-between bg-background/93 backdrop-blur-sm border-b border-border">
+        <div className="flex items-center gap-2">
+          <SidebarTrigger className="md:hidden text-slate-500" />
+          <div>
+            <h1 className="font-heading font-bold text-slate-900 text-lg tracking-[-0.02em]">
+              Painel
+            </h1>
+            <p className="text-xs text-muted-foreground">{capitalize(formatDate())}</p>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <button className="p-2 rounded-lg text-slate-500 hover:bg-muted hover:text-slate-800 transition-colors">
@@ -50,16 +54,16 @@ function AdminDashboard() {
             className="btn-salmon flex items-center gap-2 px-4 py-2 text-sm font-bold text-white rounded-[9px]"
           >
             <Plus className="size-4" />
-            Criar loja
+            <span className="hidden sm:inline">Criar loja</span>
           </Link>
         </div>
       </header>
 
       {/* ── Content ── */}
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-4 md:p-8">
         {/* Welcome banner — shown only when there are no stores yet */}
         {!hasLojas && (
-          <div className="rounded-2xl p-6 mb-8 flex items-center justify-between overflow-hidden relative border border-salmon-200 bg-linear-to-br from-muted via-salmon-100 to-salmon-200">
+          <div className="rounded-2xl p-6 mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 overflow-hidden relative border border-salmon-200 bg-linear-to-br from-muted via-salmon-100 to-salmon-200">
             <div className="relative">
               <p className="text-[0.7rem] font-bold uppercase tracking-widest mb-1 text-chart-4">
                 Bem-vindo ao Agendei
@@ -74,7 +78,7 @@ function AdminDashboard() {
 
             <Link
               to="/admin/loja/editar"
-              className="btn-salmon flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white rounded-[9px] relative shrink-0"
+              className="btn-salmon flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-bold text-white rounded-[9px] relative sm:shrink-0"
             >
               <Plus className="size-4" />
               Criar minha loja
@@ -83,7 +87,7 @@ function AdminDashboard() {
         )}
 
         {/* ── Stats row ── */}
-        <div className="grid grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <StatCard
             label="Lojas"
             icon={<Store className="size-4 text-chart-3" />}
@@ -126,13 +130,6 @@ function AdminDashboard() {
               </h2>
               <p className="text-xs text-muted-foreground mt-0.5">Gerencie seus estabelecimentos</p>
             </div>
-            <Link
-              to="/admin/loja/editar"
-              className="btn-salmon flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white rounded-[9px]"
-            >
-              <Plus className="size-3.5" />
-              Nova loja
-            </Link>
           </div>
 
           {hasLojas ? (
@@ -196,7 +193,7 @@ function AdminDashboard() {
               </p>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
               <FeatureCard
                 iconBg="bg-muted"
                 icon={<Users className="text-chart-3" style={{ width: 20, height: 20 }} />}
@@ -268,9 +265,7 @@ function StatCard({ label, icon, iconBg, value, sub, dimmed }: StatCardProps) {
         <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           {label}
         </p>
-        <div className={`size-8 rounded-lg flex items-center justify-center ${iconBg}`}>
-          {icon}
-        </div>
+        <div className={`size-8 rounded-lg flex items-center justify-center ${iconBg}`}>{icon}</div>
       </div>
       <p
         className={`font-heading font-bold text-3xl tracking-[-0.03em] ${dimmed ? "text-slate-300" : "text-slate-900"}`}
