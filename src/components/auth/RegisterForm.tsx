@@ -51,16 +51,16 @@ export function RegisterForm() {
         {/* Left panel — brand/marketing (visible only on md+) */}
         <div className="hidden md:flex flex-1 flex-col justify-between p-10 relative overflow-hidden bg-brand-panel">
           {/* Decorative background circles */}
-          <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-white/7" />
-          <div className="absolute bottom-10 -left-12 w-40 h-40 rounded-full bg-white/5" />
-          <div className="absolute top-1/2 -translate-y-1/2 right-8 w-20 h-20 rounded-full bg-white/6" />
+          <div className="absolute -top-16 -right-16 size-56 rounded-full bg-white/7" />
+          <div className="absolute bottom-10 -left-12 size-40 rounded-full bg-white/5" />
+          <div className="absolute top-1/2 -translate-y-1/2 right-8 size-20 rounded-full bg-white/6" />
 
           {/* Top block — logo, headline, tagline */}
           <div className="relative">
             {/* Logo + brand name */}
             <div className="flex items-center gap-2.5 mb-10">
-              <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
-                <Calendar className="w-4 h-4 text-white" />
+              <div className="size-8 rounded-xl bg-white/20 flex items-center justify-center">
+                <Calendar className="size-4 text-white" />
               </div>
               <span className="font-heading font-black text-white text-xl tracking-[-0.02em]">
                 Agendei
@@ -88,7 +88,7 @@ export function RegisterForm() {
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className="w-3.5 h-3.5 text-amber-300 fill-current"
+                    className="size-3.5 text-amber-300 fill-current"
                   />
                 ))}
               </div>
@@ -100,7 +100,7 @@ export function RegisterForm() {
                   </p>
                   <div className="flex items-center gap-2">
                     {/* Author avatar — initials */}
-                    <div className="w-6 h-6 rounded-full bg-white/25 flex items-center justify-center text-xs font-bold text-white">
+                    <div className="size-6 rounded-full bg-white/25 flex items-center justify-center text-xs font-bold text-white">
                       JS
                     </div>
                     <span className="text-xs text-white font-medium">
@@ -116,7 +116,7 @@ export function RegisterForm() {
                   </p>
                   <div className="flex items-center gap-2">
                     {/* Author avatar — initials */}
-                    <div className="w-6 h-6 rounded-full bg-white/25 flex items-center justify-center text-xs font-bold text-white">
+                    <div className="size-6 rounded-full bg-white/25 flex items-center justify-center text-xs font-bold text-white">
                       AL
                     </div>
                     <span className="text-xs text-white font-medium">
@@ -133,8 +133,8 @@ export function RegisterForm() {
         <div className="flex-1 md:flex-none md:w-96 flex flex-col justify-center p-5 sm:p-8 md:p-10 bg-white">
           {/* Compact logo — shown on mobile/sm where the left panel is hidden */}
           <div className="flex items-center gap-2.5 mb-8 md:hidden">
-            <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center">
-              <Calendar className="w-4 h-4 text-white" />
+            <div className="size-8 rounded-xl bg-primary flex items-center justify-center">
+              <Calendar className="size-4 text-white" />
             </div>
             <span className="font-heading font-black text-slate-900 text-xl tracking-[-0.02em]">
               Agendei
@@ -191,7 +191,7 @@ export function RegisterForm() {
                 Nome completo
               </Label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
                 <Input
                   id="nome"
                   className="pl-10"
@@ -214,7 +214,7 @@ export function RegisterForm() {
                 Email
               </Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
                 <Input
                   id="email"
                   className="pl-10"
@@ -240,7 +240,7 @@ export function RegisterForm() {
                 Senha
               </Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
                 <Input
                   id="password"
                   className="pl-10"
@@ -284,7 +284,7 @@ export function RegisterForm() {
               <input
                 type="checkbox"
                 id="accepted_terms"
-                className="mt-0.5 w-4 h-4 rounded shrink-0"
+                className="mt-0.5 size-4 rounded shrink-0"
                 {...registerField("accepted_terms")}
               />
               <label
@@ -313,7 +313,7 @@ export function RegisterForm() {
               type="submit"
               disabled={isPending}
             >
-              {isPending && <Loader2 className="w-4 h-4 animate-spin" />}
+              {isPending && <Loader2 className="size-4 animate-spin" />}
               {isPending ? "Criando conta..." : "Criar conta grátis →"}
             </button>
 

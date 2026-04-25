@@ -24,16 +24,16 @@ export function LoginForm() {
         {/* Painel esquerdo — marca (visível apenas em md+) */}
         <div className="hidden md:flex flex-1 flex-col justify-between p-10 relative overflow-hidden bg-brand-panel">
           {/* Círculos decorativos de fundo */}
-          <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-white/7" />
-          <div className="absolute bottom-10 -left-12 w-40 h-40 rounded-full bg-white/5" />
-          <div className="absolute top-1/2 -translate-y-1/2 right-8 w-20 h-20 rounded-full bg-white/6" />
+          <div className="absolute -top-16 -right-16 size-56 rounded-full bg-white/7" />
+          <div className="absolute bottom-10 -left-12 size-40 rounded-full bg-white/5" />
+          <div className="absolute top-1/2 -translate-y-1/2 right-8 size-20 rounded-full bg-white/6" />
 
           {/* Bloco superior — logo, título e descrição */}
           <div className="relative">
             {/* Logo + nome da marca */}
             <div className="flex items-center gap-2.5 mb-10">
-              <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
-                <Calendar className="w-4 h-4 text-white" />
+              <div className="size-8 rounded-xl bg-white/20 flex items-center justify-center">
+                <Calendar className="size-4 text-white" />
               </div>
               <span className="font-heading font-black text-white text-xl tracking-[-0.02em]">
                 Agendei
@@ -62,7 +62,7 @@ export function LoginForm() {
                 key={text}
                 className="flex items-center gap-3 rounded-xl px-4 py-3 bg-white/15 backdrop-blur"
               >
-                <Check className="w-4 h-4 text-white shrink-0" />
+                <Check className="size-4 text-white shrink-0" />
                 <span className="text-white text-xs font-medium">{text}</span>
               </div>
             ))}
@@ -73,8 +73,8 @@ export function LoginForm() {
         <div className="flex-1 md:flex-none md:w-96 flex flex-col justify-center p-5 sm:p-8 md:p-10 bg-white">
           {/* Logo compacto — substitui o painel de marca em mobile e sm */}
           <div className="flex items-center gap-2.5 mb-8 md:hidden">
-            <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center">
-              <Calendar className="w-4 h-4 text-white" />
+            <div className="size-8 rounded-xl bg-primary flex items-center justify-center">
+              <Calendar className="size-4 text-white" />
             </div>
             <span className="font-heading font-black text-slate-900 text-xl tracking-[-0.02em]">
               Agendei
@@ -105,7 +105,7 @@ export function LoginForm() {
                 Email
               </Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
                 <Input
                   id="email"
                   className="pl-10"
@@ -136,7 +136,7 @@ export function LoginForm() {
                 </Link>
               </div>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
                 <Input
                   id="password"
                   className="pl-10"
