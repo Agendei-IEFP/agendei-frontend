@@ -1,13 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { LandingNavbar } from "../components/landing/LandingNavbar";
+import { HeroSection } from "../components/landing/HeroSection";
+import { StatsBar } from "../components/landing/StatsBar";
+import { HowItWorks } from "../components/landing/HowItWorks";
+import { FeaturesGrid } from "../components/landing/FeaturesGrid";
+import { ForWhom } from "../components/landing/ForWhom";
+import { Testimonials } from "../components/landing/Testimonials";
+import { CtaSection } from "../components/landing/CtaSection";
 
 export const Route = createFileRoute("/")({
-  component: Index,
+  component: LandingPage,
 });
 
-function Index() {
+function LandingPage() {
   return (
-    <div className="p-2">
-      <h3 className="text-red-500 text-2xl">Página Inicial do Patas Sem Lar!</h3>
-    </div>
+    <>
+      <LandingNavbar />
+      <HeroSection />
+      <StatsBar />
+      <HowItWorks />
+      <FeaturesGrid />
+      <ForWhom />
+      <Testimonials />
+      <CtaSection />
+    </>
   );
 }
