@@ -4,8 +4,8 @@ import { Check } from "lucide-react";
 function Benefit({ text }: { text: string }) {
   return (
     <li className="flex items-start gap-3">
-      <div className="w-5 h-5 rounded-full bg-muted flex items-center justify-center flex-shrink-0 mt-0.5">
-        <Check className="w-3 h-3 text-chart-3" />
+      <div className="size-5 rounded-full bg-muted flex items-center justify-center shrink-0 mt-0.5">
+        <Check className="size-3 text-chart-3" />
       </div>
       <span className="text-sm text-slate-600">{text}</span>
     </li>
@@ -15,9 +15,9 @@ function Benefit({ text }: { text: string }) {
 function WindowBar({ title }: { title: string }) {
   return (
     <div className="flex items-center gap-1.5 px-4 py-2 border-b border-border bg-background">
-      <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
-      <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
-      <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
+      <div className="size-2.5 rounded-full bg-red-400" />
+      <div className="size-2.5 rounded-full bg-amber-400" />
+      <div className="size-2.5 rounded-full bg-green-400" />
       <span className="text-xs text-slate-400 ml-2">{title}</span>
     </div>
   );
@@ -137,7 +137,7 @@ function AdminMockup() {
                   <td className="px-3 py-2.5">
                     <div className="flex items-center gap-2">
                       <div
-                        className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${p.cls}`}
+                        className={`size-5 rounded-full flex items-center justify-center text-xs font-bold ${p.cls}`}
                       >
                         {p.letter}
                       </div>

@@ -7,12 +7,12 @@ export function CtaSection() {
       <section className="py-24 px-6 bg-background">
         <div className="max-w-3xl mx-auto text-center">
           <div className="cta-box">
-            <div className="absolute top-0 right-0 w-72 h-72 rounded-full bg-white/[0.06] translate-x-1/2 -translate-y-1/2" />
-            <div className="absolute bottom-0 left-0 w-44 h-44 rounded-full bg-white/[0.05] -translate-x-1/2 translate-y-1/2" />
+            <div className="absolute top-0 right-0 size-72 rounded-full bg-white/[0.06] translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute bottom-0 left-0 size-44 rounded-full bg-white/[0.05] -translate-x-1/2 translate-y-1/2" />
 
             <div className="relative">
               <div className="inline-flex items-center gap-2 bg-white/[0.18] text-white text-xs font-bold px-3 py-1.5 rounded-full mb-6">
-                <Zap className="w-3.5 h-3.5" />
+                <Zap className="size-3.5" />
                 Configure em 5 minutos
               </div>
 
@@ -48,8 +48,8 @@ export function CtaSection() {
           <div className="flex items-start justify-between mb-8 flex-wrap gap-8">
             <div>
               <div className="flex items-center gap-2.5 mb-3">
-                <div className="logo-icon-gradient w-7 h-7 rounded-lg flex items-center justify-center">
-                  <Calendar className="w-3.5 h-3.5 text-white" />
+                <div className="logo-icon-gradient size-7 rounded-lg flex items-center justify-center">
+                  <Calendar className="size-3.5 text-white" />
                 </div>
                 <span className="font-display font-bold text-lg text-slate-900 tracking-tight">
                   Agendei

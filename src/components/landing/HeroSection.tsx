@@ -95,9 +95,9 @@ export function HeroSection() {
           <div className="relative bg-white rounded-2xl border border-border shadow-2xl overflow-hidden hero-window">
             {/* Barra da janela */}
             <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-[#fdf9f8]">
-              <div className="w-3 h-3 rounded-full bg-red-400" />
-              <div className="w-3 h-3 rounded-full bg-amber-400" />
-              <div className="w-3 h-3 rounded-full bg-green-400" />
+              <div className="size-3 rounded-full bg-red-400" />
+              <div className="size-3 rounded-full bg-amber-400" />
+              <div className="size-3 rounded-full bg-green-400" />
               <div className="flex-1 mx-4">
                 <div className="bg-white border border-border rounded-md px-3 py-1 text-xs text-center text-[#b0958f]">
                   agendei.app/admin · Studio Beleza
@@ -107,10 +107,10 @@ export function HeroSection() {
 
             <div className="flex h-[360px]">
               {/* Sidebar */}
-              <div className="w-48 border-r border-border p-4 flex flex-col gap-1 flex-shrink-0 bg-[#fdf9f8]">
+              <div className="w-48 border-r border-border p-4 flex flex-col gap-1 shrink-0 bg-[#fdf9f8]">
                 <div className="mb-4 flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-muted">
-                    <Calendar className="w-4 h-4 text-chart-3" />
+                  <div className="size-8 rounded-full flex items-center justify-center shrink-0 bg-muted">
+                    <Calendar className="size-4 text-chart-3" />
                   </div>
                   <div>
                     <p className="text-xs font-bold text-slate-900">Studio Beleza</p>
@@ -119,7 +119,7 @@ export function HeroSection() {
                 </div>
 
                 <div className="flex items-center gap-2 p-2 rounded-lg text-xs font-semibold hero-sidebar-active">
-                  <LayoutDashboard className="w-3.5 h-3.5 flex-shrink-0" />
+                  <LayoutDashboard className="size-3.5 shrink-0" />
                   Painel
                 </div>
 
@@ -128,7 +128,7 @@ export function HeroSection() {
                     key={label}
                     className="flex items-center gap-2 p-2 rounded-lg text-xs text-slate-500"
                   >
-                    <Icon className="w-3.5 h-3.5 flex-shrink-0" />
+                    <Icon className="size-3.5 shrink-0" />
                     {label}
                   </div>
                 ))}
@@ -175,7 +175,7 @@ export function HeroSection() {
                         </div>
                         <div className="w-px h-6 bg-slate-200" />
                         <div
-                          className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${a.letterCls}`}
+                          className={`size-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${a.letterCls}`}
                         >
                           {a.letter}
                         </div>
@@ -195,8 +195,8 @@ export function HeroSection() {
           {/* Card flutuante — novo agendamento */}
           <div className="absolute -right-4 top-10 bg-white rounded-xl border border-border px-4 py-3 w-56 hidden md:block animate-float hero-float-card">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                <Calendar className="w-4 h-4 text-green-600" />
+              <div className="size-8 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                <Calendar className="size-4 text-green-600" />
               </div>
               <div>
                 <p className="text-xs font-semibold text-slate-900">Novo agendamento!</p>

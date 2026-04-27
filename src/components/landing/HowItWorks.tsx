@@ -12,7 +12,7 @@ function PreviewServico() {
           </div>
           <div className="text-right">
             <p className="text-sm font-bold text-chart-3">R$ 80</p>
-            <Check className="w-3.5 h-3.5 ml-auto text-primary" />
+            <Check className="size-3.5 ml-auto text-primary" />
           </div>
         </div>
       </div>
@@ -82,7 +82,7 @@ function PreviewConfirmar() {
         </div>
       </div>
       <div className="step-success-banner">
-        <Check className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+        <Check className="size-3.5 text-emerald-600 shrink-0" />
         <span className="text-xs text-emerald-700 font-medium">Email enviado automaticamente!</span>
       </div>
     </div>
@@ -105,7 +105,7 @@ function PreviewCadastro() {
           </div>
         ))}
         <div className="step-success-banner">
-          <Check className="w-3.5 h-3.5 text-chart-3 flex-shrink-0" />
+          <Check className="size-3.5 text-chart-3 shrink-0" />
           <span className="text-xs font-semibold text-chart-4">Loja criada com sucesso!</span>
         </div>
       </div>
@@ -128,7 +128,7 @@ function PreviewEquipa() {
           >
             <div className="flex items-center gap-2">
               <div
-                className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${p.cls}`}
+                className={`size-5 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${p.cls}`}
               >
                 {p.letter}
               </div>
@@ -153,8 +153,8 @@ function PreviewLink() {
         <span className="text-xs text-slate-600 flex-1 truncate">
           agendei.app/lojas/studio-beleza
         </span>
-        <button className="text-xs font-semibold px-2 py-0.5 rounded-md bg-muted text-chart-3 flex-shrink-0 flex items-center gap-1">
-          <Copy className="w-3 h-3" /> Copiar
+        <button className="text-xs font-semibold px-2 py-0.5 rounded-md bg-muted text-chart-3 shrink-0 flex items-center gap-1">
+          <Copy className="size-3" /> Copiar
         </button>
       </div>
       <div className="flex gap-2">
@@ -269,7 +269,7 @@ export function HowItWorks() {
           <div className="absolute top-8 left-1/3 right-1/3 h-px bg-gradient-to-r from-input to-muted hidden md:block" />
           {steps.map(({ num, title, desc: stepDesc, preview }, i) => (
             <div key={num} className={`text-center reveal reveal-d${i + 1}`}>
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 step-number">
+              <div className="size-16 rounded-2xl flex items-center justify-center mx-auto mb-6 step-number">
                 <span className="font-display font-black text-xl text-white">{num}</span>
               </div>
               <h3 className="font-display font-bold text-slate-900 mb-3 text-lg tracking-tight">

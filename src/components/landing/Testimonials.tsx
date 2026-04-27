@@ -5,7 +5,7 @@ function StarRating() {
   return (
     <div className="flex gap-0.5 mb-4">
       {Array.from({ length: 5 }).map((_, i) => (
-        <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+        <Star key={i} className="size-4 fill-amber-400 text-amber-400" />
       ))}
     </div>
   );
@@ -70,7 +70,7 @@ export function Testimonials() {
               <p className="text-sm text-slate-600 leading-relaxed mb-5">{text}</p>
               <div className="flex items-center gap-3">
                 <div
-                  className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold ${avatarCls}`}
+                  className={`size-9 rounded-full flex items-center justify-center text-sm font-bold ${avatarCls}`}
                 >
                   {initials}
                 </div>
