@@ -60,7 +60,7 @@ export function FeaturesGrid() {
       <div className="max-w-6xl mx-auto" ref={ref}>
         <div className="text-center mb-16 reveal">
           <div className="section-badge">Funcionalidades</div>
-          <h2 className="font-display font-black text-slate-900 mb-4 text-[clamp(2rem,4vw,2.6rem)] tracking-tight">
+          <h2 className="font-heading font-black text-slate-900 mb-4 text-[clamp(2rem,4vw,2.6rem)] tracking-tight">
             Tudo que seu salão precisa,
             <br />
             sem o que não precisa
@@ -78,7 +78,7 @@ export function FeaturesGrid() {
               >
                 <Icon className={`size-5 ${iconColor}`} />
               </div>
-              <h3 className="font-display font-bold text-slate-900 mb-2 text-lg tracking-tight">
+              <h3 className="font-heading font-bold text-slate-900 mb-2 text-lg tracking-tight">
                 {title}
               </h3>
               <p className="text-sm text-slate-500 leading-relaxed">{desc}</p>

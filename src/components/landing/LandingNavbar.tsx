@@ -6,10 +6,10 @@ export function LandingNavbar() {
     <header className="navbar-landing">
       <div className="max-w-6xl mx-auto px-6 py-3.5 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="logo-icon-gradient size-8 rounded-xl flex items-center justify-center shadow-sm">
+          <div className="bg-linear-to-br from-chart-3 to-chart-2 size-8 rounded-xl flex items-center justify-center shadow-sm">
             <Calendar className="size-4 text-white" />
           </div>
-          <span className="font-display font-black text-xl text-slate-900 tracking-tight">
+          <span className="font-heading font-black text-xl text-slate-900 tracking-tight">
             Agendei
           </span>
         </div>

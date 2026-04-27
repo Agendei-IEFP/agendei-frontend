@@ -163,10 +163,6 @@
   background-clip: text;
 }
 
-/* Fonte display (Playfair) */
-.font-display {
-  font-family: var(--font-heading);
-}
 
 /* Animação de entrada ao fazer scroll */
 .reveal {
@@ -239,11 +235,6 @@
     border-bottom: 1px solid rgba(240, 106, 88, 0.12);
   }
 
-  /* Gradiente do ícone de logo — usado na navbar e no footer */
-  .logo-icon-gradient {
-    background: linear-gradient(135deg, #e05040, #f88570);
-  }
-
   /* ── Hero mockup ──────────────────────────────────────────── */
   .hero-fade-badge {
     animation: fadeUp 0.5s ease-out both;
@@ -270,22 +261,8 @@
       0 4px 16px rgba(0, 0, 0, 0.06);
   }
 
-  .hero-glow {
-    background: rgba(240, 106, 88, 0.14);
-  }
-
   .hero-float-card {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  }
-
-  .hero-stat-primary {
-    background: var(--muted);
-    border: 1px solid var(--input);
-  }
-
-  .hero-sidebar-active {
-    background: var(--muted);
-    color: var(--chart-3);
   }
 
   /* ── Navegação landing ────────────────────────────────────── */

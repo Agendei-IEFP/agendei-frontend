@@ -16,7 +16,7 @@ export function CtaSection() {
                 Configure em 5 minutos
               </div>
 
-              <h2 className="font-display font-black text-white mb-4 text-[clamp(2rem,4vw,2.6rem)] tracking-tight">
+              <h2 className="font-heading font-black text-white mb-4 text-[clamp(2rem,4vw,2.6rem)] tracking-tight">
                 Seus clientes já podem
                 <br />
                 agendar hoje
@@ -48,10 +48,10 @@ export function CtaSection() {
           <div className="flex items-start justify-between mb-8 flex-wrap gap-8">
             <div>
               <div className="flex items-center gap-2.5 mb-3">
-                <div className="logo-icon-gradient size-7 rounded-lg flex items-center justify-center">
+                <div className="bg-linear-to-br from-chart-3 to-chart-2 size-7 rounded-lg flex items-center justify-center">
                   <Calendar className="size-3.5 text-white" />
                 </div>
-                <span className="font-display font-bold text-lg text-slate-900 tracking-tight">
+                <span className="font-heading font-bold text-lg text-slate-900 tracking-tight">
                   Agendei
                 </span>
               </div>

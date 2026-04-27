@@ -115,7 +115,7 @@ function PreviewCadastro() {
 
 function PreviewEquipa() {
   const profs = [
-    { letter: "J", name: "João Silva", cls: "avatar-letter-primary" },
+    { letter: "J", name: "João Silva", cls: "bg-muted text-chart-4" },
     { letter: "A", name: "Ana Costa", cls: "bg-blue-100 text-blue-700" },
   ];
   return (
@@ -238,7 +238,7 @@ export function HowItWorks() {
       <div className="max-w-6xl mx-auto" ref={ref}>
         <div className="text-center mb-10 reveal">
           <div className="section-badge">Como funciona</div>
-          <h2 className="font-display font-black text-slate-900 mb-4 text-[clamp(2rem,4vw,2.6rem)] tracking-tight">
+          <h2 className="font-heading font-black text-slate-900 mb-4 text-[clamp(2rem,4vw,2.6rem)] tracking-tight">
             Simples para você.
             <br />
             Simples para seus clientes.
@@ -270,9 +270,9 @@ export function HowItWorks() {
           {steps.map(({ num, title, desc: stepDesc, preview }, i) => (
             <div key={num} className={`text-center reveal reveal-d${i + 1}`}>
               <div className="size-16 rounded-2xl flex items-center justify-center mx-auto mb-6 step-number">
-                <span className="font-display font-black text-xl text-white">{num}</span>
+                <span className="font-heading font-black text-xl text-white">{num}</span>
               </div>
-              <h3 className="font-display font-bold text-slate-900 mb-3 text-lg tracking-tight">
+              <h3 className="font-heading font-bold text-slate-900 mb-3 text-lg tracking-tight">
                 {title}
               </h3>
               <p className="text-sm text-slate-500 leading-relaxed mb-4">{stepDesc}</p>

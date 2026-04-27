@@ -13,13 +13,13 @@ export function StatsBar() {
   return (
     <section ref={ref} className="py-10 px-6 border-y border-border bg-background">
       <div className="max-w-4xl mx-auto">
-        <p className="text-center text-xs font-bold uppercase tracking-widest mb-8 text-label-muted">
+        <p className="text-center text-xs font-bold uppercase tracking-widest mb-8 text-muted-warm">
           O que muda quando você usa o Agendei
         </p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {STATS.map(({ value, label }, i) => (
             <div key={label} className={`reveal reveal-d${i + 1}`}>
-              <p className="text-4xl font-display font-black text-chart-3">{value}</p>
+              <p className="text-4xl font-heading font-black text-chart-3">{value}</p>
               <p className="text-sm text-slate-500 mt-1">{label}</p>
             </div>
           ))}

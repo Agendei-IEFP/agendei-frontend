@@ -12,7 +12,7 @@ const APPOINTMENTS = [
     time: "09:00",
     dur: "60min",
     letter: "J",
-    letterCls: "avatar-letter-primary",
+    letterCls: "bg-muted text-chart-4",
     client: "Maria Silva",
     service: "Corte feminino · João Silva",
     badge: "confirmado",
@@ -46,7 +46,7 @@ export function HeroSection() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14">
           <div className="section-badge hero-fade-badge">Para profissionais e donos de salão</div>
-          <h1 className="font-display font-black text-slate-900 leading-tight mb-6 text-[clamp(2.6rem,6vw,3.8rem)] tracking-tight hero-fade-title">
+          <h1 className="font-heading font-black text-slate-900 leading-tight mb-6 text-[clamp(2.6rem,6vw,3.8rem)] tracking-tight hero-fade-title">
             Sua agenda no
             <br />
             <span className="gradient-text">piloto automático</span>
@@ -73,7 +73,7 @@ export function HeroSection() {
         </div>
 
         <div className="relative max-w-4xl mx-auto hero-fade-mockup">
-          <div className="absolute inset-0 rounded-3xl scale-95 blur-3xl hero-glow" />
+          <div className="absolute inset-0 rounded-3xl scale-95 blur-3xl bg-primary/14" />
 
           <div className="relative bg-white rounded-2xl border border-border shadow-2xl overflow-hidden hero-window">
             {/* Barra da janela */}
@@ -101,7 +101,7 @@ export function HeroSection() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 p-2 rounded-lg text-xs font-semibold hero-sidebar-active">
+                <div className="flex items-center gap-2 p-2 rounded-lg text-xs font-semibold bg-muted text-chart-3">
                   <LayoutDashboard className="size-3.5 shrink-0" />
                   Painel
                 </div>
@@ -128,7 +128,7 @@ export function HeroSection() {
                 </div>
 
                 <div className="grid grid-cols-3 gap-3 mb-4">
-                  <div className="rounded-xl p-3 hero-stat-primary">
+                  <div className="rounded-xl p-3 bg-muted border border-input">
                     <p className="text-xl font-black text-chart-4">8</p>
                     <p className="text-xs text-slate-500 mt-0.5">agendamentos hoje</p>
                   </div>
@@ -142,7 +142,7 @@ export function HeroSection() {
                   </div>
                 </div>
 
-                <p className="text-xs font-bold uppercase tracking-wider mb-2 text-label-muted">
+                <p className="text-xs font-bold uppercase tracking-wider mb-2 text-muted-warm">
                   Próximos atendimentos
                 </p>
                 <div className="space-y-2">

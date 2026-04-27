@@ -105,7 +105,7 @@ function ProfissionalMockup() {
 
 function AdminMockup() {
   const profs = [
-    { letter: "J", name: "João Silva", today: "4 atend.", cls: "avatar-letter-primary" },
+    { letter: "J", name: "João Silva", today: "4 atend.", cls: "bg-muted text-chart-4" },
     { letter: "A", name: "Ana Costa", today: "3 atend.", cls: "bg-blue-100 text-blue-700" },
     { letter: "C", name: "Carla Matos", today: "2 atend.", cls: "bg-teal-100 text-teal-700" },
   ];
@@ -171,7 +171,7 @@ export function ForWhom() {
       <div className="max-w-6xl mx-auto" ref={ref}>
         <div className="text-center mb-16 reveal">
           <div className="section-badge">Para quem</div>
-          <h2 className="font-display font-black text-slate-900 mb-4 text-[clamp(2rem,4vw,2.6rem)] tracking-tight">
+          <h2 className="font-heading font-black text-slate-900 mb-4 text-[clamp(2rem,4vw,2.6rem)] tracking-tight">
             Uma plataforma, dois papéis
           </h2>
           <p className="text-slate-500 max-w-lg mx-auto">
@@ -182,7 +182,7 @@ export function ForWhom() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           <div className="reveal reveal-d1">
             <div className="section-badge">Para Profissionais</div>
-            <h3 className="font-display font-black text-slate-900 mb-4 text-[1.75rem] tracking-tight">
+            <h3 className="font-heading font-black text-slate-900 mb-4 text-[1.75rem] tracking-tight">
               Sua agenda sempre organizada
             </h3>
             <p className="text-slate-500 mb-6 leading-relaxed">
@@ -199,7 +199,7 @@ export function ForWhom() {
 
           <div className="reveal reveal-d2">
             <div className="section-badge">Para Donos de Loja</div>
-            <h3 className="font-display font-black text-slate-900 mb-4 text-[1.75rem] tracking-tight">
+            <h3 className="font-heading font-black text-slate-900 mb-4 text-[1.75rem] tracking-tight">
               Controle total, sem virar atendente
             </h3>
             <p className="text-slate-500 mb-6 leading-relaxed">
