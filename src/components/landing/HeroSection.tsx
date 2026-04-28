@@ -77,12 +77,12 @@ export function HeroSection() {
 
           <div className="relative bg-white rounded-2xl border border-border shadow-2xl overflow-hidden hero-window">
             {/* Barra da janela */}
-            <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-[#fdf9f8]">
+            <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-background">
               <div className="size-3 rounded-full bg-red-400" />
               <div className="size-3 rounded-full bg-amber-400" />
               <div className="size-3 rounded-full bg-green-400" />
               <div className="flex-1 mx-4">
-                <div className="bg-white border border-border rounded-md px-3 py-1 text-xs text-center text-[#b0958f]">
+                <div className="bg-white border border-border rounded-md px-3 py-1 text-xs text-center text-muted-foreground">
                   agendei.app/admin · Studio Beleza
                 </div>
               </div>
@@ -90,7 +90,7 @@ export function HeroSection() {
 
             <div className="flex md:h-90">
               {/* Sidebar */}
-              <div className="hidden md:flex w-48 border-r border-border p-4 flex-col gap-1 shrink-0 bg-[#fdf9f8]">
+              <div className="hidden md:flex w-48 border-r border-border p-4 flex-col gap-1 shrink-0 bg-background">
                 <div className="mb-4 flex items-center gap-2">
                   <div className="size-8 rounded-full flex items-center justify-center shrink-0 bg-muted">
                     <Calendar className="size-4 text-chart-3" />

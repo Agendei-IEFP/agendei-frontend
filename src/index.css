@@ -152,12 +152,12 @@
   background:
     radial-gradient(ellipse 110% 70% at 65% -15%, rgba(240, 106, 88, 0.13) 0%, transparent 55%),
     radial-gradient(ellipse 55% 55% at 10% 90%, rgba(248, 133, 112, 0.08) 0%, transparent 50%),
-    linear-gradient(175deg, #fffbfa 0%, #fff8f5 100%);
+    linear-gradient(175deg, var(--background) 0%, var(--muted) 100%);
 }
 
 /* Texto com gradiente (headline hero) */
 .gradient-text {
-  background: linear-gradient(130deg, var(--chart-4) 0%, var(--primary) 50%, #f88570 100%);
+  background: linear-gradient(130deg, var(--chart-4) 0%, var(--primary) 50%, var(--chart-2) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -184,6 +184,9 @@
 }
 .reveal-d3 {
   transition-delay: 0.3s;
+}
+.reveal-d4 {
+  transition-delay: 0.4s;
 }
 
 @layer components {
@@ -213,8 +216,8 @@
   }
 
   .btn-secondary-landing {
-    border: 1.5px solid #ddd0cd;
-    color: #5a3730;
+    border: 1.5px solid var(--input);
+    color: var(--secondary-foreground);
     border-radius: 10px;
     font-weight: 600;
     transition: background 0.2s;
@@ -338,7 +341,7 @@
   }
   .como-tab:not(.active) {
     border-color: var(--border);
-    color: #5a3730;
+    color: var(--secondary-foreground);
     background: transparent;
   }
   .como-tab:not(.active):hover {
