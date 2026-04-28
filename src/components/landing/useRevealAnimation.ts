@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 
+// Children inside the ref container must have the CSS class `reveal` to be animated.
 export function useRevealAnimation<T extends HTMLElement = HTMLDivElement>(deps: unknown[] = []) {
   const ref = useRef<T>(null);
 
