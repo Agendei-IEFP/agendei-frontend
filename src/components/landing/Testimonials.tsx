@@ -1,5 +1,5 @@
 import { Star } from "lucide-react";
-import { useRevealAnimation } from "@/hooks/useRevealAnimation";
+import { useRevealAnimation } from "@/components/landing/useRevealAnimation";
 
 function StarRating() {
   return (

@@ -1,5 +1,5 @@
 import { Check } from "lucide-react";
-import { useRevealAnimation } from "@/hooks/useRevealAnimation";
+import { useRevealAnimation } from "@/components/landing/useRevealAnimation";
 
 function Benefit({ text }: { text: string }) {
   return (

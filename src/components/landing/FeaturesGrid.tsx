@@ -1,5 +1,5 @@
 import { Calendar, Clock, Mail, Users, ShieldCheck, FileText } from "lucide-react";
-import { useRevealAnimation } from "@/hooks/useRevealAnimation";
+import { useRevealAnimation } from "@/components/landing/useRevealAnimation";
 
 const FEATURES = [
   {

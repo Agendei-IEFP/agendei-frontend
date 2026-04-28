@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
-export function useRevealAnimation() {
-  const ref = useRef<HTMLDivElement>(null);
+export function useRevealAnimation<T extends HTMLElement = HTMLDivElement>(deps: unknown[] = []) {
+  const ref = useRef<T>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -13,7 +13,8 @@ export function useRevealAnimation() {
     );
     ref.current?.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
 
   return ref;
 }

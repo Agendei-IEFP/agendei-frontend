@@ -1,4 +1,4 @@
-import { useRevealAnimation } from "@/hooks/useRevealAnimation";
+import { useRevealAnimation } from "@/components/landing/useRevealAnimation";
 
 const STATS = [
   { value: "0", label: "Conflitos de horário" },
@@ -8,7 +8,7 @@ const STATS = [
 ];
 
 export function StatsBar() {
-  const ref = useRevealAnimation();
+  const ref = useRevealAnimation<HTMLElement>();
 
   return (
     <section ref={ref} className="py-10 px-6 border-y border-border bg-background">

@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
+import { useRevealAnimation } from "@/components/landing/useRevealAnimation";
 import { Check, Copy } from "lucide-react";
 
 function PreviewServico() {
@@ -213,19 +214,7 @@ const STEPS_VOCE = [
 
 export function HowItWorks() {
   const [tab, setTab] = useState<"clientes" | "voce">("clientes");
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => {
-          if (e.isIntersecting) e.target.classList.add("visible");
-        }),
-      { threshold: 0.12 },
-    );
-    ref.current?.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, [tab]);
+  const ref = useRevealAnimation([tab]);
 
   const steps = tab === "clientes" ? STEPS_CLIENTES : STEPS_VOCE;
   const desc =
