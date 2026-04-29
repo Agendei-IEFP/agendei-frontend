@@ -42,9 +42,9 @@ const APPOINTMENTS = [
 
 export function HeroSection() {
   return (
-    <section className="hero-bg pt-32 pb-20 px-2 md:px-6">
+    <section className="hero-bg pt-24 pb-14 md:pt-32 md:pb-20 px-2 md:px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-14">
+        <div className="text-center mb-10 md:mb-14">
           <div className="section-badge hero-fade-badge">Para profissionais e donos de salão</div>
           <h1 className="font-heading font-black text-slate-900 leading-tight mb-6 text-[clamp(2.6rem,6vw,3.8rem)] tracking-tight hero-fade-title">
             Sua agenda no

@@ -42,9 +42,9 @@ export function Testimonials() {
   const ref = useRevealAnimation();
 
   return (
-    <section className="py-24 px-6">
+    <section className="py-14 px-4 md:py-24 md:px-6">
       <div className="max-w-6xl mx-auto" ref={ref}>
-        <div className="text-center mb-16 reveal">
+        <div className="text-center mb-10 md:mb-16 reveal">
           <div className="section-badge">Depoimentos</div>
           <h2 className="font-heading font-black text-slate-900 mb-4 text-[clamp(2rem,4vw,2.6rem)] tracking-tight">
             O que profissionais dizem

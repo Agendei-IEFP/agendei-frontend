@@ -120,45 +120,28 @@ function AdminMockup() {
             + Adicionar
           </button>
         </div>
-        <div className="rounded-xl overflow-hidden border border-border">
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs">
-              <thead className="bg-background border-b border-border">
-                <tr>
-                  {["Nome", "Hoje", "Status", ""].map((h) => (
-                    <th key={h} className="text-left px-3 py-2 font-semibold text-slate-500">
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                {profs.map((p) => (
-                  <tr key={p.name}>
-                    <td className="px-3 py-2.5">
-                      <div className="flex items-center gap-2">
-                        <div
-                          className={`size-5 rounded-full flex items-center justify-center text-xs font-bold ${p.cls}`}
-                        >
-                          {p.letter}
-                        </div>
-                        {p.name}
-                      </div>
-                    </td>
-                    <td className="px-3 py-2.5 text-slate-500">{p.today}</td>
-                    <td className="px-3 py-2.5">
-                      <span className="chip bg-emerald-100 text-emerald-700">✓ Ativo</span>
-                    </td>
-                    <td className="px-3 py-2.5 text-right">
-                      <button className="text-slate-300 hover:text-red-500 text-xs transition-colors">
-                        Remover
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        <div className="rounded-xl border border-border overflow-hidden divide-y divide-border">
+          {profs.map((p) => (
+            <div key={p.name} className="flex items-center justify-between px-3 py-2.5">
+              <div className="flex items-center gap-2">
+                <div
+                  className={`size-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${p.cls}`}
+                >
+                  {p.letter}
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-slate-900">{p.name}</p>
+                  <p className="text-xs text-slate-400">{p.today}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <span className="chip bg-emerald-100 text-emerald-700">✓ Ativo</span>
+                <button className="text-slate-300 hover:text-red-500 text-xs transition-colors">
+                  Remover
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -169,9 +152,9 @@ export function ForWhom() {
   const ref = useRevealAnimation();
 
   return (
-    <section id="para-quem" className="py-24 px-4 md:px-6 bg-background">
+    <section id="para-quem" className="py-14 px-4 md:py-24 md:px-6 bg-background">
       <div className="max-w-6xl mx-auto" ref={ref}>
-        <div className="text-center mb-16 reveal">
+        <div className="text-center mb-10 md:mb-16 reveal">
           <div className="section-badge">Para quem</div>
           <h2 className="font-heading font-black text-slate-900 mb-4 text-[clamp(2rem,4vw,2.6rem)] tracking-tight">
             Uma plataforma, dois papéis
@@ -181,7 +164,7 @@ export function ForWhom() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
           <div className="reveal reveal-d1">
             <div className="section-badge">Para Profissionais</div>
             <h3 className="font-heading font-black text-slate-900 mb-4 text-[1.75rem] tracking-tight">

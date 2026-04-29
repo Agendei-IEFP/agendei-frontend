@@ -223,9 +223,9 @@ export function HowItWorks() {
       : "Não precisa de técnico, não precisa de treinamento. Em menos de 10 minutos sua loja está no ar.";
 
   return (
-    <section id="como-funciona" className="py-24 px-6 bg-background">
+    <section id="como-funciona" className="py-14 px-4 md:py-24 md:px-6 bg-background">
       <div className="max-w-6xl mx-auto" ref={ref}>
-        <div className="text-center mb-10 reveal">
+        <div className="text-center mb-8 md:mb-10 reveal">
           <div className="section-badge">Como funciona</div>
           <h2 className="font-heading font-black text-slate-900 mb-4 text-[clamp(2rem,4vw,2.6rem)] tracking-tight">
             Simples para você.
@@ -258,7 +258,7 @@ export function HowItWorks() {
           <div className="absolute top-8 left-1/3 right-1/3 h-px bg-gradient-to-r from-input to-muted hidden md:block" />
           {steps.map(({ num, title, desc: stepDesc, preview }, i) => (
             <div key={num} className={`text-center reveal reveal-d${i + 1}`}>
-              <div className="size-16 rounded-2xl flex items-center justify-center mx-auto mb-6 bg-linear-to-br from-chart-3 to-primary shadow-[0_8px_24px_rgba(224,80,64,0.3)]">
+              <div className="size-12 md:size-16 rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 bg-linear-to-br from-chart-3 to-primary shadow-[0_8px_24px_rgba(224,80,64,0.3)]">
                 <span className="font-heading font-black text-xl text-white">{num}</span>
               </div>
               <h3 className="font-heading font-bold text-slate-900 mb-3 text-lg tracking-tight">

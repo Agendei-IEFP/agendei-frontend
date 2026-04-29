@@ -56,9 +56,9 @@ export function FeaturesGrid() {
   const ref = useRevealAnimation();
 
   return (
-    <section id="funcionalidades" className="py-24 px-6">
+    <section id="funcionalidades" className="py-14 px-4 md:py-24 md:px-6">
       <div className="max-w-6xl mx-auto" ref={ref}>
-        <div className="text-center mb-16 reveal">
+        <div className="text-center mb-10 md:mb-16 reveal">
           <div className="section-badge">Funcionalidades</div>
           <h2 className="font-heading font-black text-slate-900 mb-4 text-[clamp(2rem,4vw,2.6rem)] tracking-tight">
             Tudo que seu salão precisa,
@@ -74,7 +74,7 @@ export function FeaturesGrid() {
           {FEATURES.map(({ icon: Icon, iconBg, iconColor, title, desc, delay }) => (
             <div
               key={title}
-              className={`bg-white border-[1.5px] border-border rounded-2xl p-6 card-hover-landing reveal ${delay}`}
+              className={`bg-white border-[1.5px] border-border rounded-2xl p-4 md:p-6 card-hover-landing reveal ${delay}`}
             >
               <div className={`size-11 rounded-xl flex items-center justify-center mb-4 ${iconBg}`}>
                 <Icon className={`size-5 ${iconColor}`} />
