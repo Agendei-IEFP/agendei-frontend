@@ -50,7 +50,7 @@ function AdminDashboard() {
             <Bell className="size-4.5" />
           </button>
           <Link
-            to="/admin/store/edit"
+            to="/admin/store/create"
             className="btn-salmon flex items-center gap-2 px-4 py-2 text-sm font-bold text-white rounded-[9px]"
           >
             <Plus className="size-4" />
@@ -77,7 +77,7 @@ function AdminDashboard() {
             </div>
 
             <Link
-              to="/admin/store/edit"
+              to="/admin/store/create"
               className="btn-salmon flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-bold text-white rounded-[9px] relative sm:shrink-0"
             >
               <Plus className="size-4" />
