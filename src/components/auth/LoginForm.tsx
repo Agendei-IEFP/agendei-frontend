@@ -8,13 +8,17 @@ import { getApiErrorMessage } from "@/lib/api/errorUtils";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export function LoginForm() {
+interface LoginFormProps {
+  redirectTo?: string;
+}
+
+export function LoginForm({ redirectTo }: LoginFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
-  const { mutate: loginMutate, isPending, error } = useLogin();
+  const { mutate: loginMutate, isPending, error } = useLogin(redirectTo);
 
   return (
     // Página — fundo vermelho visível em sm+, tela cheia em mobile

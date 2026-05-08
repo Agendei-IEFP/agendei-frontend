@@ -14,7 +14,7 @@ function redirectByRole(navigate: ReturnType<typeof useNavigate>, role: RoleEnum
   }
 }
 
-export function useLogin() {
+export function useLogin(redirectTo?: string) {
   const setAuth = useAuthStore((s) => s.login);
   const navigate = useNavigate();
 
@@ -22,7 +22,11 @@ export function useLogin() {
     mutationFn: login,
     onSuccess: (data) => {
       setAuth(data.access_token, data.user);
-      redirectByRole(navigate, data.user.role);
+      if (redirectTo) {
+        navigate({ to: redirectTo });
+      } else {
+        redirectByRole(navigate, data.user.role);
+      }
     },
   });
 }
