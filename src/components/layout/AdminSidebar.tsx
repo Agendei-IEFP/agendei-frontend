@@ -58,8 +58,8 @@ export function AdminSidebar() {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={false}>
-                  <Link to="/admin/dashboard">
+                <SidebarMenuButton asChild isActive={isActive("/admin/store")}>
+                  <Link to="/admin/store">
                     <Store />
                     <span>Minhas Lojas</span>
                   </Link>
@@ -79,9 +79,11 @@ export function AdminSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton disabled>
-                  <Users />
-                  <span>Profissionais</span>
+                <SidebarMenuButton asChild isActive={isActive("/admin/professionals")}>
+                  <Link to="/admin/professionals">
+                    <Users />
+                    <span>Profissionais</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
