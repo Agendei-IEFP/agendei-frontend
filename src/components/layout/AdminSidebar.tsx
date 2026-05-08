@@ -38,7 +38,7 @@ export function AdminSidebar() {
 
   return (
     <Sidebar collapsible="offcanvas">
-      <SidebarHeader className="p-4 border-b border-sidebar-border">
+      <SidebarHeader className="p-4 border-sidebar-border">
         <Logo size="sm" variant="on-white" />
       </SidebarHeader>
 
