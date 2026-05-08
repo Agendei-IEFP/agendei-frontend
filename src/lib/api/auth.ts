@@ -1,4 +1,4 @@
-import type { RefreshResponse, TokenResponse } from "@/types/api";
+import type { RefreshResponse, TokenResponse, UserDTO } from "@/types/api";
 import type { RoleEnum } from "@/types/enums";
 import api from "./axios";
 
@@ -57,4 +57,9 @@ export async function refresh(): Promise<RefreshResponse> {
  */
 export async function logout(): Promise<void> {
   await api.post("/auth/logout");
+}
+
+export async function getMe(): Promise<UserDTO> {
+  const { data } = await api.get<UserDTO>("/me/user");
+  return data;
 }
