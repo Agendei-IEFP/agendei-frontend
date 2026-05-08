@@ -134,23 +134,25 @@ function AdminDashboard() {
 
           {hasLojas ? (
             <ul className="divide-y divide-border">
-              {lojas.map((loja) => (
-                <li key={loja.id} className="px-6 py-4 flex items-center gap-4">
-                  <div className="size-10 rounded-xl bg-muted flex items-center justify-center shrink-0">
-                    <Store className="size-5 text-chart-3" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-slate-900 truncate">{loja.name}</p>
-                    {loja.address && (
-                      <p className="text-xs text-muted-foreground truncate">{loja.address}</p>
-                    )}
-                  </div>
-                  <span
-                    className={`text-[0.65rem] font-semibold px-2 py-0.5 rounded-full ${loja.is_active ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-500"}`}
-                  >
-                    {loja.is_active ? "Ativa" : "Inativa"}
-                  </span>
-                </li>
+              {lojas.map((store) => (
+                <Link to={"/admin/store/$storeId"} params={{ storeId: store.id }}>
+                  <li key={store.id} className="px-6 py-4 flex items-center gap-4 hover:bg-accent">
+                    <div className="size-10 rounded-xl bg-muted flex items-center justify-center shrink-0">
+                      <Store className="size-5 text-chart-3" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-slate-900 truncate">{store.name}</p>
+                      {store.address && (
+                        <p className="text-xs text-muted-foreground truncate">{store.address}</p>
+                      )}
+                    </div>
+                    <span
+                      className={`text-[0.65rem] font-semibold px-2 py-0.5 rounded-full ${store.is_active ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-500"}`}
+                    >
+                      {store.is_active ? "Ativa" : "Inativa"}
+                    </span>
+                  </li>
+                </Link>
               ))}
             </ul>
           ) : (
@@ -159,7 +161,7 @@ function AdminDashboard() {
                 <div className="pulse-ring" />
                 <div className="pulse-ring pulse-ring-2" />
                 <div className="size-16 rounded-2xl flex items-center justify-center relative bg-linear-to-br from-salmon-100 to-salmon-200">
-                  <Store className="text-chart-3" style={{ width: 30, height: 30 }} />
+                  <Store className="text-chart-3 " style={{ width: 30, height: 30 }} />
                 </div>
               </div>
               <h3 className="font-heading font-bold text-slate-900 text-lg tracking-[-0.02em] mb-2">
@@ -170,7 +172,7 @@ function AdminDashboard() {
                 agendamentos online em minutos.
               </p>
               <Link
-                to="/admin/store/edit"
+                to="/admin/store/create"
                 className="btn-salmon flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white rounded-[9px]"
               >
                 <Plus className="size-4" />
