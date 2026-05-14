@@ -99,6 +99,17 @@ export interface ProfessionalStoreDTO {
   updated_at: ISOTimestamp;
 }
 
+export interface ProfessionalWithStoreDTO {
+  id: string;
+  user_id: string;
+  name: string;
+  bio: string | null;
+  photo_url: string | null;
+  is_active: boolean;
+  store_id: string;
+  store_name: string;
+}
+
 // ---------------------------------------------------------------------------
 // Serviço
 // ---------------------------------------------------------------------------
