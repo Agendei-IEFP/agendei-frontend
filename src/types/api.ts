@@ -99,21 +99,28 @@ export interface ProfessionalStoreDTO {
   updated_at: ISOTimestamp;
 }
 
-export interface ProfessionalWithStoreDTO {
-  id: string;
-  user_id: string;
-  name: string;
-  bio: string | null;
-  photo_url: string | null;
-  is_active: boolean;
-  store_id: string;
-  store_name: string;
+export interface ProfessionalStoreWithStoreDTO extends ProfessionalStoreDTO {
+  store: StoreDTO;
 }
 
 // ---------------------------------------------------------------------------
-// Serviço
+// Serviço canónico
 // ---------------------------------------------------------------------------
 
+/** Serviço canónico — pertence ao profissional, não à loja */
+export interface CanonicalServiceDTO {
+  id: string;
+  professional_id: string;
+  name: string;
+  description: string | null;
+  default_price: DecimalString;
+  default_duration_minutes: number;
+  is_active: boolean;
+  created_at: ISOTimestamp;
+  updated_at: ISOTimestamp;
+}
+
+/** @deprecated Use CanonicalServiceDTO. Mantido para compatibilidade com código existente. */
 export interface ServiceDTO {
   id: string;
   professional_store_id: string;
@@ -123,6 +130,24 @@ export interface ServiceDTO {
   price: DecimalString;
   duration_minutes: number;
   is_active: boolean;
+}
+
+// ---------------------------------------------------------------------------
+// Offering (serviço por loja, com overrides)
+// ---------------------------------------------------------------------------
+
+export interface OfferingDTO {
+  id: string;
+  service_id: string;
+  professional_store_id: string;
+  price_override: DecimalString | null;
+  duration_override: number | null;
+  is_enabled: boolean;
+  effective_price: DecimalString;
+  effective_duration_minutes: number;
+  service: CanonicalServiceDTO;
+  created_at: ISOTimestamp;
+  updated_at: ISOTimestamp;
 }
 
 // ---------------------------------------------------------------------------
