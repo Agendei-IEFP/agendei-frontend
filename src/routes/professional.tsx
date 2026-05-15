@@ -1,13 +1,5 @@
 import { createFileRoute, Link, Outlet, redirect, useRouterState } from "@tanstack/react-router";
-import {
-  CalendarDays,
-  Clock,
-  Home,
-  LogOut,
-  Scissors,
-  Store,
-  Tag,
-} from "lucide-react";
+import { CalendarDays, Clock, Home, LogOut, Store, Tag } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { useLogout } from "@/hooks/useAuth";
 import { useMyProfessionalStores } from "@/hooks/useServices";
@@ -34,13 +26,7 @@ export const Route = createFileRoute("/professional")({
   component: ProfissionalLayout,
 });
 
-function SidebarLink({
-  to,
-  children,
-}: {
-  to: string;
-  children: React.ReactNode;
-}) {
+function SidebarLink({ to, children }: { to: string; children: React.ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isActive = pathname === to || pathname.startsWith(to + "/");
 
@@ -92,7 +78,7 @@ function ProfissionalLayout() {
         {/* Avatar + nome */}
         <div className="px-4 py-3 border-b border-border">
           <div className="flex items-center gap-2.5">
-            <div className="size-9 rounded-xl flex items-center justify-center text-sm font-bold text-white flex-shrink-0 bg-linear-to-br from-chart-3 to-chart-2">
+            <div className="size-9 rounded-xl flex items-center justify-center text-sm font-bold text-white shrink-0 bg-linear-to-br from-chart-3 to-chart-2">
               {initials}
             </div>
             <div className="min-w-0">
