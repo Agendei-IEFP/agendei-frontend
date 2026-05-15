@@ -23,9 +23,7 @@ function ProfessionalsPage() {
     : [];
 
   const filtered =
-    activeStore === null
-      ? professionals
-      : professionals?.filter((p) => p.store_id === activeStore);
+    activeStore === null ? professionals : professionals?.filter((p) => p.store_id === activeStore);
 
   const storeCount = stores.length;
   const profCount = professionals?.length ?? 0;
