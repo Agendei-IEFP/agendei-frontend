@@ -103,6 +103,17 @@ export interface ProfessionalStoreWithStoreDTO extends ProfessionalStoreDTO {
   store: StoreDTO;
 }
 
+export interface ProfessionalWithStoreDTO {
+  id: string;
+  user_id: string;
+  name: string;
+  bio: string | null;
+  photo_url: string | null;
+  is_active: boolean;
+  store_id: string;
+  store_name: string;
+}
+
 // ---------------------------------------------------------------------------
 // Serviço canónico
 // ---------------------------------------------------------------------------
