@@ -9,8 +9,18 @@ export const Route = createFileRoute("/professional/dashboard")({
 
 const WEEKDAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 const MONTHS = [
-  "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-  "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro",
+  "Janeiro",
+  "Fevereiro",
+  "Março",
+  "Abril",
+  "Maio",
+  "Junho",
+  "Julho",
+  "Agosto",
+  "Setembro",
+  "Outubro",
+  "Novembro",
+  "Dezembro",
 ];
 
 function formatDate(date: Date): string {
@@ -66,11 +76,9 @@ function Dashboard() {
           >
             <ChevronLeft className="size-4" />
           </button>
-          <div className="px-4 py-2 rounded-xl text-center bg-white border border-border min-w-[180px]">
+          <div className="px-4 py-2 rounded-xl text-center bg-white border border-border min-w-45">
             <p className="text-sm font-bold text-foreground">{formatDate(date)}</p>
-            <p className="text-xs font-medium text-chart-3">
-              {isToday(date) ? "Hoje" : ""}
-            </p>
+            <p className="text-xs font-medium text-chart-3">{isToday(date) ? "Hoje" : ""}</p>
           </div>
           <button
             onClick={() => shift(1)}
@@ -96,7 +104,7 @@ function Dashboard() {
           <p className="text-xs text-muted-foreground">em atendimentos</p>
         </div>
         <div className="rounded-2xl border border-border bg-card p-4 shadow-sm flex items-center gap-3">
-          <div className="size-9 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0">
+          <div className="size-9 rounded-xl bg-amber-100 flex items-center justify-center shrink-0">
             <Clock className="size-4 text-amber-600" />
           </div>
           <div>

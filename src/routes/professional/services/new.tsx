@@ -55,7 +55,9 @@ function NewService() {
           <h2 className="font-heading font-bold text-foreground text-xl tracking-tight">
             Novo serviço
           </h2>
-          <p className="text-xs text-muted-foreground">Crie um serviço canónico para o seu perfil</p>
+          <p className="text-xs text-muted-foreground">
+            Crie um serviço canónico para o seu perfil
+          </p>
         </div>
       </div>
 
@@ -67,16 +69,12 @@ function NewService() {
               Nome <span className="text-destructive">*</span>
             </label>
             <input {...register("name")} placeholder="Ex: Corte feminino" className={inputClass} />
-            {errors.name && (
-              <p className="mt-1 text-xs text-destructive">{errors.name.message}</p>
-            )}
+            {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name.message}</p>}
           </div>
 
           {/* Descrição */}
           <div>
-            <label className="block text-sm font-semibold text-foreground mb-1.5">
-              Descrição
-            </label>
+            <label className="block text-sm font-semibold text-foreground mb-1.5">Descrição</label>
             <textarea
               {...register("description")}
               rows={3}
@@ -89,13 +87,9 @@ function NewService() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-foreground mb-1.5">
-                Preço padrão (R$) <span className="text-destructive">*</span>
+                Preço padrão (€) <span className="text-destructive">*</span>
               </label>
-              <input
-                {...register("default_price")}
-                placeholder="0.00"
-                className={inputClass}
-              />
+              <input {...register("default_price")} placeholder="0.00" className={inputClass} />
               {errors.default_price && (
                 <p className="mt-1 text-xs text-destructive">{errors.default_price.message}</p>
               )}

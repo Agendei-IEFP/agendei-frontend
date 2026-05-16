@@ -66,7 +66,10 @@ function EditService() {
     return (
       <main className="flex-1 p-4 md:p-8">
         <p className="text-muted-foreground">Serviço não encontrado.</p>
-        <Link to="/professional/services" className="text-sm text-chart-3 font-semibold mt-2 inline-block">
+        <Link
+          to="/professional/services"
+          className="text-sm text-chart-3 font-semibold mt-2 inline-block"
+        >
           ← Voltar aos serviços
         </Link>
       </main>
@@ -98,16 +101,12 @@ function EditService() {
               Nome <span className="text-destructive">*</span>
             </label>
             <input {...register("name")} placeholder="Ex: Corte feminino" className={inputClass} />
-            {errors.name && (
-              <p className="mt-1 text-xs text-destructive">{errors.name.message}</p>
-            )}
+            {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name.message}</p>}
           </div>
 
           {/* Descrição */}
           <div>
-            <label className="block text-sm font-semibold text-foreground mb-1.5">
-              Descrição
-            </label>
+            <label className="block text-sm font-semibold text-foreground mb-1.5">Descrição</label>
             <textarea
               {...register("description")}
               rows={3}
@@ -120,7 +119,7 @@ function EditService() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-foreground mb-1.5">
-                Preço padrão (R$) <span className="text-destructive">*</span>
+                Preço padrão (€) <span className="text-destructive">*</span>
               </label>
               <input {...register("default_price")} placeholder="0.00" className={inputClass} />
               {errors.default_price && (
@@ -155,9 +154,7 @@ function EditService() {
             </div>
             <button
               type="button"
-              onClick={() =>
-                updateService.mutate({ id, body: { is_active: !service.is_active } })
-              }
+              onClick={() => updateService.mutate({ id, body: { is_active: !service.is_active } })}
               className={cn(
                 "relative inline-flex size-6 w-11 items-center rounded-full transition-colors focus:outline-none",
                 service.is_active ? "bg-chart-3" : "bg-muted-foreground/30",
