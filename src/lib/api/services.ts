@@ -6,7 +6,7 @@ import api from "./axios";
 // ---------------------------------------------------------------------------
 
 export async function listServices(): Promise<CanonicalServiceDTO[]> {
-  const { data } = await api.get<CanonicalServiceDTO[]>("/services");
+  const { data } = await api.get<CanonicalServiceDTO[]>("/services/me");
   return data;
 }
 
