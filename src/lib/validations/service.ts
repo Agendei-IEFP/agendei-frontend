@@ -8,7 +8,7 @@ export const serviceSchema = z.object({
     .regex(/^\d+(\.\d{1,2})?$/, "Preço inválido")
     .refine((v) => parseFloat(v) >= 0, "Preço deve ser maior ou igual a 0"),
   default_duration_minutes: z
-    .number({ invalid_type_error: "Duração deve ser um número" })
+    .number({ error: "Duração deve ser um número" })
     .min(15, "Duração mínima é 15 minutos"),
 });
 
