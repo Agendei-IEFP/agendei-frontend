@@ -24,7 +24,7 @@ type Filter = "all" | "active" | "inactive";
 
 function formatPrice(price: string): string {
   const n = parseFloat(price);
-  return n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  return n.toLocaleString("pt-PT", { style: "currency", currency: "EUR" });
 }
 
 interface ServiceCardProps {
@@ -76,7 +76,9 @@ function ServiceCard({ service, onDelete, deleting }: ServiceCardProps) {
           <div className="w-px h-8 bg-border" />
           <div>
             <p className="text-xs text-muted-foreground">Duração</p>
-            <p className="text-sm font-bold text-foreground">{service.default_duration_minutes} min</p>
+            <p className="text-sm font-bold text-foreground">
+              {service.default_duration_minutes} min
+            </p>
           </div>
         </div>
 
@@ -132,8 +134,7 @@ function ServicesList() {
 
   const filtered = services.filter((s) => {
     const matchesSearch = s.name.toLowerCase().includes(search.toLowerCase());
-    const matchesFilter =
-      filter === "all" || (filter === "active" ? s.is_active : !s.is_active);
+    const matchesFilter = filter === "all" || (filter === "active" ? s.is_active : !s.is_active);
     return matchesSearch && matchesFilter;
   });
 
