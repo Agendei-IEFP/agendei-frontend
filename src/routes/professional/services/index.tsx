@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { Plus, Search, Pencil, Trash2, Tag } from "lucide-react";
 import {
   AlertDialog,
@@ -13,6 +13,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useServices, useDeleteService } from "@/hooks/useServices";
+import { ServiceFormDialog } from "@/components/services/ServiceFormDialog";
 import type { CanonicalServiceDTO } from "@/types/api";
 import { cn } from "@/lib/utils";
 
@@ -30,10 +31,11 @@ function formatPrice(price: string): string {
 interface ServiceCardProps {
   service: CanonicalServiceDTO;
   onDelete: (id: string) => void;
+  onEdit: (service: CanonicalServiceDTO) => void;
   deleting: boolean;
 }
 
-function ServiceCard({ service, onDelete, deleting }: ServiceCardProps) {
+function ServiceCard({ service, onDelete, onEdit, deleting }: ServiceCardProps) {
   return (
     <div
       className={cn(
@@ -83,14 +85,14 @@ function ServiceCard({ service, onDelete, deleting }: ServiceCardProps) {
         </div>
 
         <div className="flex items-center gap-1.5">
-          <Link
-            to="/professional/services/$id"
-            params={{ id: service.id }}
+          <button
+            type="button"
+            onClick={() => onEdit(service)}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-muted-foreground border border-border hover:bg-muted transition-colors"
           >
             <Pencil className="size-3.5" />
             Editar
-          </Link>
+          </button>
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -129,6 +131,17 @@ function ServicesList() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
 
+  const [serviceDialog, setServiceDialog] = useState<{
+    open: boolean;
+    mode: "create" | "edit";
+    service?: CanonicalServiceDTO;
+  }>({ open: false, mode: "create" });
+
+  const openCreate = () =>
+    setServiceDialog({ open: true, mode: "create", service: undefined });
+  const openEdit = (service: CanonicalServiceDTO) =>
+    setServiceDialog({ open: true, mode: "edit", service });
+
   const { data: services = [], isLoading } = useServices();
   const deleteService = useDeleteService();
 
@@ -153,13 +166,14 @@ function ServicesList() {
             Gerencie os serviços que você oferece
           </p>
         </div>
-        <Link
-          to="/professional/services/new"
+        <button
+          type="button"
+          onClick={openCreate}
           className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-white bg-linear-to-br from-chart-3 to-primary shadow-[0_3px_14px_rgba(224,80,64,0.28)] hover:-translate-y-px hover:shadow-[0_6px_20px_rgba(224,80,64,0.38)] transition-all self-start"
         >
           <Plus className="size-4" />
           Novo serviço
-        </Link>
+        </button>
       </div>
 
       {/* Search + filters */}
@@ -226,13 +240,14 @@ function ServicesList() {
               : "Crie o seu primeiro serviço para começar."}
           </p>
           {!search && filter === "all" && (
-            <Link
-              to="/professional/services/new"
+            <button
+              type="button"
+              onClick={openCreate}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold text-white bg-linear-to-br from-chart-3 to-primary shadow-[0_3px_14px_rgba(224,80,64,0.28)] hover:-translate-y-px transition-all"
             >
               <Plus className="size-4" />
               Criar primeiro serviço
-            </Link>
+            </button>
           )}
         </div>
       ) : (
@@ -242,11 +257,31 @@ function ServicesList() {
               key={service.id}
               service={service}
               onDelete={(id) => deleteService.mutate(id)}
+              onEdit={openEdit}
               deleting={deleteService.isPending}
             />
           ))}
         </div>
       )}
+
+      <ServiceFormDialog
+        key={serviceDialog.service?.id ?? "create"}
+        open={serviceDialog.open}
+        onOpenChange={(open) => setServiceDialog((prev) => ({ ...prev, open }))}
+        mode={serviceDialog.mode}
+        serviceId={serviceDialog.service?.id}
+        defaultValues={
+          serviceDialog.service
+            ? {
+                name: serviceDialog.service.name,
+                description: serviceDialog.service.description ?? "",
+                default_price: serviceDialog.service.default_price,
+                default_duration_minutes: serviceDialog.service.default_duration_minutes,
+                is_active: serviceDialog.service.is_active,
+              }
+            : undefined
+        }
+      />
     </main>
   );
 }
