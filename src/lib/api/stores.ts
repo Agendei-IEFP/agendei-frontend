@@ -12,3 +12,11 @@ export async function createStore(dados: StoreFormData): Promise<StoreDTO> {
   const { data } = await api.post<StoreDTO>("/stores", stripEmpty(dados));
   return data;
 }
+
+export async function updateStore(
+  id: string,
+  dados: Partial<StoreFormData>,
+): Promise<StoreDTO> {
+  const { data } = await api.patch<StoreDTO>(`/stores/${id}`, stripEmpty(dados));
+  return data;
+}
