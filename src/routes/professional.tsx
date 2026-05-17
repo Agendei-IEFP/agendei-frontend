@@ -99,10 +99,10 @@ function ProfissionalLayout() {
             Painel
           </SidebarLink>
 
-          <span className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium text-muted-foreground cursor-not-allowed opacity-50">
+          <SidebarLink to="/professional/agenda">
             <CalendarDays className="size-4 shrink-0" />
             Agenda
-          </span>
+          </SidebarLink>
 
           <p className="text-xs font-bold uppercase tracking-widest px-2.5 pt-4 pb-1.5 text-muted-warm">
             Gestão
@@ -113,10 +113,10 @@ function ProfissionalLayout() {
             Meus Serviços
           </SidebarLink>
 
-          <span className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium text-muted-foreground cursor-not-allowed opacity-50">
+          <SidebarLink to="/professional/schedules">
             <Clock className="size-4 shrink-0" />
             Meus Horários
-          </span>
+          </SidebarLink>
 
           {sortedStores.length > 0 && (
             <>
@@ -166,7 +166,9 @@ function ProfissionalLayout() {
       <nav className="fixed bottom-0 inset-x-0 md:hidden bg-white border-t border-border z-30 flex">
         {[
           { to: "/professional/dashboard", icon: Home, label: "Painel" },
+          { to: "/professional/agenda", icon: CalendarDays, label: "Agenda" },
           { to: "/professional/services", icon: Tag, label: "Serviços" },
+          { to: "/professional/schedules", icon: Clock, label: "Horários" },
         ].map(({ to, icon: Icon, label }) => {
           const isActive = pathname === to || pathname.startsWith(to + "/");
           return (
@@ -182,12 +184,6 @@ function ProfissionalLayout() {
             </Link>
           );
         })}
-
-        {/* Agenda desativada */}
-        <span className="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-xs font-medium text-muted-foreground opacity-40 cursor-not-allowed">
-          <CalendarDays className="size-5" />
-          Agenda
-        </span>
 
         {/* Estabelecimentos — navega para primeiro */}
         {sortedStores.length > 0 ? (
