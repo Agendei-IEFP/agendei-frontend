@@ -137,8 +137,7 @@ function ServicesList() {
     service?: CanonicalServiceDTO;
   }>({ open: false, mode: "create" });
 
-  const openCreate = () =>
-    setServiceDialog({ open: true, mode: "create", service: undefined });
+  const openCreate = () => setServiceDialog({ open: true, mode: "create", service: undefined });
   const openEdit = (service: CanonicalServiceDTO) =>
     setServiceDialog({ open: true, mode: "edit", service });
 
