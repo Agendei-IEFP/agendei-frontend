@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Plus, Pencil, Trash2, Store, Clock, Tag, Check, X } from "lucide-react";
+import { Plus, Pencil, Trash2, Store, Clock, Tag, Check, X, Info } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,6 +13,13 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import {
   useMyProfessionalStores,
   useServices,
   useOfferings,
@@ -20,10 +27,9 @@ import {
   useUpdateOffering,
   useDeleteOffering,
   useSchedules,
-  useCreateSchedule,
-  useUpdateSchedule,
-  useDeleteSchedule,
 } from "@/hooks/useServices";
+import { useStoreAvailability, useReplaceStoreAvailability } from "@/hooks/useStoreAvailability";
+import { WeeklyScheduleGrid } from "@/components/professionals/WeeklyScheduleGrid";
 import type { OfferingDTO, WorkScheduleDTO } from "@/types/api";
 import { cn } from "@/lib/utils";
 
@@ -32,30 +38,11 @@ export const Route = createFileRoute("/professional/store/$storeId")({
 });
 
 // ---------------------------------------------------------------------------
-// Constants
-// ---------------------------------------------------------------------------
-
-const WEEKDAYS = [
-  { short: "Seg", full: "Segunda", index: 0 },
-  { short: "Ter", full: "Terça", index: 1 },
-  { short: "Qua", full: "Quarta", index: 2 },
-  { short: "Qui", full: "Quinta", index: 3 },
-  { short: "Sex", full: "Sexta", index: 4 },
-  { short: "Sáb", full: "Sábado", index: 5 },
-  { short: "Dom", full: "Domingo", index: 6 },
-];
-
-// ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
 function formatPrice(price: string): string {
-  return parseFloat(price).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-}
-
-function toTimeInput(timeStr: string): string {
-  // backend returns "HH:MM:SS" — trim to "HH:MM"
-  return timeStr.slice(0, 5);
+  return parseFloat(price).toLocaleString("pt-pt", { style: "currency", currency: "EUR" });
 }
 
 // ---------------------------------------------------------------------------
@@ -84,8 +71,7 @@ function OfferingRow({ offering, professionalStoreId }: OfferingRowProps) {
       offeringId: offering.id,
       body: {
         price_override: priceOverride.trim() !== "" ? priceOverride : null,
-        duration_override:
-          durationOverride.trim() !== "" ? parseInt(durationOverride, 10) : null,
+        duration_override: durationOverride.trim() !== "" ? parseInt(durationOverride, 10) : null,
       },
     });
     setEditing(false);
@@ -104,9 +90,7 @@ function OfferingRow({ offering, professionalStoreId }: OfferingRowProps) {
     <div
       className={cn(
         "flex flex-col sm:flex-row sm:items-center gap-3 p-4 rounded-xl border transition-all",
-        offering.is_enabled
-          ? "border-border bg-card"
-          : "border-border bg-muted/40 opacity-60",
+        offering.is_enabled ? "border-border bg-card" : "border-border bg-muted/40 opacity-60",
       )}
     >
       {/* Toggle is_enabled */}
@@ -114,7 +98,7 @@ function OfferingRow({ offering, professionalStoreId }: OfferingRowProps) {
         onClick={toggleEnabled}
         disabled={updateOffering.isPending}
         className={cn(
-          "relative inline-flex w-10 h-5 items-center rounded-full transition-colors flex-shrink-0 focus:outline-none",
+          "relative inline-flex w-10 h-5 items-center rounded-full transition-colors shrink-0 focus:outline-none",
           offering.is_enabled ? "bg-chart-3" : "bg-muted-foreground/30",
         )}
       >
@@ -148,7 +132,7 @@ function OfferingRow({ offering, professionalStoreId }: OfferingRowProps) {
           </span>
           {hasOverrides && (
             <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700">
-              Override
+              Personalizado
             </span>
           )}
         </div>
@@ -158,7 +142,7 @@ function OfferingRow({ offering, professionalStoreId }: OfferingRowProps) {
       {editing ? (
         <div className="flex items-center gap-2 flex-wrap">
           <div className="flex items-center gap-1">
-            <span className="text-xs text-muted-foreground">R$</span>
+            <span className="text-xs text-muted-foreground">€</span>
             <input
               value={priceOverride}
               onChange={(e) => setPriceOverride(e.target.value)}
@@ -198,7 +182,7 @@ function OfferingRow({ offering, professionalStoreId }: OfferingRowProps) {
             className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-muted-foreground border border-border hover:bg-muted transition-colors"
           >
             <Pencil className="size-3" />
-            Override
+            Personalizar
           </button>
           <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -234,110 +218,90 @@ function OfferingRow({ offering, professionalStoreId }: OfferingRowProps) {
 }
 
 // ---------------------------------------------------------------------------
-// Schedule row
+// Info modal for per-store schedule explanation
 // ---------------------------------------------------------------------------
 
-interface ScheduleRowProps {
-  weekday: { short: string; full: string; index: number };
-  schedule: WorkScheduleDTO | undefined;
-  professionalStoreId: string;
+function ScheduleInfoModal() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="flex items-center justify-center size-6 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+        aria-label="Saiba mais sobre horários por loja"
+      >
+        <Info className="size-3.5" />
+      </button>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Horário por estabelecimento</DialogTitle>
+            <DialogDescription asChild>
+              <div className="space-y-2 text-sm text-muted-foreground">
+                <p>
+                  O horário configurado aqui é específico para{" "}
+                  <strong className="text-foreground">esta loja</strong>. Ele não altera o horário
+                  das outras lojas em que você trabalha.
+                </p>
+                <p>
+                  Se você não definir um horário específico aqui, o sistema usará automaticamente o
+                  horário base configurado em{" "}
+                  <strong className="text-foreground">Meus Horários</strong>.
+                </p>
+                <p>Alterações não afetam agendamentos já confirmados.</p>
+              </div>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
 }
 
-function ScheduleRow({ weekday, schedule, professionalStoreId }: ScheduleRowProps) {
-  const createSchedule = useCreateSchedule(professionalStoreId);
-  const updateSchedule = useUpdateSchedule(professionalStoreId);
-  const deleteSchedule = useDeleteSchedule(professionalStoreId);
+// ---------------------------------------------------------------------------
+// Store availability grid (override per store)
+// ---------------------------------------------------------------------------
 
-  const isActive = !!schedule;
-  const [start, setStart] = useState(schedule ? toTimeInput(schedule.start_time) : "09:00");
-  const [end, setEnd] = useState(schedule ? toTimeInput(schedule.end_time) : "18:00");
+interface StoreScheduleSectionProps {
+  professionalStoreId: string;
+  baseSchedules: WorkScheduleDTO[];
+}
 
-  function toggle() {
-    if (isActive && schedule) {
-      deleteSchedule.mutate(schedule.id);
-    } else {
-      createSchedule.mutate({ weekday: weekday.index, start_time: start, end_time: end });
-    }
+function StoreScheduleSection({ professionalStoreId, baseSchedules }: StoreScheduleSectionProps) {
+  const { data: overrides = [], isLoading } = useStoreAvailability(professionalStoreId);
+  const replaceAvailability = useReplaceStoreAvailability(professionalStoreId);
+  const [isSaving, setIsSaving] = useState(false);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-6">
+        <div className="size-6 animate-spin rounded-full border-2 border-border border-t-primary" />
+      </div>
+    );
   }
 
-  function save() {
-    if (schedule) {
-      updateSchedule.mutate({ scheduleId: schedule.id, body: { start_time: start, end_time: end } });
+  // If overrides exist, show them; otherwise show base schedule as starting point
+  const displaySchedules = overrides.length > 0 ? overrides : baseSchedules;
+
+  async function handleSave(
+    newBlocks: { weekday: number; start_time: string; end_time: string }[],
+  ) {
+    setIsSaving(true);
+    try {
+      await replaceAvailability.mutateAsync(newBlocks);
+    } finally {
+      setIsSaving(false);
     }
   }
-
-  const isPending =
-    createSchedule.isPending || updateSchedule.isPending || deleteSchedule.isPending;
-
-  const timeInputClass = cn(
-    "rounded-lg border border-input bg-white px-2.5 py-1.5 text-sm text-foreground",
-    "focus:border-primary focus:outline-none focus:ring-1 focus:ring-ring/20 transition-colors",
-    !isActive && "opacity-40 cursor-not-allowed",
-  );
 
   return (
-    <div
-      className={cn(
-        "flex items-center gap-4 p-3.5 rounded-xl border transition-all",
-        isActive ? "border-border bg-card" : "border-border bg-muted/30",
-      )}
-    >
-      {/* Toggle + day */}
-      <div className="flex items-center gap-3 w-28 shrink-0">
-        <button
-          onClick={toggle}
-          disabled={isPending}
-          className={cn(
-            "relative inline-flex w-11 h-6 items-center rounded-full transition-colors flex-shrink-0 focus:outline-none",
-            isActive ? "bg-chart-3" : "bg-muted-foreground/30",
-          )}
-        >
-          <span
-            className={cn(
-              "inline-block size-[18px] rounded-full bg-white shadow transition-transform mx-[3px]",
-              isActive ? "translate-x-5" : "translate-x-0",
-            )}
-          />
-        </button>
-        <div>
-          <p className={cn("text-sm font-bold", isActive ? "text-foreground" : "text-muted-foreground")}>
-            {weekday.short}
-          </p>
-          <p className="text-xs text-muted-foreground">{weekday.full}</p>
-        </div>
-      </div>
-
-      {/* Time inputs */}
-      <div className="flex items-center gap-2 flex-1">
-        <input
-          type="time"
-          value={start}
-          onChange={(e) => setStart(e.target.value)}
-          onBlur={isActive ? save : undefined}
-          disabled={!isActive || isPending}
-          className={timeInputClass}
-        />
-        <span className="text-muted-foreground text-sm font-medium shrink-0">até</span>
-        <input
-          type="time"
-          value={end}
-          onChange={(e) => setEnd(e.target.value)}
-          onBlur={isActive ? save : undefined}
-          disabled={!isActive || isPending}
-          className={timeInputClass}
-        />
-      </div>
-
-      {/* Status chip */}
-      <span
-        className={cn(
-          "hidden sm:inline-flex text-[10px] font-bold px-2 py-1 rounded-full shrink-0",
-          isActive ? "bg-emerald-100 text-emerald-700" : "bg-muted text-muted-foreground",
-        )}
-      >
-        {isActive ? "Ativo" : "Folga"}
-      </span>
-    </div>
+    <WeeklyScheduleGrid
+      schedules={displaySchedules}
+      isSaving={isSaving}
+      onSave={handleSave}
+      saveLabel="Salvar horário desta loja"
+    />
   );
 }
 
@@ -357,12 +321,12 @@ function StoreView() {
   const professionalStoreId = ps?.id ?? "";
 
   const { data: offerings = [], isLoading: offeringsLoading } = useOfferings(professionalStoreId);
-  const { data: schedules = [], isLoading: schedulesLoading } = useSchedules(professionalStoreId);
+  const { data: baseSchedules = [] } = useSchedules(professionalStoreId);
   const createOffering = useCreateOffering(professionalStoreId);
 
   if (!ps) {
     return (
-      <main className="flex-1 p-4 md:p-8">
+      <main className="flex-1 p-2 sm:p-4 md:p-8">
         <div className="flex items-center justify-center py-16">
           <div className="size-8 animate-spin rounded-full border-2 border-border border-t-primary" />
         </div>
@@ -373,8 +337,6 @@ function StoreView() {
   const offeredServiceIds = new Set(offerings.map((o) => o.service_id));
   const availableToAdd = allServices.filter((s) => s.is_active && !offeredServiceIds.has(s.id));
 
-  const scheduleByWeekday = new Map(schedules.map((s) => [s.weekday, s]));
-
   async function addOffering() {
     if (!selectedServiceId) return;
     await createOffering.mutateAsync({ service_id: selectedServiceId });
@@ -383,14 +345,14 @@ function StoreView() {
   }
 
   return (
-    <main className="flex-1 p-4 md:p-8">
+    <main className="flex-1 p-2 sm:p-4 md:p-8">
       {/* Header */}
       <div className="flex items-center gap-3 mb-6">
         <div className="size-10 rounded-xl bg-muted flex items-center justify-center">
           <Store className="size-5 text-chart-3" />
         </div>
         <div>
-          <h2 className="font-heading font-bold text-foreground text-2xl tracking-tight">
+          <h2 className="font-heading font-bold text-foreground text-[clamp(1.1rem,5vw,1.5rem)] tracking-tight">
             {ps.store.name}
           </h2>
           <p className="text-sm text-muted-foreground">Configurações deste estabelecimento</p>
@@ -490,30 +452,14 @@ function StoreView() {
         <div className="flex items-center gap-2 mb-4">
           <Clock className="size-4 text-chart-3" />
           <h3 className="font-semibold text-foreground">Horários de funcionamento</h3>
+          <ScheduleInfoModal />
         </div>
 
         <div className="rounded-2xl border border-border bg-card p-4 mb-4">
-          <p className="text-xs text-muted-foreground mb-4">
-            Estes horários definem quando estás disponível nesta loja. Alterações não afetam
-            agendamentos já confirmados.
-          </p>
-
-          {schedulesLoading ? (
-            <div className="flex items-center justify-center py-6">
-              <div className="size-6 animate-spin rounded-full border-2 border-border border-t-primary" />
-            </div>
-          ) : (
-            <div className="space-y-2">
-              {WEEKDAYS.map((wd) => (
-                <ScheduleRow
-                  key={wd.index}
-                  weekday={wd}
-                  schedule={scheduleByWeekday.get(wd.index)}
-                  professionalStoreId={professionalStoreId}
-                />
-              ))}
-            </div>
-          )}
+          <StoreScheduleSection
+            professionalStoreId={professionalStoreId}
+            baseSchedules={baseSchedules}
+          />
         </div>
       </section>
     </main>
