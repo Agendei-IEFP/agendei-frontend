@@ -42,8 +42,7 @@ function AdminDashboard() {
   }>({ open: false, mode: "create" });
 
   const openCreate = () => setStoreDialog({ open: true, mode: "create" });
-  const openEdit = (store: StoreDTO) =>
-    setStoreDialog({ open: true, mode: "edit", store });
+  const openEdit = (store: StoreDTO) => setStoreDialog({ open: true, mode: "edit", store });
 
   return (
     <div className="flex flex-col flex-1">
@@ -180,7 +179,7 @@ function AdminDashboard() {
                 <div className="pulse-ring" />
                 <div className="pulse-ring pulse-ring-2" />
                 <div className="size-16 rounded-2xl flex items-center justify-center relative bg-linear-to-br from-salmon-100 to-salmon-200">
-                  <Store className="text-chart-3 " style={{ width: 30, height: 30 }} />
+                  <Store className="text-chart-3 size-7.5" />
                 </div>
               </div>
               <h3 className="font-heading font-bold text-slate-900 text-lg tracking-[-0.02em] mb-2">
@@ -218,7 +217,7 @@ function AdminDashboard() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
               <FeatureCard
                 iconBg="bg-muted"
-                icon={<Users className="text-chart-3" style={{ width: 20, height: 20 }} />}
+                icon={<Users className="text-chart-3 size-5" />}
                 tag="Passo 2"
                 tagStyle="bg-slate-100 text-slate-500"
                 title="Cadastrar profissionais"
@@ -226,7 +225,7 @@ function AdminDashboard() {
               />
               <FeatureCard
                 iconBg="bg-blue-50"
-                icon={<ClipboardList className="text-blue-600" style={{ width: 20, height: 20 }} />}
+                icon={<ClipboardList className="text-blue-600 size-5" />}
                 tag="Passo 3"
                 tagStyle="bg-slate-100 text-slate-500"
                 title="Configurar serviços"
@@ -234,7 +233,7 @@ function AdminDashboard() {
               />
               <FeatureCard
                 iconBg="bg-emerald-50"
-                icon={<Calendar className="text-green-600" style={{ width: 20, height: 20 }} />}
+                icon={<Calendar className="text-green-600 size-5" />}
                 tag="Resultado"
                 tagStyle="bg-emerald-100 text-emerald-700"
                 title="Receber agendamentos"
@@ -256,7 +255,7 @@ function AdminDashboard() {
           </div>
           <div className="flex flex-col items-center justify-center py-12 px-6 text-center">
             <div className="size-12 rounded-2xl flex items-center justify-center mb-3 bg-muted">
-              <Calendar className="text-border" style={{ width: 22, height: 22 }} />
+              <Calendar className="text-border size-5.5" />
             </div>
             <p className="text-sm font-semibold text-slate-700">Nenhuma atividade ainda</p>
             <p className="text-xs text-slate-400 mt-1">
