@@ -13,6 +13,7 @@ import {
   updateSchedule,
   deleteSchedule,
 } from "@/lib/api/services";
+import { replaceWorkSchedules } from "@/lib/api/workSchedule";
 import { getMyProfile, getMyProfessionalStores } from "@/lib/api/professionals";
 
 // ---------------------------------------------------------------------------
@@ -167,6 +168,17 @@ export function useDeleteSchedule(professionalStoreId: string) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (scheduleId: string) => deleteSchedule(professionalStoreId, scheduleId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["schedules", professionalStoreId] });
+    },
+  });
+}
+
+export function useReplaceSchedules(professionalStoreId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (blocks: { weekday: number; start_time: string; end_time: string }[]) =>
+      replaceWorkSchedules(professionalStoreId, blocks),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["schedules", professionalStoreId] });
     },
