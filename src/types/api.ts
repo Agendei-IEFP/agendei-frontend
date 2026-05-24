@@ -177,6 +177,21 @@ export interface WorkScheduleDTO {
 }
 
 // ---------------------------------------------------------------------------
+// Override de disponibilidade por loja
+// ---------------------------------------------------------------------------
+
+export interface StoreAvailabilityDTO {
+  id: string;
+  professional_store_id: string;
+  /** 0 = segunda ... 6 = domingo */
+  weekday: number;
+  /** Formato "HH:MM:SS" */
+  start_time: string;
+  end_time: string;
+  is_active: boolean;
+}
+
+// ---------------------------------------------------------------------------
 // Agendamento
 // ---------------------------------------------------------------------------
 
