@@ -334,7 +334,7 @@ function StoreView() {
     );
   }
 
-  const offeredServiceIds = new Set(offerings.map((o) => o.service_id));
+  const offeredServiceIds = new Set(offerings.map((o) => o.service_id)); // includes disabled
   const availableToAdd = allServices.filter((s) => s.is_active && !offeredServiceIds.has(s.id));
 
   async function addOffering() {
