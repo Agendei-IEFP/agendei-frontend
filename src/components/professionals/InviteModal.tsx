@@ -157,19 +157,15 @@ export function InviteModal({ open, onOpenChange }: InviteModalProps) {
                       : "bg-primary text-primary-foreground btn-salmon",
                   )}
                 >
-                  {copied ? (
-                    <Check className="size-3.5" />
-                  ) : (
-                    <Copy className="size-3.5" />
-                  )}
+                  {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
                   {copied ? "Copiado!" : "Copiar"}
                 </button>
               </div>
 
               {/* Aviso */}
               <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-xs text-amber-800 leading-relaxed">
-                <strong>Atenção:</strong> este link expira em 24 horas, permite apenas 1 uso e
-                não será exibido novamente ao fechar este modal.
+                <strong>Atenção:</strong> este link expira em 24 horas, permite apenas 1 uso e não
+                será exibido novamente ao fechar este modal.
               </div>
 
               {/* Placeholder compartilhamento social */}
@@ -215,15 +211,13 @@ export function InviteModal({ open, onOpenChange }: InviteModalProps) {
           <AlertDialogHeader>
             <AlertDialogTitle>Gerar novo link?</AlertDialogTitle>
             <AlertDialogDescription>
-              Você copiou o link anterior? Uma vez que você confirmar, o link atual não poderá
-              ser recuperado. O novo link também expirará em 24 horas.
+              Você copiou o link anterior? Uma vez que você confirmar, o link atual não poderá ser
+              recuperado. O novo link também expirará em 24 horas.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={handleConfirmRegenerate}>
-              Confirmar
-            </AlertDialogAction>
+            <AlertDialogAction onClick={handleConfirmRegenerate}>Confirmar</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

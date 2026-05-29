@@ -1,8 +1,11 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
 import { Bell, Plus, Store, Users, ClipboardList, Calendar } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { useMyStores } from "@/hooks/useStores";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { StoreFormDialog } from "@/components/store/StoreFormDialog";
+import type { StoreDTO } from "@/types/api";
 
 export const Route = createFileRoute("/admin/dashboard")({
   component: AdminDashboard,
@@ -32,6 +35,15 @@ function AdminDashboard() {
 
   const hasLojas = lojas.length > 0;
 
+  const [storeDialog, setStoreDialog] = useState<{
+    open: boolean;
+    mode: "create" | "edit";
+    store?: StoreDTO;
+  }>({ open: false, mode: "create" });
+
+  const openCreate = () => setStoreDialog({ open: true, mode: "create" });
+  const openEdit = (store: StoreDTO) => setStoreDialog({ open: true, mode: "edit", store });
+
   return (
     <div className="flex flex-col flex-1">
       {/* ── Header ── */}
@@ -49,13 +61,14 @@ function AdminDashboard() {
           <button className="p-2 rounded-lg text-slate-500 hover:bg-muted hover:text-slate-800 transition-colors">
             <Bell className="size-4.5" />
           </button>
-          <Link
-            to="/admin/store/create"
+          <button
+            type="button"
+            onClick={openCreate}
             className="btn-salmon flex items-center gap-2 px-4 py-2 text-sm font-bold text-white rounded-[9px]"
           >
             <Plus className="size-4" />
             <span className="hidden sm:inline">Criar loja</span>
-          </Link>
+          </button>
         </div>
       </header>
 
@@ -76,13 +89,14 @@ function AdminDashboard() {
               </p>
             </div>
 
-            <Link
-              to="/admin/store/create"
+            <button
+              type="button"
+              onClick={openCreate}
               className="btn-salmon flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-bold text-white rounded-[9px] relative sm:shrink-0"
             >
               <Plus className="size-4" />
               Criar minha loja
-            </Link>
+            </button>
           </div>
         )}
 
@@ -135,8 +149,12 @@ function AdminDashboard() {
           {hasLojas ? (
             <ul className="divide-y divide-border">
               {lojas.map((store) => (
-                <Link to={"/admin/store/$storeId"} params={{ storeId: store.id }}>
-                  <li key={store.id} className="px-6 py-4 flex items-center gap-4 hover:bg-accent">
+                <li key={store.id}>
+                  <button
+                    type="button"
+                    onClick={() => openEdit(store)}
+                    className="w-full px-6 py-4 flex items-center gap-4 hover:bg-accent text-left"
+                  >
                     <div className="size-10 rounded-xl bg-muted flex items-center justify-center shrink-0">
                       <Store className="size-5 text-chart-3" />
                     </div>
@@ -151,8 +169,8 @@ function AdminDashboard() {
                     >
                       {store.is_active ? "Ativa" : "Inativa"}
                     </span>
-                  </li>
-                </Link>
+                  </button>
+                </li>
               ))}
             </ul>
           ) : (
@@ -161,7 +179,7 @@ function AdminDashboard() {
                 <div className="pulse-ring" />
                 <div className="pulse-ring pulse-ring-2" />
                 <div className="size-16 rounded-2xl flex items-center justify-center relative bg-linear-to-br from-salmon-100 to-salmon-200">
-                  <Store className="text-chart-3 " style={{ width: 30, height: 30 }} />
+                  <Store className="text-chart-3 size-7.5" />
                 </div>
               </div>
               <h3 className="font-heading font-bold text-slate-900 text-lg tracking-[-0.02em] mb-2">
@@ -171,13 +189,14 @@ function AdminDashboard() {
                 Cadastre sua loja, adicione profissionais e serviços, e comece a receber
                 agendamentos online em minutos.
               </p>
-              <Link
-                to="/admin/store/create"
+              <button
+                type="button"
+                onClick={openCreate}
                 className="btn-salmon flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white rounded-[9px]"
               >
                 <Plus className="size-4" />
                 Criar estabelecimento
-              </Link>
+              </button>
               <p className="text-xs text-muted-foreground mt-3">Leva menos de 2 minutos</p>
             </div>
           )}
@@ -198,7 +217,7 @@ function AdminDashboard() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
               <FeatureCard
                 iconBg="bg-muted"
-                icon={<Users className="text-chart-3" style={{ width: 20, height: 20 }} />}
+                icon={<Users className="text-chart-3 size-5" />}
                 tag="Passo 2"
                 tagStyle="bg-slate-100 text-slate-500"
                 title="Cadastrar profissionais"
@@ -206,7 +225,7 @@ function AdminDashboard() {
               />
               <FeatureCard
                 iconBg="bg-blue-50"
-                icon={<ClipboardList className="text-blue-600" style={{ width: 20, height: 20 }} />}
+                icon={<ClipboardList className="text-blue-600 size-5" />}
                 tag="Passo 3"
                 tagStyle="bg-slate-100 text-slate-500"
                 title="Configurar serviços"
@@ -214,7 +233,7 @@ function AdminDashboard() {
               />
               <FeatureCard
                 iconBg="bg-emerald-50"
-                icon={<Calendar className="text-green-600" style={{ width: 20, height: 20 }} />}
+                icon={<Calendar className="text-green-600 size-5" />}
                 tag="Resultado"
                 tagStyle="bg-emerald-100 text-emerald-700"
                 title="Receber agendamentos"
@@ -236,7 +255,7 @@ function AdminDashboard() {
           </div>
           <div className="flex flex-col items-center justify-center py-12 px-6 text-center">
             <div className="size-12 rounded-2xl flex items-center justify-center mb-3 bg-muted">
-              <Calendar className="text-border" style={{ width: 22, height: 22 }} />
+              <Calendar className="text-border size-5.5" />
             </div>
             <p className="text-sm font-semibold text-slate-700">Nenhuma atividade ainda</p>
             <p className="text-xs text-slate-400 mt-1">
@@ -245,6 +264,26 @@ function AdminDashboard() {
           </div>
         </div>
       </main>
+
+      <StoreFormDialog
+        key={storeDialog.store?.id ?? "create"}
+        open={storeDialog.open}
+        onOpenChange={(open) => setStoreDialog((prev) => ({ ...prev, open }))}
+        mode={storeDialog.mode}
+        storeId={storeDialog.store?.id}
+        defaultValues={
+          storeDialog.store
+            ? {
+                name: storeDialog.store.name,
+                description: storeDialog.store.description ?? "",
+                phone: storeDialog.store.phone ?? "",
+                email: storeDialog.store.email ?? "",
+                address: storeDialog.store.address ?? "",
+                logo_url: storeDialog.store.logo_url ?? "",
+              }
+            : undefined
+        }
+      />
     </div>
   );
 }

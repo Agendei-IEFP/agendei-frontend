@@ -99,6 +99,10 @@ export interface ProfessionalStoreDTO {
   updated_at: ISOTimestamp;
 }
 
+export interface ProfessionalStoreWithStoreDTO extends ProfessionalStoreDTO {
+  store: StoreDTO;
+}
+
 export interface ProfessionalWithStoreDTO {
   id: string;
   user_id: string;
@@ -111,9 +115,23 @@ export interface ProfessionalWithStoreDTO {
 }
 
 // ---------------------------------------------------------------------------
-// Serviço
+// Serviço canónico
 // ---------------------------------------------------------------------------
 
+/** Serviço canónico — pertence ao profissional, não à loja */
+export interface CanonicalServiceDTO {
+  id: string;
+  professional_id: string;
+  name: string;
+  description: string | null;
+  default_price: DecimalString;
+  default_duration_minutes: number;
+  is_active: boolean;
+  created_at: ISOTimestamp;
+  updated_at: ISOTimestamp;
+}
+
+/** @deprecated Use CanonicalServiceDTO. Mantido para compatibilidade com código existente. */
 export interface ServiceDTO {
   id: string;
   professional_store_id: string;
@@ -126,10 +144,43 @@ export interface ServiceDTO {
 }
 
 // ---------------------------------------------------------------------------
+// Offering (serviço por loja, com overrides)
+// ---------------------------------------------------------------------------
+
+export interface OfferingDTO {
+  id: string;
+  service_id: string;
+  professional_store_id: string;
+  price_override: DecimalString | null;
+  duration_override: number | null;
+  is_enabled: boolean;
+  effective_price: DecimalString;
+  effective_duration_minutes: number;
+  service: CanonicalServiceDTO;
+  created_at: ISOTimestamp;
+  updated_at: ISOTimestamp;
+}
+
+// ---------------------------------------------------------------------------
 // Horário de trabalho
 // ---------------------------------------------------------------------------
 
 export interface WorkScheduleDTO {
+  id: string;
+  professional_store_id: string;
+  /** 0 = segunda ... 6 = domingo */
+  weekday: number;
+  /** Formato "HH:MM:SS" */
+  start_time: string;
+  end_time: string;
+  is_active: boolean;
+}
+
+// ---------------------------------------------------------------------------
+// Override de disponibilidade por loja
+// ---------------------------------------------------------------------------
+
+export interface StoreAvailabilityDTO {
   id: string;
   professional_store_id: string;
   /** 0 = segunda ... 6 = domingo */

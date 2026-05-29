@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createStore, getMyStores } from "@/lib/api/stores";
-import { useNavigate } from "@tanstack/react-router";
+import { createStore, getMyStores, updateStore } from "@/lib/api/stores";
+import type { StoreFormData } from "@/lib/validations/store";
 
 export function useMyStores() {
   return useQuery({
@@ -12,13 +12,23 @@ export function useMyStores() {
 
 export function useCreateStore() {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
 
   return useMutation({
     mutationFn: createStore,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["stores"] });
-      navigate({ to: "/admin/dashboard" });
+    },
+  });
+}
+
+export function useUpdateStore() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, body }: { id: string; body: Partial<StoreFormData> }) =>
+      updateStore(id, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["stores"] });
     },
   });
 }

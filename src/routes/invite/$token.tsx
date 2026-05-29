@@ -67,7 +67,6 @@ function InvitePage() {
         setTimeout(redirectAfterAccept, 1500);
       },
       onError: (err) => {
-        setShowConfirmDialog(false);
         setAcceptError(getApiErrorMessage(err));
       },
     });
