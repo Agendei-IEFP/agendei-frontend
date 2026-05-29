@@ -455,7 +455,7 @@ function StoreView() {
           <ScheduleInfoModal />
         </div>
 
-        <div className="rounded-2xl border border-border bg-card p-4 mb-4">
+        <div className="rounded-2xl border border-border bg-card p-2 sm:p-4 mb-4">
           <StoreScheduleSection
             professionalStoreId={professionalStoreId}
             baseSchedules={baseSchedules}

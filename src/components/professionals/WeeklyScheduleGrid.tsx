@@ -68,7 +68,10 @@ function gridToScheduleBlocks(
   for (let day = 0; day < 7; day++) {
     let i = 0;
     while (i < slots.length) {
-      if (!grid[day][i]) { i++; continue; }
+      if (!grid[day][i]) {
+        i++;
+        continue;
+      }
       const start = slots[i];
       while (i < slots.length && grid[day][i]) i++;
       const endMinutes = timeToMinutes(slots[i - 1]) + SLOT_MINUTES;
@@ -148,10 +151,19 @@ interface GridEditorProps {
   saveLabel: string;
 }
 
-function GridEditor({ initialGrid, slots, granularity, isSaving, onSave, saveLabel }: GridEditorProps) {
+function GridEditor({
+  initialGrid,
+  slots,
+  granularity,
+  isSaving,
+  onSave,
+  saveLabel,
+}: GridEditorProps) {
   const [grid, setGrid] = useState<boolean[][]>(initialGrid);
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const [pendingBlocks, setPendingBlocks] = useState<{ weekday: number; start_time: string; end_time: string }[]>([]);
+  const [pendingBlocks, setPendingBlocks] = useState<
+    { weekday: number; start_time: string; end_time: string }[]
+  >([]);
   const dragging = useRef(false);
   const paintMode = useRef(true);
   const n = slotsPerBlock(granularity);
@@ -168,7 +180,10 @@ function GridEditor({ initialGrid, slots, granularity, isSaving, onSave, saveLab
       const end = Math.min(start + n, slots.length);
       let changed = false;
       for (let i = start; i < end; i++) {
-        if (next[day][i] !== mode) { next[day][i] = mode; changed = true; }
+        if (next[day][i] !== mode) {
+          next[day][i] = mode;
+          changed = true;
+        }
       }
       return changed ? next : prev;
     });
@@ -218,10 +233,10 @@ function GridEditor({ initialGrid, slots, granularity, isSaving, onSave, saveLab
 
   return (
     <>
-      <div className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden">
+      <div className="rounded-sm sm:rounded-2xl sm:border sm:border-border sm:bg-card shadow-sm overflow-hidden">
         {/* Scrollable grid area */}
         <div className="overflow-y-auto overflow-x-auto max-h-[70vh]">
-          <div className="flex p-2 sm:p-3 md:p-4 min-w-75" style={{ touchAction: "none" }}>
+          <div className="flex p-1 sm:p-2 md:p-4 min-w-75" style={{ touchAction: "none" }}>
             {/* Time axis — one block per grid block, same height, perfectly aligned */}
             <div className="w-10 shrink-0 select-none flex flex-col" aria-hidden>
               {/* Spacer to match the day-label header height */}
@@ -265,8 +280,12 @@ function GridEditor({ initialGrid, slots, granularity, isSaving, onSave, saveLab
                     {Array.from({ length: blockCount }, (_, blockIdx) => {
                       const firstSlot = blockIdx * n;
                       const active = grid[day].slice(firstSlot, firstSlot + n).some(Boolean);
-                      const prevActive = blockIdx > 0 && grid[day].slice((blockIdx - 1) * n, blockIdx * n).some(Boolean);
-                      const nextActive = blockIdx < blockCount - 1 && grid[day].slice((blockIdx + 1) * n, (blockIdx + 2) * n).some(Boolean);
+                      const prevActive =
+                        blockIdx > 0 &&
+                        grid[day].slice((blockIdx - 1) * n, blockIdx * n).some(Boolean);
+                      const nextActive =
+                        blockIdx < blockCount - 1 &&
+                        grid[day].slice((blockIdx + 1) * n, (blockIdx + 2) * n).some(Boolean);
                       const isFirst = active && !prevActive;
                       const isLast = active && !nextActive;
 
@@ -280,10 +299,14 @@ function GridEditor({ initialGrid, slots, granularity, isSaving, onSave, saveLab
                               : "bg-muted border-x border-border",
                             blockIdx === 0 || isFirst || (!active && !prevActive)
                               ? "border-t"
-                              : active && prevActive ? "border-t-0" : "border-t",
+                              : active && prevActive
+                                ? "border-t-0"
+                                : "border-t",
                             blockIdx === blockCount - 1 || isLast || (!active && !nextActive)
                               ? "border-b"
-                              : active && nextActive ? "border-b-0" : "border-b",
+                              : active && nextActive
+                                ? "border-b-0"
+                                : "border-b",
                             isFirst || (blockIdx === 0 && active) ? "rounded-t-md" : "",
                             isLast || (blockIdx === blockCount - 1 && active) ? "rounded-b-md" : "",
                           )}
@@ -379,7 +402,7 @@ export function WeeklyScheduleGrid({
   const slots = useMemo(() => buildSlots(startHour, endHour), [startHour, endHour]);
 
   const initialGrid = useMemo(
-    () => schedules.length === 0 ? defaultGrid(slots) : schedulesToGrid(schedules, slots),
+    () => (schedules.length === 0 ? defaultGrid(slots) : schedulesToGrid(schedules, slots)),
     [schedules, slots],
   );
 
@@ -388,7 +411,8 @@ export function WeeklyScheduleGrid({
     [schedules, startHour, endHour, granularity],
   );
 
-  const selectClass = "rounded-md border border-input bg-white px-2 py-1 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring/20";
+  const selectClass =
+    "rounded-md border border-input bg-white px-2 py-1 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring/20";
 
   return (
     <div className="flex flex-col gap-3">
