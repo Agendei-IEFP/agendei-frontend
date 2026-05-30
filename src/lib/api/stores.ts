@@ -1,7 +1,13 @@
-import type { StoreDTO } from "@/types/api";
+import type { StoreDTO, StoreType } from "@/types/api";
 import api from "./axios";
 import { stripEmpty } from "../utils";
 import type { StoreFormData } from "../validations/store";
+
+export async function listStores(storeType?: StoreType): Promise<StoreDTO[]> {
+  const params = storeType ? { store_type: storeType } : {};
+  const { data } = await api.get<StoreDTO[]>("/stores", { params });
+  return data;
+}
 
 export async function getMyStores(): Promise<StoreDTO[]> {
   const { data } = await api.get<StoreDTO[]>("/me/stores");

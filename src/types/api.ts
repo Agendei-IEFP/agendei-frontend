@@ -62,6 +62,14 @@ export interface UserDTO {
 // Loja
 // ---------------------------------------------------------------------------
 
+export type StoreType =
+  | "hair_salon"
+  | "barbershop"
+  | "nails"
+  | "aesthetics"
+  | "massage"
+  | "treatments";
+
 export interface StoreDTO {
   id: string;
   owner_id: string;
@@ -72,8 +80,11 @@ export interface StoreDTO {
   address: string | null;
   logo_url: string | null;
   is_active: boolean;
+  store_type: StoreType | null;
   created_at: ISOTimestamp;
   updated_at: ISOTimestamp;
+  professional_count: number;
+  service_count: number;
 }
 
 // ---------------------------------------------------------------------------

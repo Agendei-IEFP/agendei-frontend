@@ -1,6 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createStore, getMyStores, updateStore } from "@/lib/api/stores";
+import { createStore, getMyStores, listStores, updateStore } from "@/lib/api/stores";
 import type { StoreFormData } from "@/lib/validations/store";
+import type { StoreType } from "@/types/api";
+
+export function useStores(storeType?: StoreType) {
+  return useQuery({
+    queryKey: ["stores", "public", storeType ?? "all"],
+    queryFn: () => listStores(storeType),
+  });
+}
 
 export function useMyStores() {
   return useQuery({
