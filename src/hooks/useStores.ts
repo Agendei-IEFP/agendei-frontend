@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createStore, getMyStores, listStores, updateStore } from "@/lib/api/stores";
+import { createStore, getMyStores, getStore, getStoreOfferings, listStores, listStoreProfessionals, updateStore } from "@/lib/api/stores";
 import type { StoreFormData } from "@/lib/validations/store";
 import type { StoreType } from "@/types/api";
 
@@ -38,5 +38,26 @@ export function useUpdateStore() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["stores"] });
     },
+  });
+}
+
+export function useStore(storeId: string) {
+  return useQuery({
+    queryKey: ["stores", "detail", storeId],
+    queryFn: () => getStore(storeId),
+  });
+}
+
+export function useStoreOfferings(storeId: string) {
+  return useQuery({
+    queryKey: ["stores", storeId, "offerings"],
+    queryFn: () => getStoreOfferings(storeId),
+  });
+}
+
+export function useStoreProfessionals(storeId: string) {
+  return useQuery({
+    queryKey: ["stores", storeId, "professionals"],
+    queryFn: () => listStoreProfessionals(storeId),
   });
 }

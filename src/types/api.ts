@@ -87,6 +87,22 @@ export interface StoreDTO {
   service_count: number;
 }
 
+export interface StoreOfferingDTO {
+  service_id: string;
+  service_name: string;
+  effective_price: DecimalString;
+  effective_duration_minutes: number;
+}
+
+export interface StoreProfessionalDTO {
+  id: string;
+  user_id: string;
+  name: string;
+  bio: string | null;
+  photo_url: string | null;
+  is_active: boolean;
+}
+
 // ---------------------------------------------------------------------------
 // Profissional
 // ---------------------------------------------------------------------------
