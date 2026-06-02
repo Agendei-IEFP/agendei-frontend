@@ -36,8 +36,12 @@ export async function createStore(dados: StoreFormData): Promise<StoreDTO> {
 
 export async function updateStore(
   id: string,
-  dados: Partial<StoreFormData>,
+  dados: Partial<StoreFormData> & { is_active?: boolean },
 ): Promise<StoreDTO> {
   const { data } = await api.patch<StoreDTO>(`/stores/${id}`, stripEmpty(dados));
   return data;
+}
+
+export async function deleteStore(id: string): Promise<void> {
+  await api.delete(`/stores/${id}`);
 }
