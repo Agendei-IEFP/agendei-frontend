@@ -46,7 +46,13 @@ function StoreDetailPage() {
     <>
       <StoresNavbar />
       <div className="min-h-screen bg-background pt-16">
-        <StoreHero store={storeQuery.data} />
+        <StoreHero
+          store={{
+            ...storeQuery.data,
+            professional_count: professionalsQuery.data?.length ?? storeQuery.data.professional_count,
+            service_count: offeringsQuery.data?.length ?? storeQuery.data.service_count,
+          }}
+        />
         <OfferingList offerings={offeringsQuery.data ?? []} />
         <StoreProfessionalList professionals={professionalsQuery.data ?? []} />
         <Footer />
