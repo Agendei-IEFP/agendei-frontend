@@ -43,12 +43,10 @@ interface StoreHeroProps {
 export function StoreHero({ store, gradientIndex = 0, className }: StoreHeroProps) {
   const gradient = BANNER_GRADIENTS[gradientIndex % BANNER_GRADIENTS.length];
   const iconColor = ICON_COLORS[gradientIndex % ICON_COLORS.length];
-  const typeLabel = store.store_type ? STORE_TYPE_LABELS[store.store_type] : null;
-
   return (
     <div className={cn("bg-card border-b border-border", className)}>
       {/* Banner */}
-      <div className={cn("h-48 md:h-64 w-full", gradient)} />
+      <div className={cn("h-28 md:h-40 w-full", gradient)} />
 
       {/* Content below banner */}
       <div className="max-w-4xl mx-auto px-6 pb-8">
@@ -63,16 +61,19 @@ export function StoreHero({ store, gradientIndex = 0, className }: StoreHeroProp
           </div>
         </div>
 
-        {/* Name + badge */}
+        {/* Name + type badges */}
         <div className="flex flex-wrap items-center gap-3 mb-2">
           <h1 className="font-heading font-extrabold tracking-tight text-2xl md:text-3xl text-foreground">
             {store.name}
           </h1>
-          {typeLabel && (
-            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-salmon-100 text-chart-4">
-              {typeLabel}
+          {store.store_types.map((type) => (
+            <span
+              key={type}
+              className="text-xs font-semibold px-2.5 py-1 rounded-full bg-salmon-100 text-chart-4"
+            >
+              {STORE_TYPE_LABELS[type]}
             </span>
-          )}
+          ))}
         </div>
 
         {/* Description */}
