@@ -16,7 +16,7 @@ function getGreetingName(nome: string): string {
 }
 
 function formatDate(): string {
-  return new Intl.DateTimeFormat("pt-BR", {
+  return new Intl.DateTimeFormat("pt-pt", {
     weekday: "long",
     day: "numeric",
     month: "long",
