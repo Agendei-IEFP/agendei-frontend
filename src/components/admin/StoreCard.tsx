@@ -59,6 +59,7 @@ export function StoreCard({ store, index, className }: StoreCardProps) {
     email: store.email ?? undefined,
     address: store.address ?? undefined,
     logo_url: store.logo_url ?? undefined,
+    store_types: store.store_types,
   };
 
   return (
