@@ -80,7 +80,7 @@ export interface StoreDTO {
   address: string | null;
   logo_url: string | null;
   is_active: boolean;
-  store_type: StoreType | null;
+  store_types: StoreType[];
   created_at: ISOTimestamp;
   updated_at: ISOTimestamp;
   professional_count: number;
