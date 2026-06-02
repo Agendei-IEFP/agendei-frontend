@@ -1,4 +1,8 @@
-import type { ProfessionalDTO, ProfessionalStoreWithStoreDTO, ProfessionalWithStoreDTO } from "@/types/api";
+import type {
+  ProfessionalDTO,
+  ProfessionalStoreWithStoreDTO,
+  ProfessionalWithStoreDTO,
+} from "@/types/api";
 import api from "./axios";
 
 export async function getMyProfile(): Promise<ProfessionalDTO> {

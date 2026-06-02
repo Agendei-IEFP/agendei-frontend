@@ -53,7 +53,10 @@ export function Testimonials() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {TESTIMONIALS.map(({ text, initials, name, role, avatarCls, delay }) => (
-            <div key={name} className={`bg-white border-[1.5px] border-border rounded-2xl p-6 card-hover-landing reveal ${delay}`}>
+            <div
+              key={name}
+              className={`bg-white border-[1.5px] border-border rounded-2xl p-6 card-hover-landing reveal ${delay}`}
+            >
               <StarRating />
               <p className="text-sm text-slate-600 leading-relaxed mb-5">{text}</p>
               <div className="flex items-center gap-3">

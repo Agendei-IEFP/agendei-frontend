@@ -49,7 +49,8 @@ function StoreDetailPage() {
         <StoreHero
           store={{
             ...storeQuery.data,
-            professional_count: professionalsQuery.data?.length ?? storeQuery.data.professional_count,
+            professional_count:
+              professionalsQuery.data?.length ?? storeQuery.data.professional_count,
             service_count: offeringsQuery.data?.length ?? storeQuery.data.service_count,
           }}
         />

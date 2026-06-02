@@ -18,9 +18,15 @@ export function LandingNavbar() {
         </div>
 
         <nav className="hidden md:flex items-center gap-7 text-sm text-slate-500">
-          <a href="#como-funciona" className="nav-link-landing">Como funciona</a>
-          <a href="#funcionalidades" className="nav-link-landing">Funcionalidades</a>
-          <a href="#para-quem" className="nav-link-landing">Para quem</a>
+          <a href="#como-funciona" className="nav-link-landing">
+            Como funciona
+          </a>
+          <a href="#funcionalidades" className="nav-link-landing">
+            Funcionalidades
+          </a>
+          <a href="#para-quem" className="nav-link-landing">
+            Para quem
+          </a>
         </nav>
 
         <div className="hidden md:flex items-center gap-2">
@@ -49,13 +55,25 @@ export function LandingNavbar() {
 
       {open && (
         <div className="md:hidden border-t border-border bg-white/95 backdrop-blur-md px-6 py-4 flex flex-col gap-1">
-          <a href="#funcionalidades" className="text-sm text-slate-600 py-2.5" onClick={() => setOpen(false)}>
+          <a
+            href="#funcionalidades"
+            className="text-sm text-slate-600 py-2.5"
+            onClick={() => setOpen(false)}
+          >
             Funcionalidades
           </a>
-          <a href="#como-funciona" className="text-sm text-slate-600 py-2.5" onClick={() => setOpen(false)}>
+          <a
+            href="#como-funciona"
+            className="text-sm text-slate-600 py-2.5"
+            onClick={() => setOpen(false)}
+          >
             Como funciona
           </a>
-          <a href="#para-quem" className="text-sm text-slate-600 py-2.5" onClick={() => setOpen(false)}>
+          <a
+            href="#para-quem"
+            className="text-sm text-slate-600 py-2.5"
+            onClick={() => setOpen(false)}
+          >
             Para quem
           </a>
           <div className="pt-3 flex flex-col gap-2 border-t border-border mt-1">

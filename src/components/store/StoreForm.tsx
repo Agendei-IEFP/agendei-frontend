@@ -66,7 +66,11 @@ export function StoreForm({
   function toggleType(type: StoreType) {
     const current = selectedTypes ?? [];
     if (current.includes(type)) {
-      setValue("store_types", current.filter((t) => t !== type), { shouldValidate: true });
+      setValue(
+        "store_types",
+        current.filter((t) => t !== type),
+        { shouldValidate: true },
+      );
     } else if (current.length < 3) {
       setValue("store_types", [...current, type], { shouldValidate: true });
     }
@@ -108,15 +112,12 @@ export function StoreForm({
             {...register("name")}
           />
         </div>
-        {errors.name && (
-          <p className="text-destructive text-xs">{errors.name.message}</p>
-        )}
+        {errors.name && <p className="text-destructive text-xs">{errors.name.message}</p>}
       </div>
 
       <div className="flex flex-col gap-1.5">
         <Label className="font-semibold text-slate-700" htmlFor="description">
-          Descrição{" "}
-          <span className="text-muted-foreground font-normal">(opcional)</span>
+          Descrição <span className="text-muted-foreground font-normal">(opcional)</span>
         </Label>
         <Textarea
           id="description"
@@ -133,8 +134,7 @@ export function StoreForm({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1.5">
           <Label className="font-semibold text-slate-700" htmlFor="phone">
-            Telefone{" "}
-            <span className="text-muted-foreground font-normal">(opcional)</span>
+            Telefone <span className="text-muted-foreground font-normal">(opcional)</span>
           </Label>
           <div className="relative">
             <Phone className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
@@ -148,8 +148,7 @@ export function StoreForm({
         </div>
         <div className="flex flex-col gap-1.5">
           <Label className="font-semibold text-slate-700" htmlFor="email">
-            Email{" "}
-            <span className="text-muted-foreground font-normal">(opcional)</span>
+            Email <span className="text-muted-foreground font-normal">(opcional)</span>
           </Label>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
@@ -162,16 +161,13 @@ export function StoreForm({
               {...register("email")}
             />
           </div>
-          {errors.email && (
-            <p className="text-destructive text-xs">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="text-destructive text-xs">{errors.email.message}</p>}
         </div>
       </div>
 
       <div className="flex flex-col gap-1.5">
         <Label className="font-semibold text-slate-700" htmlFor="address">
-          Endereço{" "}
-          <span className="text-muted-foreground font-normal">(opcional)</span>
+          Endereço <span className="text-muted-foreground font-normal">(opcional)</span>
         </Label>
         <div className="relative">
           <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
@@ -186,8 +182,7 @@ export function StoreForm({
 
       <div className="flex flex-col gap-1.5">
         <Label className="font-semibold text-slate-700" htmlFor="logo_url">
-          Logo{" "}
-          <span className="text-muted-foreground font-normal">(opcional)</span>
+          Logo <span className="text-muted-foreground font-normal">(opcional)</span>
         </Label>
         <div className="relative">
           <Image className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
@@ -210,8 +205,7 @@ export function StoreForm({
 
       <div className="flex flex-col gap-2">
         <Label className="font-semibold text-slate-700">
-          Tipos de serviço{" "}
-          <span className="text-muted-foreground font-normal">(máx. 3)</span>
+          Tipos de serviço <span className="text-muted-foreground font-normal">(máx. 3)</span>
         </Label>
         <div className="flex flex-wrap gap-2">
           {STORE_TYPE_OPTIONS.map(({ value, label }) => {

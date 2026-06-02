@@ -43,9 +43,7 @@ export function FormDialog({
 }: FormDialogProps) {
   const isMobile = useIsMobile();
 
-  const body = (
-    <div className="flex-1 overflow-y-auto px-5 py-4">{children}</div>
-  );
+  const body = <div className="flex-1 overflow-y-auto px-5 py-4">{children}</div>;
 
   const footer = (
     <div className="border-t border-border bg-card px-5 py-3">
@@ -78,17 +76,10 @@ export function FormDialog({
   if (isMobile) {
     return (
       <Sheet open={open} onOpenChange={onOpenChange}>
-        <SheetContent
-          side="bottom"
-          className="max-h-[85vh] p-0 rounded-t-2xl"
-        >
+        <SheetContent side="bottom" className="max-h-[85vh] p-0 rounded-t-2xl">
           <SheetHeader className="border-b border-border px-5 py-4">
-            <SheetTitle className="font-heading font-bold tracking-[-0.02em]">
-              {title}
-            </SheetTitle>
-            {description && (
-              <SheetDescription className="text-xs">{description}</SheetDescription>
-            )}
+            <SheetTitle className="font-heading font-bold tracking-[-0.02em]">{title}</SheetTitle>
+            {description && <SheetDescription className="text-xs">{description}</SheetDescription>}
           </SheetHeader>
           {body}
           {footer}
@@ -100,17 +91,13 @@ export function FormDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className={cn(
-          "p-0 gap-0 sm:max-w-2xl max-h-[90vh] flex flex-col overflow-hidden",
-        )}
+        className={cn("p-0 gap-0 sm:max-w-2xl max-h-[90vh] flex flex-col overflow-hidden")}
       >
         <DialogHeader className="border-b border-border px-5 py-4">
           <DialogTitle className="font-heading font-bold text-lg tracking-[-0.02em]">
             {title}
           </DialogTitle>
-          {description && (
-            <DialogDescription className="text-xs">{description}</DialogDescription>
-          )}
+          {description && <DialogDescription className="text-xs">{description}</DialogDescription>}
         </DialogHeader>
         {body}
         {footer}

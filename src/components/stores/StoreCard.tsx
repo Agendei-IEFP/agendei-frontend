@@ -56,9 +56,7 @@ export function StoreCard({ store, index, className }: StoreCardProps) {
       </div>
 
       <div className="p-4 flex flex-col flex-1">
-        <h3 className="text-sm font-semibold text-foreground leading-snug mb-1">
-          {store.name}
-        </h3>
+        <h3 className="text-sm font-semibold text-foreground leading-snug mb-1">{store.name}</h3>
 
         {store.address && (
           <p className="text-xs flex items-center gap-1 mb-4 text-muted-foreground">
@@ -71,8 +69,7 @@ export function StoreCard({ store, index, className }: StoreCardProps) {
           <span className="text-xs text-muted-foreground">
             <span className="font-semibold text-foreground">{store.professional_count}</span>{" "}
             profissionais ·{" "}
-            <span className="font-semibold text-foreground">{store.service_count}</span>{" "}
-            serviços
+            <span className="font-semibold text-foreground">{store.service_count}</span> serviços
           </span>
           <Link
             to="/stores/$storeId"

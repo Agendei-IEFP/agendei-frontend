@@ -63,7 +63,10 @@ export function HeroSection() {
             >
               Cadastrar minha loja →
             </Link>
-            <a href="#como-funciona" className="border-[1.5px] border-input text-secondary-foreground rounded-[10px] font-semibold transition-colors hover:bg-muted px-6 py-3 text-sm">
+            <a
+              href="#como-funciona"
+              className="border-[1.5px] border-input text-secondary-foreground rounded-[10px] font-semibold transition-colors hover:bg-muted px-6 py-3 text-sm"
+            >
               Ver como funciona
             </a>
           </div>
@@ -130,11 +133,15 @@ export function HeroSection() {
                 <div className="grid grid-cols-3 gap-2 mb-4">
                   <div className="rounded-xl p-2 bg-muted border border-input">
                     <p className="text-lg font-black text-chart-4">8</p>
-                    <p className="text-[0.65rem] leading-tight text-slate-500 mt-0.5">agendamentos hoje</p>
+                    <p className="text-[0.65rem] leading-tight text-slate-500 mt-0.5">
+                      agendamentos hoje
+                    </p>
                   </div>
                   <div className="rounded-xl p-2 bg-emerald-50 border border-emerald-100">
                     <p className="text-lg font-black text-emerald-700">6</p>
-                    <p className="text-[0.65rem] leading-tight text-slate-500 mt-0.5">confirmados</p>
+                    <p className="text-[0.65rem] leading-tight text-slate-500 mt-0.5">
+                      confirmados
+                    </p>
                   </div>
                   <div className="rounded-xl p-2 bg-amber-50 border border-amber-100">
                     <p className="text-lg font-black text-amber-600">2</p>

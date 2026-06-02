@@ -38,7 +38,8 @@ function RouteComponent() {
             Minhas Lojas
           </h1>
           <p className="text-xs text-muted-foreground">
-            {stores.length} {stores.length === 1 ? "estabelecimento cadastrado" : "estabelecimentos cadastrados"}
+            {stores.length}{" "}
+            {stores.length === 1 ? "estabelecimento cadastrado" : "estabelecimentos cadastrados"}
           </p>
         </div>
         <Button
@@ -78,7 +79,10 @@ function RouteComponent() {
         {isLoading ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
             {[0, 1, 2].map((i) => (
-              <div key={i} className="rounded-2xl border border-border bg-card overflow-hidden animate-pulse">
+              <div
+                key={i}
+                className="rounded-2xl border border-border bg-card overflow-hidden animate-pulse"
+              >
                 <div className="h-36 bg-muted" />
                 <div className="p-5 space-y-3">
                   <div className="h-4 bg-muted rounded w-3/4" />

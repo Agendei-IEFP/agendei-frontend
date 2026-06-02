@@ -19,9 +19,7 @@ export const storeSchema = z.object({
   email: z.email("Email inválido").optional().or(z.literal("")),
   address: z.string().max(255, "Máximo 255 caracteres").optional(),
   logo_url: z.url("URL inválida").optional().or(z.literal("")),
-  store_types: z
-    .array(storeTypeEnum)
-    .max(3, "Máximo de 3 tipos por estabelecimento"),
+  store_types: z.array(storeTypeEnum).max(3, "Máximo de 3 tipos por estabelecimento"),
 });
 
 export type StoreFormData = z.infer<typeof storeSchema>;

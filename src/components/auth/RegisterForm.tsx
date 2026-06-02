@@ -74,8 +74,7 @@ export function RegisterForm() {
               em 2 minutos.
             </h2>
             <p className="text-sm text-white/75 leading-[1.6] mb-30">
-              Crie a sua conta e comece a receber agendamentos online ainda
-              hoje.
+              Crie a sua conta e comece a receber agendamentos online ainda hoje.
             </p>
           </div>
 
@@ -86,17 +85,13 @@ export function RegisterForm() {
               {/* Star rating */}
               <div className="flex gap-0.5 mb-2">
                 {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="size-3.5 text-amber-300 fill-current"
-                  />
+                  <Star key={i} className="size-3.5 text-amber-300 fill-current" />
                 ))}
               </div>
               {selectedRole === "store_admin" ? (
                 <>
                   <p className="text-xs text-white mb-3 leading-relaxed">
-                    "Antes ficava o dia todo no WhatsApp. Agora os clientes
-                    agendam sozinhos."
+                    "Antes ficava o dia todo no WhatsApp. Agora os clientes agendam sozinhos."
                   </p>
                   <div className="flex items-center gap-2">
                     {/* Author avatar — initials */}
@@ -111,17 +106,14 @@ export function RegisterForm() {
               ) : (
                 <>
                   <p className="text-xs text-white mb-3 leading-relaxed">
-                    "Marquei minha manicure em 2 minutos, direto do celular. Nem
-                    precisei ligar."
+                    "Marquei minha manicure em 2 minutos, direto do celular. Nem precisei ligar."
                   </p>
                   <div className="flex items-center gap-2">
                     {/* Author avatar — initials */}
                     <div className="size-6 rounded-full bg-white/25 flex items-center justify-center text-xs font-bold text-white">
                       AL
                     </div>
-                    <span className="text-xs text-white font-medium">
-                      Ana Lima — Cliente
-                    </span>
+                    <span className="text-xs text-white font-medium">Ana Lima — Cliente</span>
                   </div>
                 </>
               )}
@@ -154,10 +146,7 @@ export function RegisterForm() {
             </p>
           </div>
 
-          <form
-            className="space-y-4"
-            onSubmit={handleSubmit((data) => registerUser(data))}
-          >
+          <form className="space-y-4" onSubmit={handleSubmit((data) => registerUser(data))}>
             {/* Role selector — sets hidden "role" field value */}
             <input type="hidden" {...registerField("role")} />
             <div className="flex rounded-lg border border-input p-1 gap-1">
@@ -202,9 +191,7 @@ export function RegisterForm() {
                 />
               </div>
               {errors.name && (
-                <p className="text-destructive text-xs mt-1">
-                  {errors.name.message}
-                </p>
+                <p className="text-destructive text-xs mt-1">{errors.name.message}</p>
               )}
             </div>
 
@@ -225,18 +212,13 @@ export function RegisterForm() {
                 />
               </div>
               {errors.email && (
-                <p className="text-destructive text-xs mt-1">
-                  {errors.email.message}
-                </p>
+                <p className="text-destructive text-xs mt-1">{errors.email.message}</p>
               )}
             </div>
 
             {/* Password field */}
             <div className="flex flex-col gap-1 mb-2">
-              <Label
-                className="font-semibold text-slate-700"
-                htmlFor="password"
-              >
+              <Label className="font-semibold text-slate-700" htmlFor="password">
                 Senha
               </Label>
               <div className="relative">
@@ -258,9 +240,7 @@ export function RegisterForm() {
                     <div
                       key={level}
                       className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
-                        strength >= level
-                          ? strengthConfig[strength].color
-                          : "bg-border"
+                        strength >= level ? strengthConfig[strength].color : "bg-border"
                       }`}
                     />
                   ))}
@@ -273,9 +253,7 @@ export function RegisterForm() {
                 </p>
               </div>
               {errors.password && (
-                <p className="text-destructive text-xs mt-1">
-                  {errors.password.message}
-                </p>
+                <p className="text-destructive text-xs mt-1">{errors.password.message}</p>
               )}
             </div>
 
@@ -287,10 +265,7 @@ export function RegisterForm() {
                 className="mt-0.5 size-4 rounded shrink-0"
                 {...registerField("accepted_terms")}
               />
-              <label
-                htmlFor="accepted_terms"
-                className="text-xs text-slate-600 leading-relaxed"
-              >
+              <label htmlFor="accepted_terms" className="text-xs text-slate-600 leading-relaxed">
                 Li e aceito os{" "}
                 <a href="#" className="font-semibold text-chart-3">
                   Termos e Condições
@@ -302,9 +277,7 @@ export function RegisterForm() {
               </label>
             </div>
             {errors.accepted_terms && (
-              <p className="text-destructive text-xs -mt-2">
-                {errors.accepted_terms.message}
-              </p>
+              <p className="text-destructive text-xs -mt-2">{errors.accepted_terms.message}</p>
             )}
 
             {/* Submit button */}

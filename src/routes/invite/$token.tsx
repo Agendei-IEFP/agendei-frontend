@@ -145,9 +145,7 @@ function InvitePage() {
             <h2 className="font-heading font-bold text-xl text-foreground mb-1">
               Bem-vindo à {invite.store_name}!
             </h2>
-            <p className="text-sm text-muted-foreground">
-              Redirecionando para o seu painel...
-            </p>
+            <p className="text-sm text-muted-foreground">Redirecionando para o seu painel...</p>
           </div>
         </div>
       </PageShell>
@@ -175,11 +173,7 @@ function InvitePage() {
               </DialogDescription>
             </DialogHeader>
             <div className="flex gap-3 mt-2">
-              <Button
-                variant="outline"
-                className="flex-1"
-                onClick={() => navigate({ to: "/" })}
-              >
+              <Button variant="outline" className="flex-1" onClick={() => navigate({ to: "/" })}>
                 Cancelar
               </Button>
               <Button
@@ -191,9 +185,7 @@ function InvitePage() {
                 Confirmar
               </Button>
             </div>
-            {acceptError && (
-              <p className="text-xs text-destructive mt-2">{acceptError}</p>
-            )}
+            {acceptError && <p className="text-xs text-destructive mt-2">{acceptError}</p>}
           </DialogContent>
         </Dialog>
       </PageShell>
@@ -221,12 +213,7 @@ interface AnonymousInvitePageProps {
   storeName: string;
   isAccepting: boolean;
   acceptError: string | null;
-  onAccept: (body: {
-    name: string;
-    email: string;
-    password: string;
-    accepted_terms: true;
-  }) => void;
+  onAccept: (body: { name: string; email: string; password: string; accepted_terms: true }) => void;
 }
 
 type AnonState = "choice" | "register";
@@ -321,9 +308,7 @@ function AnonymousInvitePage({
               {...register("name")}
             />
           </div>
-          {errors.name && (
-            <p className="text-destructive text-xs">{errors.name.message}</p>
-          )}
+          {errors.name && <p className="text-destructive text-xs">{errors.name.message}</p>}
         </div>
 
         {/* Email */}
@@ -342,9 +327,7 @@ function AnonymousInvitePage({
               {...register("email")}
             />
           </div>
-          {errors.email && (
-            <p className="text-destructive text-xs">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="text-destructive text-xs">{errors.email.message}</p>}
         </div>
 
         {/* Senha */}
@@ -363,9 +346,7 @@ function AnonymousInvitePage({
               {...register("password")}
             />
           </div>
-          {errors.password && (
-            <p className="text-destructive text-xs">{errors.password.message}</p>
-          )}
+          {errors.password && <p className="text-destructive text-xs">{errors.password.message}</p>}
         </div>
 
         {/* Termos */}
@@ -380,9 +361,8 @@ function AnonymousInvitePage({
             htmlFor="accepted_terms"
             className="text-xs text-muted-foreground leading-relaxed cursor-pointer"
           >
-            Aceito os{" "}
-            <span className="font-semibold text-primary">Termos e Condições</span>{" "}
-            da plataforma Agendei
+            Aceito os <span className="font-semibold text-primary">Termos e Condições</span> da
+            plataforma Agendei
           </Label>
         </div>
         {errors.accepted_terms && (
@@ -424,9 +404,7 @@ function PageShell({ children }: { children: React.ReactNode }) {
             Agendei
           </span>
         </div>
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-          {children}
-        </div>
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">{children}</div>
       </div>
     </div>
   );

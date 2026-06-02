@@ -35,9 +35,7 @@ export function AppointmentCard({ appointment, className }: AppointmentCardProps
         <p className="text-sm font-semibold text-foreground">
           {start} – {end}
         </p>
-        <p className="text-xs text-muted-foreground truncate">
-          ID: {appointment.id.slice(0, 8)}…
-        </p>
+        <p className="text-xs text-muted-foreground truncate">ID: {appointment.id.slice(0, 8)}…</p>
       </div>
 
       <StatusBadge status={appointment.status} />
