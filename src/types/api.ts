@@ -101,6 +101,7 @@ export interface StoreProfessionalDTO {
   bio: string | null;
   photo_url: string | null;
   is_active: boolean;
+  professional_store_id: string;
 }
 
 // ---------------------------------------------------------------------------
