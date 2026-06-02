@@ -2,33 +2,11 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Clock, AlertTriangle } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
+import { formatDate } from "@/lib/format";
 
 export const Route = createFileRoute("/professional/dashboard")({
   component: Dashboard,
 });
-
-const WEEKDAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-const MONTHS = [
-  "Janeiro",
-  "Fevereiro",
-  "Março",
-  "Abril",
-  "Maio",
-  "Junho",
-  "Julho",
-  "Agosto",
-  "Setembro",
-  "Outubro",
-  "Novembro",
-  "Dezembro",
-];
-
-function formatDate(date: Date): string {
-  const weekday = WEEKDAYS[date.getDay()];
-  const day = date.getDate();
-  const month = MONTHS[date.getMonth()];
-  return `${weekday}, ${day} de ${month}`;
-}
 
 function isToday(date: Date): boolean {
   const now = new Date();

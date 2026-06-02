@@ -1,18 +1,10 @@
 import { cn } from "@/lib/utils";
+import { getInitials } from "@/lib/format";
 import type { StoreProfessionalDTO } from "@/types/api";
 
 interface StoreProfessionalListProps {
   professionals: StoreProfessionalDTO[];
   className?: string;
-}
-
-function getInitials(name: string): string {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0].toUpperCase())
-    .join("");
 }
 
 export function StoreProfessionalList({ professionals, className }: StoreProfessionalListProps) {
@@ -51,7 +43,9 @@ export function StoreProfessionalList({ professionals, className }: StoreProfess
             <div className="min-w-0">
               <p className="text-sm font-semibold text-foreground truncate">{professional.name}</p>
               {professional.bio && (
-                <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{professional.bio}</p>
+                <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
+                  {professional.bio}
+                </p>
               )}
             </div>
           </div>

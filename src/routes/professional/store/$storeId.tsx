@@ -32,18 +32,11 @@ import { useStoreAvailability, useReplaceStoreAvailability } from "@/hooks/useSt
 import { WeeklyScheduleGrid } from "@/components/professionals/WeeklyScheduleGrid";
 import type { OfferingDTO, WorkScheduleDTO } from "@/types/api";
 import { cn } from "@/lib/utils";
+import { formatPrice } from "@/lib/format";
 
 export const Route = createFileRoute("/professional/store/$storeId")({
   component: StoreView,
 });
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-function formatPrice(price: string): string {
-  return parseFloat(price).toLocaleString("pt-pt", { style: "currency", currency: "EUR" });
-}
 
 // ---------------------------------------------------------------------------
 // Offering row

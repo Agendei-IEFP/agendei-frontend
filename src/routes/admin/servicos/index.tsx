@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getInitials, formatPrice } from "@/lib/format";
 import { useAdminOfferings } from "@/hooks/useAdminOfferings";
 import { updateOffering } from "@/lib/api/services";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -11,20 +12,6 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/admin/servicos/")({
   component: RouteComponent,
 });
-
-function getInitials(name: string): string {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0].toUpperCase())
-    .join("");
-}
-
-function formatPrice(price: string): string {
-  const n = parseFloat(price);
-  return `${n % 1 === 0 ? n.toFixed(0) : n.toFixed(2).replace(".", ",")} €`;
-}
 
 function RouteComponent() {
   const { rows, isLoading, stores } = useAdminOfferings();

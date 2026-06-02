@@ -3,21 +3,12 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, CalendarDays } from "lucide-react";
 import { useMyProfessionalAppointments } from "@/hooks/useAppointments";
 import { AppointmentCard } from "@/components/agendamentos/AppointmentCard";
+import { formatDate } from "@/lib/format";
 import type { AppointmentDTO } from "@/types/api";
 
 export const Route = createFileRoute("/professional/agenda")({
   component: Agenda,
 });
-
-const WEEKDAYS = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-const MONTHS = [
-  "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-  "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro",
-];
-
-function formatDate(date: Date): string {
-  return `${WEEKDAYS[date.getDay()]}, ${date.getDate()} de ${MONTHS[date.getMonth()]}`;
-}
 
 function isToday(date: Date): boolean {
   const now = new Date();

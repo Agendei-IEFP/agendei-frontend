@@ -5,6 +5,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useMyStores } from "@/hooks/useStores";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { StoreFormDialog } from "@/components/store/StoreFormDialog";
+import { capitalize, formatCurrentDate } from "@/lib/format";
 import type { StoreDTO } from "@/types/api";
 
 export const Route = createFileRoute("/admin/dashboard")({
@@ -13,20 +14,6 @@ export const Route = createFileRoute("/admin/dashboard")({
 
 function getGreetingName(nome: string): string {
   return nome.split(" ")[0];
-}
-
-function formatDate(): string {
-  return new Intl.DateTimeFormat("pt-pt", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(new Date());
-}
-
-// Capitalizes the first letter — Intl returns lowercase weekday in pt-BR
-function capitalize(s: string): string {
-  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 function AdminDashboard() {
@@ -54,7 +41,7 @@ function AdminDashboard() {
             <h1 className="font-heading font-bold text-slate-900 text-lg tracking-[-0.02em]">
               Painel
             </h1>
-            <p className="text-xs text-muted-foreground">{capitalize(formatDate())}</p>
+            <p className="text-xs text-muted-foreground">{capitalize(formatCurrentDate())}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">

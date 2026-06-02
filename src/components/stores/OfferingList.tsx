@@ -1,5 +1,6 @@
 import { Clock, Banknote } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { formatPrice } from "@/lib/format";
 import type { StoreOfferingDTO } from "@/types/api";
 
 interface OfferingListProps {
@@ -12,11 +13,6 @@ function formatDuration(minutes: number): string {
   const h = Math.floor(minutes / 60);
   const m = minutes % 60;
   return m === 0 ? `${h}h` : `${h}h ${m}min`;
-}
-
-function formatPrice(price: string): string {
-  const num = parseFloat(price);
-  return num.toLocaleString("pt-PT", { style: "currency", currency: "EUR" });
 }
 
 export function OfferingList({ offerings, className }: OfferingListProps) {

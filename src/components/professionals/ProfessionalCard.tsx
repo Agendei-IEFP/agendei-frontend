@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { getInitials } from "@/lib/format";
 import type { ProfessionalWithStoreDTO } from "@/types/api";
 
 interface ProfessionalCardProps {
@@ -13,12 +14,6 @@ const AVATAR_COLORS = [
   "bg-amber-100 text-amber-700",
   "bg-purple-100 text-purple-700",
 ];
-
-function getInitials(name: string): string {
-  const parts = name.trim().split(" ");
-  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
-  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-}
 
 export function ProfessionalCard({ professional, className }: ProfessionalCardProps) {
   const colorIndex = professional.id.charCodeAt(0) % AVATAR_COLORS.length;
