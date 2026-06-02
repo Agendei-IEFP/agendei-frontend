@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Home, Store, Users, ClipboardList, Calendar, Settings, LogOut } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/authStore";
 import { useMyStores } from "@/hooks/useStores";
 import { useLogout } from "@/hooks/useAuth";
@@ -32,6 +33,7 @@ export function AdminSidebar() {
   const { mutate: logoutUser } = useLogout();
   const { data: lojas } = useMyStores();
   const lojaCount = lojas?.length ?? 0;
+  const serviceCount = lojas?.reduce((acc, s) => acc + s.service_count, 0) ?? 0;
 
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isActive = (path: string) => pathname === path;
@@ -64,7 +66,14 @@ export function AdminSidebar() {
                     <span>Minhas Lojas</span>
                   </Link>
                 </SidebarMenuButton>
-                <SidebarMenuBadge className="bg-slate-100 text-slate-400 text-[0.62rem]">
+                <SidebarMenuBadge
+                  className={cn(
+                    "text-[0.62rem]",
+                    isActive("/admin/store")
+                      ? "bg-muted text-chart-3"
+                      : "bg-slate-100 text-slate-400",
+                  )}
+                >
                   {lojaCount}
                 </SidebarMenuBadge>
               </SidebarMenuItem>
@@ -87,10 +96,22 @@ export function AdminSidebar() {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton disabled>
-                  <ClipboardList />
-                  <span>Serviços</span>
+                <SidebarMenuButton asChild isActive={isActive("/admin/servicos")}>
+                  <Link to="/admin/servicos">
+                    <ClipboardList />
+                    <span>Serviços</span>
+                  </Link>
                 </SidebarMenuButton>
+                <SidebarMenuBadge
+                  className={cn(
+                    "text-[0.62rem]",
+                    isActive("/admin/servicos")
+                      ? "bg-muted text-chart-3"
+                      : "bg-slate-100 text-slate-400",
+                  )}
+                >
+                  {serviceCount}
+                </SidebarMenuBadge>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton disabled>
