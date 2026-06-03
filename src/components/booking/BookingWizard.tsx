@@ -449,6 +449,228 @@ function SuccessScreen() {
 }
 
 // ---------------------------------------------------------------------------
+// AuthStep — inline auth gate for unauthenticated users
+// ---------------------------------------------------------------------------
+
+interface AuthStepProps {
+  onConfirm: () => Promise<void>;
+  isPending: boolean;
+  error: string | null;
+}
+
+function AuthStep({ onConfirm, isPending, error }: AuthStepProps) {
+  const [tab, setTab] = useState<"login" | "register">("login");
+  const setAuth = useAuthStore((s) => s.login);
+  const { goStep } = useBookingStore();
+
+  const loginForm = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
+  const registerForm = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: { role: "client", accepted_terms: false },
+  });
+
+  const loginMutation = useMutation({
+    mutationFn: login,
+    onSuccess: async (data) => {
+      setAuth(data.access_token, data.user);
+      await onConfirm();
+    },
+  });
+
+  const registerMutation = useMutation({
+    mutationFn: register,
+    onSuccess: async (data) => {
+      setAuth(data.access_token, data.user);
+      await onConfirm();
+    },
+  });
+
+  const isWorking =
+    loginMutation.isPending || registerMutation.isPending || isPending;
+
+  const authError =
+    tab === "login"
+      ? loginMutation.error
+        ? getApiErrorMessage(loginMutation.error)
+        : null
+      : registerMutation.error
+        ? getApiErrorMessage(registerMutation.error)
+        : null;
+
+  const displayError = authError ?? error;
+
+  return (
+    <div className="flex flex-col gap-4">
+      <div>
+        <p className="text-sm font-semibold text-foreground mb-0.5">
+          Para confirmar, entre na sua conta
+        </p>
+        <p className="text-xs text-muted-foreground">
+          O seu agendamento será confirmado após o login.
+        </p>
+      </div>
+
+      <div className="flex rounded-lg border border-input p-1 gap-1">
+        {(["login", "register"] as const).map((t) => (
+          <button
+            key={t}
+            type="button"
+            onClick={() => setTab(t)}
+            className={cn(
+              "flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors",
+              tab === t ? "bg-primary text-white" : "text-muted-foreground hover:bg-muted",
+            )}
+          >
+            {t === "login" ? "Entrar" : "Criar conta"}
+          </button>
+        ))}
+      </div>
+
+      {tab === "login" && (
+        <form
+          className="flex flex-col gap-3"
+          onSubmit={loginForm.handleSubmit((data) => loginMutation.mutate(data))}
+        >
+          <div className="flex flex-col gap-1">
+            <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide">
+              Email
+            </label>
+            <Input
+              {...loginForm.register("email")}
+              type="email"
+              placeholder="seu@email.com"
+              aria-invalid={!!loginForm.formState.errors.email}
+            />
+            {loginForm.formState.errors.email && (
+              <p className="text-xs text-destructive">
+                {loginForm.formState.errors.email.message}
+              </p>
+            )}
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide">
+              Senha
+            </label>
+            <Input
+              {...loginForm.register("password")}
+              type="password"
+              placeholder="••••••••"
+              aria-invalid={!!loginForm.formState.errors.password}
+            />
+            {loginForm.formState.errors.password && (
+              <p className="text-xs text-destructive">
+                {loginForm.formState.errors.password.message}
+              </p>
+            )}
+          </div>
+          {displayError && <p className="text-sm text-destructive">{displayError}</p>}
+          <CtaButton type="submit" disabled={isWorking}>
+            {isWorking ? (
+              <span className="size-4 animate-spin rounded-full border-2 border-white/30 border-t-white inline-block" />
+            ) : (
+              "Entrar e confirmar"
+            )}
+          </CtaButton>
+        </form>
+      )}
+
+      {tab === "register" && (
+        <form
+          className="flex flex-col gap-3"
+          onSubmit={registerForm.handleSubmit((data) => registerMutation.mutate(data))}
+        >
+          <input type="hidden" {...registerForm.register("role")} />
+          <div className="flex flex-col gap-1">
+            <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide">
+              Nome
+            </label>
+            <Input
+              {...registerForm.register("name")}
+              type="text"
+              placeholder="Nome completo"
+              aria-invalid={!!registerForm.formState.errors.name}
+            />
+            {registerForm.formState.errors.name && (
+              <p className="text-xs text-destructive">
+                {registerForm.formState.errors.name.message}
+              </p>
+            )}
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide">
+              Email
+            </label>
+            <Input
+              {...registerForm.register("email")}
+              type="email"
+              placeholder="seu@email.com"
+              aria-invalid={!!registerForm.formState.errors.email}
+            />
+            {registerForm.formState.errors.email && (
+              <p className="text-xs text-destructive">
+                {registerForm.formState.errors.email.message}
+              </p>
+            )}
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide">
+              Senha
+            </label>
+            <Input
+              {...registerForm.register("password")}
+              type="password"
+              placeholder="••••••••"
+              aria-invalid={!!registerForm.formState.errors.password}
+            />
+            {registerForm.formState.errors.password && (
+              <p className="text-xs text-destructive">
+                {registerForm.formState.errors.password.message}
+              </p>
+            )}
+          </div>
+          <div className="flex items-start gap-2">
+            <input
+              type="checkbox"
+              id="booking-terms"
+              className="mt-0.5 size-4 rounded shrink-0"
+              {...registerForm.register("accepted_terms")}
+            />
+            <label
+              htmlFor="booking-terms"
+              className="text-xs text-muted-foreground leading-relaxed"
+            >
+              Li e aceito os{" "}
+              <a href="#" className="font-semibold text-chart-3">
+                Termos e Condições
+              </a>
+            </label>
+          </div>
+          {registerForm.formState.errors.accepted_terms && (
+            <p className="text-xs text-destructive -mt-2">
+              {registerForm.formState.errors.accepted_terms.message}
+            </p>
+          )}
+          {displayError && <p className="text-sm text-destructive">{displayError}</p>}
+          <CtaButton type="submit" disabled={isWorking}>
+            {isWorking ? (
+              <span className="size-4 animate-spin rounded-full border-2 border-white/30 border-t-white inline-block" />
+            ) : (
+              "Criar conta e confirmar"
+            )}
+          </CtaButton>
+        </form>
+      )}
+
+      <DialogFooter>
+        <Button variant="outline" onClick={() => goStep(3)} disabled={isWorking}>
+          Voltar
+        </Button>
+      </DialogFooter>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // BookingWizard — public export
 // ---------------------------------------------------------------------------
 
