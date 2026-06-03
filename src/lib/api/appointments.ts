@@ -27,3 +27,16 @@ export async function createAppointment(body: {
   const { data } = await api.post<AppointmentDTO>("/appointments", body);
   return data;
 }
+
+export async function listMyAppointments(): Promise<AppointmentDTO[]> {
+  const { data } = await api.get<AppointmentDTO[]>("/me/appointments");
+  return data;
+}
+
+export async function cancelAppointment(id: string, reason?: string): Promise<AppointmentDTO> {
+  const { data } = await api.patch<AppointmentDTO>(`/appointments/${id}/status`, {
+    status: "cancelled",
+    reason,
+  });
+  return data;
+}

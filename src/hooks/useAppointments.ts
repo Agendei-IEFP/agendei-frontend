@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createAppointment, listMyProfessionalAppointments } from "@/lib/api/appointments";
+import {
+  cancelAppointment,
+  createAppointment,
+  listMyAppointments,
+  listMyProfessionalAppointments,
+} from "@/lib/api/appointments";
 
 export function useMyProfessionalAppointments() {
   return useQuery({
@@ -14,6 +19,24 @@ export function useCreateAppointment() {
     mutationFn: createAppointment,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["appointments"] });
+      queryClient.invalidateQueries({ queryKey: ["slots"] });
+    },
+  });
+}
+
+export function useMyAppointments() {
+  return useQuery({
+    queryKey: ["my-appointments"],
+    queryFn: listMyAppointments,
+  });
+}
+
+export function useCancelAppointment() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, reason }: { id: string; reason?: string }) => cancelAppointment(id, reason),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["my-appointments"] });
       queryClient.invalidateQueries({ queryKey: ["slots"] });
     },
   });
