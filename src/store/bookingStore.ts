@@ -3,7 +3,7 @@ import type { OfferingDTO, StoreProfessionalDTO } from "@/types/api";
 
 interface BookingState {
   open: boolean;
-  step: 1 | 2 | 3 | "success";
+  step: 1 | 2 | 3 | "auth" | "success";
   storeId: string | null;
   professionalStoreId: string | null;
   selectedProfessional: StoreProfessionalDTO | null;
@@ -24,7 +24,7 @@ interface BookingState {
   setDate: (date: string) => void;
   setSlot: (slot: { start: string; end: string }) => void;
   setNotes: (notes: string) => void;
-  goStep: (step: 1 | 2 | 3 | "success") => void;
+  goStep: (step: 1 | 2 | 3 | "auth" | "success") => void;
   reset: () => void;
 }
 
