@@ -3,6 +3,7 @@ import { StoresNavbar } from "@/components/stores/StoresNavbar";
 import { StoreHero } from "@/components/stores/StoreHero";
 import { OfferingList } from "@/components/stores/OfferingList";
 import { StoreProfessionalList } from "@/components/stores/StoreProfessionalList";
+import { BookingWizard } from "@/components/booking/BookingWizard";
 import { Footer } from "@/components/layout/Footer";
 import { useStore, useStoreOfferings, useStoreProfessionals } from "@/hooks/useStores";
 
@@ -55,8 +56,9 @@ function StoreDetailPage() {
           }}
         />
         <OfferingList offerings={offeringsQuery.data ?? []} />
-        <StoreProfessionalList professionals={professionalsQuery.data ?? []} />
+        <StoreProfessionalList professionals={professionalsQuery.data ?? []} storeId={storeId} />
         <Footer />
+        <BookingWizard storeId={storeId} />
       </div>
     </>
   );

@@ -1,6 +1,6 @@
 import { Building2, MapPin, Phone, Mail, Users, Scissors, ArrowRight } from "lucide-react";
-import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
+import { useBookingStore } from "@/store/bookingStore";
 import type { StoreDTO } from "@/types/api";
 
 const STORE_TYPE_LABELS: Record<string, string> = {
@@ -43,6 +43,7 @@ interface StoreHeroProps {
 export function StoreHero({ store, gradientIndex = 0, className }: StoreHeroProps) {
   const gradient = BANNER_GRADIENTS[gradientIndex % BANNER_GRADIENTS.length];
   const iconColor = ICON_COLORS[gradientIndex % ICON_COLORS.length];
+  const openWizard = useBookingStore((s) => s.openWizard);
   return (
     <div className={cn("bg-card border-b border-border", className)}>
       {/* Banner */}
@@ -122,9 +123,8 @@ export function StoreHero({ store, gradientIndex = 0, className }: StoreHeroProp
             </span>
           </div>
 
-          <Link
-            to="/stores/$storeId/book"
-            params={{ storeId: store.id }}
+          <button
+            onClick={() => openWizard({ storeId: store.id })}
             className={cn(
               "inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white",
               "bg-linear-to-br from-chart-3 to-primary",
@@ -134,7 +134,7 @@ export function StoreHero({ store, gradientIndex = 0, className }: StoreHeroProp
           >
             Agendar agora
             <ArrowRight className="size-4" />
-          </Link>
+          </button>
         </div>
       </div>
     </div>
