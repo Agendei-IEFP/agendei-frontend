@@ -1,10 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { CheckCircle2, X } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { cn } from "@/lib/utils";
 import { formatDate, formatPrice, getInitials } from "@/lib/format";
 import { getApiErrorMessage } from "@/lib/api/errorUtils";
+import { login, register } from "@/lib/api/auth";
+import { loginSchema, registerSchema } from "@/lib/validations/auth";
+import type { LoginFormData, RegisterFormData } from "@/lib/validations/auth";
 import { useBookingStore } from "@/store/bookingStore";
+import { useAuthStore } from "@/store/authStore";
 import { useStoreProfessionals } from "@/hooks/useStores";
 import { useOfferings } from "@/hooks/useServices";
 import { useAvailableSlots } from "@/hooks/useSlots";
@@ -17,6 +24,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -316,36 +324,30 @@ function Step2() {
 // Step 3 — Confirm
 // ---------------------------------------------------------------------------
 
-function Step3() {
+interface Step3Props {
+  onConfirm: () => Promise<void>;
+  isPending: boolean;
+  error: string | null;
+}
+
+function Step3({ onConfirm, isPending, error }: Step3Props) {
   const {
-    professionalStoreId,
     selectedProfessional,
     selectedOffering,
-    offeringId,
     date,
     slot,
     notes,
     setNotes,
     goStep,
   } = useBookingStore();
+  const accessToken = useAuthStore((s) => s.accessToken);
 
-  const [error, setError] = useState<string | null>(null);
-  const createAppointment = useCreateAppointment();
-
-  async function handleConfirm() {
-    if (!professionalStoreId || !offeringId || !slot) return;
-    setError(null);
-    try {
-      await createAppointment.mutateAsync({
-        professional_store_id: professionalStoreId,
-        offering_id: offeringId,
-        starts_at: slot.start,
-        notes: notes || undefined,
-      });
-      goStep("success");
-    } catch (err) {
-      setError(getApiErrorMessage(err));
+  function handleConfirmClick() {
+    if (!accessToken) {
+      goStep("auth");
+      return;
     }
+    void onConfirm();
   }
 
   const parsedDate = date ? parseLocalDate(date) : null;
@@ -353,7 +355,9 @@ function Step3() {
   return (
     <div className="flex flex-col gap-4">
       <div className="rounded-2xl border border-border bg-card p-4 shadow-sm flex flex-col gap-2.5">
-        {selectedOffering && <SummaryRow label="Serviço" value={selectedOffering.service.name} />}
+        {selectedOffering && (
+          <SummaryRow label="Serviço" value={selectedOffering.service.name} />
+        )}
         {selectedOffering && (
           <SummaryRow label="Preço" value={formatPrice(selectedOffering.effective_price)} />
         )}
@@ -391,11 +395,11 @@ function Step3() {
       {error && <p className="text-sm text-destructive">{error}</p>}
 
       <DialogFooter>
-        <Button variant="outline" onClick={() => goStep(2)} disabled={createAppointment.isPending}>
+        <Button variant="outline" onClick={() => goStep(2)} disabled={isPending}>
           Voltar
         </Button>
-        <CtaButton disabled={createAppointment.isPending} onClick={handleConfirm}>
-          {createAppointment.isPending ? (
+        <CtaButton disabled={isPending} onClick={handleConfirmClick}>
+          {isPending ? (
             <span className="size-4 animate-spin rounded-full border-2 border-white/30 border-t-white inline-block" />
           ) : (
             "Confirmar"
@@ -449,11 +453,33 @@ function SuccessScreen() {
 // ---------------------------------------------------------------------------
 
 export function BookingWizard({ storeId }: { storeId: string }) {
-  const { open, step, closeWizard } = useBookingStore();
+  const { open, step, closeWizard, goStep, professionalStoreId, offeringId, slot, notes } =
+    useBookingStore();
+  const [confirmError, setConfirmError] = useState<string | null>(null);
+  const createAppointment = useCreateAppointment();
+
+  async function handleConfirm() {
+    if (!professionalStoreId || !offeringId || !slot) return;
+    setConfirmError(null);
+    try {
+      await createAppointment.mutateAsync({
+        professional_store_id: professionalStoreId,
+        offering_id: offeringId,
+        starts_at: slot.start,
+        notes: notes || undefined,
+      });
+      goStep("success");
+    } catch (err) {
+      setConfirmError(getApiErrorMessage(err));
+    }
+  }
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && closeWizard()}>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto" showCloseButton={false}>
+      <DialogContent
+        className="sm:max-w-lg max-h-[90vh] overflow-y-auto"
+        showCloseButton={false}
+      >
         <div className="flex items-center justify-between">
           <DialogTitle className="font-heading font-extrabold text-base text-foreground">
             Agendar
@@ -467,10 +493,23 @@ export function BookingWizard({ storeId }: { storeId: string }) {
             </button>
           </DialogClose>
         </div>
-        {step !== "success" && <ProgressBar step={step} />}
+        {step !== "success" && step !== "auth" && <ProgressBar step={step} />}
         {step === 1 && <Step1 storeId={storeId} />}
         {step === 2 && <Step2 />}
-        {step === 3 && <Step3 />}
+        {step === 3 && (
+          <Step3
+            onConfirm={handleConfirm}
+            isPending={createAppointment.isPending}
+            error={confirmError}
+          />
+        )}
+        {step === "auth" && (
+          <AuthStep
+            onConfirm={handleConfirm}
+            isPending={createAppointment.isPending}
+            error={confirmError}
+          />
+        )}
         {step === "success" && <SuccessScreen />}
       </DialogContent>
     </Dialog>
