@@ -34,12 +34,13 @@ O Vite sobe em `http://localhost:5173` e faz proxy de `/api/*` para `http://loca
 
 ## Scripts
 
-| Comando           | O que faz                                 |
-| ----------------- | ----------------------------------------- |
-| `npm run dev`     | Inicia o dev server com HMR               |
-| `npm run build`   | Type-check + build de produção em `dist/` |
-| `npm run preview` | Serve o build de produção localmente      |
-| `npm run lint`    | Roda ESLint                               |
+| Comando            | O que faz                                 |
+| ------------------ | ----------------------------------------- |
+| `npm run dev`      | Inicia o dev server com HMR               |
+| `npm run build`    | Type-check + build de produção em `dist/` |
+| `npm run preview`  | Serve o build de produção localmente      |
+| `npm run prettier` | Roda o linter de estilização do código    |
+| `npm run lint`     | Roda ESLint                               |
 
 ## Estrutura
 
@@ -86,7 +87,3 @@ A autenticação usa dois tokens:
 - **Refresh token** — cookie httpOnly, enviado automaticamente pelo browser
 
 O interceptor do Axios renova o access token silenciosamente ao receber um `401`, enfileirando as requisições paralelas para evitar múltiplas chamadas ao `/auth/refresh`.
-
-## Convenções
-
-Ver [`CLAUDE.md`](./CLAUDE.md) para convenções de nomenclatura, estrutura de componentes, padrões de hooks, stores Zustand, formulários e design system (tokens de cor, tipografia, padrões de UI).
