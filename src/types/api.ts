@@ -240,6 +240,12 @@ export interface AppointmentDTO {
   client?: UserDTO;
   professional?: ProfessionalDTO;
   offering?: ServiceDTO;
+  // Campos expandidos — presentes em GET /me/appointments (AppointmentClientPublic)
+  service_name?: string | null;
+  professional_name?: string | null;
+  store_name?: string | null;
+  effective_price?: string | null;
+  effective_duration_minutes?: number | null;
 }
 
 // ---------------------------------------------------------------------------

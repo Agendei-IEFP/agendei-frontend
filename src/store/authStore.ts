@@ -8,6 +8,7 @@ interface AuthState {
   login: (token: string, user: UserDTO) => void;
   logout: () => void;
   setAccessToken: (token: string) => void;
+  setUser: (user: UserDTO) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -18,6 +19,7 @@ export const useAuthStore = create<AuthState>()(
       login: (token, user) => set({ accessToken: token, user }),
       logout: () => set({ accessToken: null, user: null }),
       setAccessToken: (token) => set({ accessToken: token }),
+      setUser: (user) => set({ user }),
     }),
     {
       name: "auth-storage",
