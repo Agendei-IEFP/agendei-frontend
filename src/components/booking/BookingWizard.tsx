@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatDate, formatPrice, getInitials } from "@/lib/format";
 import { getApiErrorMessage } from "@/lib/api/errorUtils";
@@ -9,7 +9,7 @@ import { useStoreProfessionals } from "@/hooks/useStores";
 import { useOfferings } from "@/hooks/useServices";
 import { useAvailableSlots } from "@/hooks/useSlots";
 import { useCreateAppointment } from "@/hooks/useAppointments";
-import { Dialog, DialogContent, DialogFooter, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 // ---------------------------------------------------------------------------
@@ -447,8 +447,20 @@ export function BookingWizard({ storeId }: { storeId: string }) {
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && closeWizard()}>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
-        <DialogTitle className="sr-only">Agendamento</DialogTitle>
+      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto" showCloseButton={false}>
+        <div className="flex items-center justify-between">
+          <DialogTitle className="font-heading font-extrabold text-base text-foreground">
+            Agendar
+          </DialogTitle>
+          <DialogClose asChild>
+            <button
+              onClick={closeWizard}
+              className="size-8 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-salmon-100 transition-colors"
+            >
+              <X className="size-4" />
+            </button>
+          </DialogClose>
+        </div>
         {step !== "success" && <ProgressBar step={step} />}
         {step === 1 && <Step1 storeId={storeId} />}
         {step === 2 && <Step2 />}

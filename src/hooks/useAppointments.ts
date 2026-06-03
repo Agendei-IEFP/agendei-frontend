@@ -14,6 +14,7 @@ export function useCreateAppointment() {
     mutationFn: createAppointment,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["appointments"] });
+      queryClient.invalidateQueries({ queryKey: ["slots"] });
     },
   });
 }
