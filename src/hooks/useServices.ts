@@ -80,10 +80,10 @@ export function useDeleteService() {
 // Offerings (por loja)
 // ---------------------------------------------------------------------------
 
-export function useOfferings(professionalStoreId: string) {
+export function useOfferings(professionalStoreId: string | null) {
   return useQuery({
     queryKey: ["offerings", professionalStoreId],
-    queryFn: () => listOfferings(professionalStoreId),
+    queryFn: () => listOfferings(professionalStoreId ?? ""),
     enabled: !!professionalStoreId,
   });
 }
