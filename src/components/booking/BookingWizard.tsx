@@ -9,7 +9,13 @@ import { useStoreProfessionals } from "@/hooks/useStores";
 import { useOfferings } from "@/hooks/useServices";
 import { useAvailableSlots } from "@/hooks/useSlots";
 import { useCreateAppointment } from "@/hooks/useAppointments";
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 // ---------------------------------------------------------------------------
