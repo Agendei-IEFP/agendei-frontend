@@ -54,7 +54,7 @@ export function useLogout() {
     // queremos limpar o estado local independentemente
     onSettled: () => {
       clearAuth();
-      navigate({ to: "/login" });
+      navigate({ to: "/stores" });
     },
   });
 }

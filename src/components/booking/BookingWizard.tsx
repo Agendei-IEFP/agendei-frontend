@@ -438,7 +438,7 @@ function SuccessScreen() {
       </div>
       <CtaButton
         onClick={() => {
-          void navigate({ to: "/client" });
+          void navigate({ to: "/client/appointments" });
           closeWizard();
         }}
       >
