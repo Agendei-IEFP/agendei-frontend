@@ -106,9 +106,11 @@ export function AdminSidebar() {
                 </SidebarMenuBadge>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton disabled>
-                  <Calendar />
-                  <span>Agendamentos</span>
+                <SidebarMenuButton asChild isActive={isActive("/admin/agenda")}>
+                  <Link to="/admin/agenda">
+                    <Calendar />
+                    <span>Agendamentos</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
