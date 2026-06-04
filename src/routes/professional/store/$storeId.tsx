@@ -237,12 +237,6 @@ function ScheduleInfoModal() {
                   <strong className="text-foreground">esta loja</strong>. Ele não altera o horário
                   das outras lojas em que você trabalha.
                 </p>
-                <p>
-                  Se você não definir um horário específico aqui, o sistema usará automaticamente o
-                  horário base configurado em{" "}
-                  <strong className="text-foreground">Meus Horários</strong>.
-                </p>
-                <p>Alterações não afetam agendamentos já confirmados.</p>
               </div>
             </DialogDescription>
           </DialogHeader>
