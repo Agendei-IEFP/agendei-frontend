@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { getInitials } from "@/lib/format";
 import type { ProfessionalWithStoreDTO } from "@/types/api";
+import { useUnlinkProfessional } from "@/hooks/useProfessionals";
+import { ProfessionalEditDialog } from "./ProfessionalEditDialog";
 
 interface ProfessionalCardProps {
   professional: ProfessionalWithStoreDTO;
@@ -16,9 +19,20 @@ const AVATAR_COLORS = [
 ];
 
 export function ProfessionalCard({ professional, className }: ProfessionalCardProps) {
+  const [editOpen, setEditOpen] = useState(false);
+  const unlinkMutation = useUnlinkProfessional();
+
   const colorIndex = professional.id.charCodeAt(0) % AVATAR_COLORS.length;
   const avatarColor = AVATAR_COLORS[colorIndex];
   const initials = getInitials(professional.name);
+
+  function handleRemove() {
+    if (!window.confirm(`Remover ${professional.name} desta loja?`)) return;
+    unlinkMutation.mutate({
+      storeId: professional.store_id,
+      professionalStoreId: professional.professional_store_id,
+    });
+  }
 
   return (
     <div
@@ -68,19 +82,26 @@ export function ProfessionalCard({ professional, className }: ProfessionalCardPr
       <div className="flex gap-2 pt-4 border-t border-border">
         <button
           type="button"
-          disabled
-          className="flex-1 text-xs font-semibold px-3 py-1.5 rounded-lg border border-input text-secondary-foreground bg-secondary opacity-50 cursor-not-allowed"
+          onClick={() => setEditOpen(true)}
+          className="flex-1 text-xs font-semibold px-3 py-1.5 rounded-lg border border-input text-secondary-foreground bg-secondary hover:bg-muted transition-colors"
         >
           Editar
         </button>
         <button
           type="button"
-          disabled
-          className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-red-200 text-destructive bg-red-50 opacity-50 cursor-not-allowed"
+          onClick={handleRemove}
+          disabled={unlinkMutation.isPending}
+          className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-red-200 text-destructive bg-red-50 hover:bg-red-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Remover
         </button>
       </div>
+
+      <ProfessionalEditDialog
+        professional={professional}
+        open={editOpen}
+        onClose={() => setEditOpen(false)}
+      />
     </div>
   );
 }
