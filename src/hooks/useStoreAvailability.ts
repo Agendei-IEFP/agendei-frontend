@@ -1,10 +1,30 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { StoreAvailabilityDTO } from "@/types/api";
 import {
   listStoreAvailability,
   createStoreAvailability,
   deleteStoreAvailability,
   replaceStoreAvailability,
 } from "@/lib/api/storeAvailability";
+
+/** Fetches StoreAvailability for multiple professional-store links in parallel. */
+export function useAllStoreAvailability(professionalStoreIds: string[]): {
+  data: StoreAvailabilityDTO[];
+  isLoading: boolean;
+} {
+  const results = useQueries({
+    queries: professionalStoreIds.map((id) => ({
+      queryKey: ["storeAvailability", id],
+      queryFn: () => listStoreAvailability(id),
+      enabled: !!id,
+    })),
+  });
+
+  return {
+    isLoading: results.some((r) => r.isLoading),
+    data: results.flatMap((r) => r.data ?? []),
+  };
+}
 
 export function useStoreAvailability(professionalStoreId: string) {
   return useQuery({
