@@ -331,15 +331,8 @@ interface Step3Props {
 }
 
 function Step3({ onConfirm, isPending, error }: Step3Props) {
-  const {
-    selectedProfessional,
-    selectedOffering,
-    date,
-    slot,
-    notes,
-    setNotes,
-    goStep,
-  } = useBookingStore();
+  const { selectedProfessional, selectedOffering, date, slot, notes, setNotes, goStep } =
+    useBookingStore();
   const accessToken = useAuthStore((s) => s.accessToken);
 
   function handleConfirmClick() {
@@ -355,9 +348,7 @@ function Step3({ onConfirm, isPending, error }: Step3Props) {
   return (
     <div className="flex flex-col gap-4">
       <div className="rounded-2xl border border-border bg-card p-4 shadow-sm flex flex-col gap-2.5">
-        {selectedOffering && (
-          <SummaryRow label="Serviço" value={selectedOffering.service.name} />
-        )}
+        {selectedOffering && <SummaryRow label="Serviço" value={selectedOffering.service.name} />}
         {selectedOffering && (
           <SummaryRow label="Preço" value={formatPrice(selectedOffering.effective_price)} />
         )}
@@ -485,8 +476,7 @@ function AuthStep({ onConfirm, isPending, error }: AuthStepProps) {
     },
   });
 
-  const isWorking =
-    loginMutation.isPending || registerMutation.isPending || isPending;
+  const isWorking = loginMutation.isPending || registerMutation.isPending || isPending;
 
   const authError =
     tab === "login"
@@ -542,9 +532,7 @@ function AuthStep({ onConfirm, isPending, error }: AuthStepProps) {
               aria-invalid={!!loginForm.formState.errors.email}
             />
             {loginForm.formState.errors.email && (
-              <p className="text-xs text-destructive">
-                {loginForm.formState.errors.email.message}
-              </p>
+              <p className="text-xs text-destructive">{loginForm.formState.errors.email.message}</p>
             )}
           </div>
           <div className="flex flex-col gap-1">
@@ -698,10 +686,7 @@ export function BookingWizard({ storeId }: { storeId: string }) {
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && closeWizard()}>
-      <DialogContent
-        className="sm:max-w-lg max-h-[90vh] overflow-y-auto"
-        showCloseButton={false}
-      >
+      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto" showCloseButton={false}>
         <div className="flex items-center justify-between">
           <DialogTitle className="font-heading font-extrabold text-base text-foreground">
             Agendar
