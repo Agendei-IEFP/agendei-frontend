@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   cancelAppointment,
   createAppointment,
+  getStoreAppointments,
   listMyAppointments,
   listMyProfessionalAppointments,
 } from "@/lib/api/appointments";
@@ -39,5 +40,13 @@ export function useCancelAppointment() {
       queryClient.invalidateQueries({ queryKey: ["my-appointments"] });
       queryClient.invalidateQueries({ queryKey: ["slots"] });
     },
+  });
+}
+
+export function useStoreAppointments(storeId: string, date: string) {
+  return useQuery({
+    queryKey: ["store-appointments", storeId, date],
+    queryFn: () => getStoreAppointments(storeId, date),
+    enabled: !!storeId,
   });
 }

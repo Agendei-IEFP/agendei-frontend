@@ -1,5 +1,5 @@
 import api from "@/lib/api/axios";
-import type { AppointmentDTO } from "@/types/api";
+import type { AppointmentAdminDTO, AppointmentDTO } from "@/types/api";
 
 export async function listMyProfessionalAppointments(): Promise<AppointmentDTO[]> {
   const { data } = await api.get<AppointmentDTO[]>("/me/professional-appointments");
@@ -37,6 +37,16 @@ export async function cancelAppointment(id: string, reason?: string): Promise<Ap
   const { data } = await api.patch<AppointmentDTO>(`/appointments/${id}/status`, {
     status: "cancelled",
     reason,
+  });
+  return data;
+}
+
+export async function getStoreAppointments(
+  storeId: string,
+  date?: string,
+): Promise<AppointmentAdminDTO[]> {
+  const { data } = await api.get<AppointmentAdminDTO[]>(`/stores/${storeId}/appointments`, {
+    params: date ? { date } : {},
   });
   return data;
 }
