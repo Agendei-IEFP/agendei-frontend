@@ -140,6 +140,7 @@ export interface ProfessionalWithStoreDTO {
   is_active: boolean;
   store_id: string;
   store_name: string;
+  professional_store_id: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -250,6 +251,18 @@ export interface AppointmentDTO {
   // Campos retornados por /me/professional-appointments
   client_name?: string | null;
   duration_minutes?: number | null;
+}
+
+export interface AppointmentAdminDTO {
+  id: string;
+  starts_at: ISOTimestamp;
+  ends_at: ISOTimestamp;
+  status: AppointmentStatus;
+  client_name: string | null;
+  professional_name: string | null;
+  service_name: string | null;
+  store_name: string | null;
+  duration_minutes: number | null;
 }
 
 // ---------------------------------------------------------------------------
