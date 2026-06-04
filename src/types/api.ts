@@ -227,6 +227,7 @@ export interface AppointmentDTO {
   id: string;
   client_id: string;
   professional_id: string;
+  professional_store_id: string;
   offering_id: string;
   starts_at: ISOTimestamp;
   ends_at: ISOTimestamp;
@@ -246,6 +247,9 @@ export interface AppointmentDTO {
   store_name?: string | null;
   effective_price?: string | null;
   effective_duration_minutes?: number | null;
+  // Campos retornados por /me/professional-appointments
+  client_name?: string | null;
+  duration_minutes?: number | null;
 }
 
 // ---------------------------------------------------------------------------
