@@ -369,3 +369,14 @@
     transform: translateY(-10px);
   }
 }
+
+/* ── Agenda ───────────────────────────────────────────────────────────────── */
+.appt-cancelled {
+  background-image: repeating-linear-gradient(
+    -55deg,
+    transparent,
+    transparent 8px,
+    rgba(253, 164, 175, 0.15) 8px,
+    rgba(253, 164, 175, 0.15) 16px
+  );
+}
