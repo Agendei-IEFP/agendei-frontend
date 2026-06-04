@@ -27,14 +27,12 @@ export const Route = createFileRoute("/client/appointments/")({
 // ---------------------------------------------------------------------------
 
 const STATUS_LABELS: Record<AppointmentStatus, string> = {
-  pending: "Pendente",
   confirmed: "Confirmado",
   cancelled: "Cancelado",
   completed: "Concluído",
 };
 
 const STATUS_CLASSES: Record<AppointmentStatus, string> = {
-  pending: "bg-amber-100 text-amber-700",
   confirmed: "bg-green-100 text-green-700",
   cancelled: "bg-red-100 text-red-700",
   completed: "bg-slate-100 text-slate-600",
@@ -113,7 +111,7 @@ interface AppointmentCardProps {
 
 function AppointmentCard({ appointment, onCancel }: AppointmentCardProps) {
   const apt = appointment;
-  const canCancel = apt.status === "pending" || apt.status === "confirmed";
+  const canCancel = apt.status === "confirmed";
   const parsedDate = parseLocalDate(apt.starts_at);
 
   return (
