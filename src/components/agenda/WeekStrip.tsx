@@ -39,17 +39,19 @@ export function WeekStrip({
         const today = isToday(day);
         const past = isPastDay(day);
         const isSunday = idx === 6;
+        const hasContent = dayAppts.length > 0 || (dayBlocks && dayBlocks.length > 0);
+        const isDisabled = isSunday && !hasContent;
 
         return (
           <button
             key={idx}
-            onClick={() => !isSunday && onSelectDay(day)}
-            disabled={isSunday}
+            onClick={() => !isDisabled && onSelectDay(day)}
+            disabled={isDisabled}
             className={cn(
               "flex-1 flex flex-col items-center gap-1 rounded-lg py-1.5 px-1 transition-colors",
-              selected && !isSunday && "bg-muted border border-border",
-              !selected && !isSunday && "hover:bg-muted/60",
-              isSunday && "opacity-30 cursor-not-allowed",
+              selected && !isDisabled && "bg-muted border border-border",
+              !selected && !isDisabled && "hover:bg-muted/60",
+              isDisabled && "opacity-30 cursor-not-allowed",
             )}
           >
             <span
