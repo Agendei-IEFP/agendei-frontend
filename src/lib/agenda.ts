@@ -165,6 +165,7 @@ export function buildTimeline(
 
   const sortedBlocks = [...workBlocks].sort((a, b) => a.startMinutes - b.startMinutes);
   const items: TimelineItem[] = [];
+  const inBlockIds = new Set<string>();
 
   for (let blockIdx = 0; blockIdx < sortedBlocks.length; blockIdx++) {
     const block = sortedBlocks[blockIdx];
@@ -186,6 +187,8 @@ export function buildTimeline(
       const startMin = toMinutes(toLocal(a.starts_at));
       return startMin >= block.startMinutes && startMin < block.endMinutes;
     });
+
+    blockAppts.forEach((a) => inBlockIds.add(a.id));
 
     let cursor = block.startMinutes;
 
@@ -220,7 +223,18 @@ export function buildTimeline(
     }
   }
 
-  return items;
+  // Appointments outside all work blocks are always shown, sorted chronologically
+  for (const appt of sorted) {
+    if (!inBlockIds.has(appt.id)) {
+      items.push({ type: "appointment", appointment: appt });
+    }
+  }
+
+  return items.sort((a, b) => {
+    const aMin = a.type === "appointment" ? toMinutes(toLocal(a.appointment.starts_at)) : a.startMinutes;
+    const bMin = b.type === "appointment" ? toMinutes(toLocal(b.appointment.starts_at)) : b.startMinutes;
+    return aMin - bMin;
+  });
 }
 
 // ── Formatting ─────────────────────────────────────────────────────────────
