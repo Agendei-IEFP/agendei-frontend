@@ -1,16 +1,7 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
-import {
-  Bell,
-  Calendar,
-  ClipboardList,
-  MapPin,
-  Pencil,
-  Plus,
-  Store,
-  Users,
-} from "lucide-react";
+import { Bell, Calendar, ClipboardList, MapPin, Pencil, Plus, Store, Users } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { useMyStores } from "@/hooks/useStores";
 import { useMyProfessionals } from "@/hooks/useProfessionals";
@@ -35,7 +26,11 @@ function AdminDashboard() {
   const { data: lojas = [] } = useMyStores();
   const { data: professionals = [] } = useMyProfessionals();
   const storeIds = lojas.map((s) => s.id);
-  const { data: appointments, total: apptTotal, isLoading: aptsLoading } = useAllStoreAppointments(storeIds);
+  const {
+    data: appointments,
+    total: apptTotal,
+    isLoading: aptsLoading,
+  } = useAllStoreAppointments(storeIds);
   const { rows: offeringRows = [] } = useAdminOfferings();
 
   const profCount = lojas.reduce((acc, s) => acc + s.professional_count, 0);
@@ -80,7 +75,7 @@ function AdminDashboard() {
       </header>
 
       {/* ── Content ── */}
-      <main className="flex-1 p-4 md:p-8">
+      <main className="flex-1 p-2 md:p-8">
         {/* Welcome banner — shown only when there are no stores yet */}
         {!hasLojas && (
           <div className="rounded-2xl p-6 mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 overflow-hidden relative border border-salmon-200 bg-linear-to-br from-muted via-salmon-100 to-salmon-200">
@@ -107,7 +102,7 @@ function AdminDashboard() {
         )}
 
         {/* ── Stats row ── */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-7">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 mb-7">
           <StatCard
             label="Lojas"
             icon={<Store className="size-4 text-chart-3" />}
@@ -145,13 +140,14 @@ function AdminDashboard() {
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-5 mb-5">
               {/* Minhas Lojas — 2/3 */}
               <div className="xl:col-span-2 rounded-2xl border border-border bg-card">
-                <div className="flex items-center justify-between px-6 py-4 border-b border-border">
+                <div className="flex items-center justify-between px-4 md:px-6 py-4 border-b border-border">
                   <div>
                     <h2 className="font-heading font-bold text-slate-900 text-[1.05rem] tracking-[-0.02em]">
                       Minhas Lojas
                     </h2>
                     <p className="text-xs text-muted-foreground mt-0.5">
-                      {lojas.length} estabelecimento{lojas.length !== 1 ? "s" : ""} ativo{lojas.length !== 1 ? "s" : ""}
+                      {lojas.length} estabelecimento{lojas.length !== 1 ? "s" : ""} ativo
+                      {lojas.length !== 1 ? "s" : ""}
                     </p>
                   </div>
                   <button
@@ -163,7 +159,7 @@ function AdminDashboard() {
                     Nova loja
                   </button>
                 </div>
-                <div className="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="p-3 md:p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {lojas.map((store, i) => (
                     <DashboardStoreCard key={store.id} store={store} index={i} onEdit={openEdit} />
                   ))}
@@ -178,7 +174,8 @@ function AdminDashboard() {
                       Equipe
                     </h2>
                     <p className="text-xs text-muted-foreground mt-0.5">
-                      {professionals.length} profissional{professionals.length !== 1 ? "is" : ""} ativo{professionals.length !== 1 ? "s" : ""}
+                      {professionals.length} profissional{professionals.length !== 1 ? "is" : ""}{" "}
+                      ativo{professionals.length !== 1 ? "s" : ""}
                     </p>
                   </div>
                   <Link
@@ -206,7 +203,7 @@ function AdminDashboard() {
             </div>
 
             {/* Row 2: Appointments + Services */}
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-3 md:gap-5">
               {/* Agendamentos recentes — 2/3 */}
               <div className="xl:col-span-2 rounded-2xl border border-border bg-card">
                 <div className="flex items-center justify-between px-6 py-4 border-b border-border">
@@ -233,9 +230,7 @@ function AdminDashboard() {
                       <p className="text-sm text-slate-400">Nenhum agendamento ainda</p>
                     </div>
                   ) : (
-                    appointments.slice(0, 6).map((appt) => (
-                      <ApptRow key={appt.id} appt={appt} />
-                    ))
+                    appointments.slice(0, 6).map((appt) => <ApptRow key={appt.id} appt={appt} />)
                   )}
                 </div>
               </div>
@@ -262,15 +257,6 @@ function AdminDashboard() {
                   {offeringRows.slice(0, 8).map((row) => (
                     <ServiceRow key={row.offering.id} row={row} />
                   ))}
-                </div>
-                <div className="px-4 py-3 border-t border-border">
-                  <Link
-                    to="/admin/servicos"
-                    className="w-full flex items-center justify-center gap-1.5 py-2 text-xs font-semibold rounded-xl border border-input hover:bg-muted transition-colors text-slate-700"
-                  >
-                    <Plus className="size-3.5" />
-                    Adicionar serviço
-                  </Link>
                 </div>
               </div>
             </div>
@@ -354,7 +340,7 @@ interface StatCardProps {
 
 function StatCard({ label, icon, iconBg, value, sub }: StatCardProps) {
   return (
-    <div className="rounded-2xl border border-border bg-card p-5">
+    <div className="rounded-2xl border border-border bg-card p-3 md:p-5">
       <div className="flex items-center justify-between mb-3">
         <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           {label}
@@ -486,9 +472,9 @@ function ApptRow({ appt }: { appt: AppointmentAdminDTO }) {
   const isCancelled = appt.status === "cancelled";
 
   return (
-    <div className="flex items-center gap-4 px-6 py-3.5 hover:bg-slate-50/50 transition-colors">
+    <div className="flex items-center gap-4 px-3 md:px-6 py-3.5 hover:bg-slate-50/50 transition-colors">
       <div
-        className={`size-9 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${isCancelled ? "bg-red-100 text-red-700" : "bg-salmon-100 text-chart-4"}`}
+        className={`flex size-9 rounded-full items-center justify-center text-xs font-bold shrink-0 ${isCancelled ? "bg-red-100 text-red-700" : "bg-salmon-100 text-chart-4"}`}
       >
         {initials}
       </div>
@@ -503,17 +489,21 @@ function ApptRow({ appt }: { appt: AppointmentAdminDTO }) {
           {appt.service_name} · com {appt.professional_name} · {appt.store_name}
         </p>
       </div>
-      <div className="text-right shrink-0">
-        <p className={`text-xs font-semibold ${isCancelled ? "text-slate-400" : "text-slate-700"}`}>
-          {apptDateLabel(appt.starts_at)}
-        </p>
-        <p className="text-xs text-muted-foreground">{time}</p>
+      <div className="text-center">
+        <div className="shrink-0">
+          <p
+            className={`text-xs font-semibold ${isCancelled ? "text-slate-400" : "text-slate-700"}`}
+          >
+            {apptDateLabel(appt.starts_at)}
+          </p>
+          <p className="text-xs text-muted-foreground">{time}</p>
+        </div>
+        {appt.effective_price && !isCancelled && (
+          <p className="text-sm font-bold shrink-0 text-chart-3">
+            {Number(appt.effective_price).toFixed(0)} €
+          </p>
+        )}
       </div>
-      {appt.effective_price && !isCancelled && (
-        <p className="text-sm font-bold shrink-0 text-chart-3">
-          R$ {Number(appt.effective_price).toFixed(0)}
-        </p>
-      )}
     </div>
   );
 }
@@ -528,7 +518,7 @@ function ServiceRow({ row }: { row: AdminOfferingRow }) {
         </p>
       </div>
       <p className="text-sm font-bold text-chart-3">
-        R$ {Number(row.offering.effective_price).toFixed(0)}
+        {Number(row.offering.effective_price).toFixed(0)} €
       </p>
     </div>
   );

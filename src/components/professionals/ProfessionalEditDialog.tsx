@@ -13,7 +13,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { useUpdateProfessional } from "@/hooks/useProfessionals";
-import { professionalEditSchema, type ProfessionalEditFormData } from "@/lib/validations/professional";
+import {
+  professionalEditSchema,
+  type ProfessionalEditFormData,
+} from "@/lib/validations/professional";
 import type { ProfessionalWithStoreDTO } from "@/types/api";
 
 interface ProfessionalEditDialogProps {
@@ -25,7 +28,11 @@ interface ProfessionalEditDialogProps {
 const inputClass =
   "w-full rounded-lg border border-input bg-white px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20 transition-colors duration-150";
 
-export function ProfessionalEditDialog({ professional, open, onClose }: ProfessionalEditDialogProps) {
+export function ProfessionalEditDialog({
+  professional,
+  open,
+  onClose,
+}: ProfessionalEditDialogProps) {
   const updateMutation = useUpdateProfessional();
 
   const {
@@ -70,7 +77,12 @@ export function ProfessionalEditDialog({ professional, open, onClose }: Professi
   }
 
   return (
-    <Dialog open={open} onOpenChange={(isOpen) => { if (!isOpen) onClose(); }}>
+    <Dialog
+      open={open}
+      onOpenChange={(isOpen) => {
+        if (!isOpen) onClose();
+      }}
+    >
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Editar profissional</DialogTitle>
@@ -86,9 +98,7 @@ export function ProfessionalEditDialog({ professional, open, onClose }: Professi
               rows={3}
               {...register("bio")}
             />
-            {errors.bio && (
-              <p className="text-xs text-destructive">{errors.bio.message}</p>
-            )}
+            {errors.bio && <p className="text-xs text-destructive">{errors.bio.message}</p>}
           </div>
 
           <div className="space-y-1.5">

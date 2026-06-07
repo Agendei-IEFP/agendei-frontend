@@ -23,7 +23,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { StoreFormDialog } from "@/components/store/StoreFormDialog";
 import { useUpdateStore, useDeleteStore } from "@/hooks/useStores";
 import type { StoreDTO } from "@/types/api";
@@ -94,7 +93,7 @@ export function StoreCard({ store, index, className }: StoreCardProps) {
       </div>
 
       {/* Info */}
-      <div className="p-5 flex-1 flex flex-col">
+      <div className="p-3 md:p-5 flex-1 flex flex-col">
         <h3 className="font-semibold text-foreground mb-1">{store.name}</h3>
         <div className="space-y-1 mb-3">
           {store.address && (
@@ -133,7 +132,7 @@ export function StoreCard({ store, index, className }: StoreCardProps) {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-2 pt-4 border-t border-border">
+          <div className="grid sm:flex items-center gap-2 pt-4 border-t border-border ">
             <Button
               size="sm"
               className="flex-1 bg-linear-to-br from-chart-3 to-primary text-white shadow-[0_3px_14px_rgba(224,80,64,0.28)] hover:-translate-y-px hover:shadow-[0_6px_20px_rgba(224,80,64,0.38)]"
@@ -150,7 +149,7 @@ export function StoreCard({ store, index, className }: StoreCardProps) {
             </Button>
             {store.is_active ? (
               <Button
-                variant="destructive"
+                variant="outline"
                 size="sm"
                 onClick={() => setDeactivateOpen(true)}
                 disabled={isUpdating}
@@ -169,20 +168,15 @@ export function StoreCard({ store, index, className }: StoreCardProps) {
                 Ativar
               </Button>
             )}
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  onClick={() => setDeleteOpen(true)}
-                  disabled={isDeleting}
-                  className="text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-                >
-                  <Trash2 />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Excluir definitivamente</TooltipContent>
-            </Tooltip>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => setDeleteOpen(true)}
+              disabled={isDeleting}
+            >
+              <Trash2 />
+              Excluir Estabelecimento
+            </Button>
           </div>
         </div>{" "}
         {/* end mt-auto */}

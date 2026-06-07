@@ -32,7 +32,7 @@ function RouteComponent() {
   return (
     <>
       {/* Header */}
-      <header className="sticky top-0 z-20 px-8 py-3.5 flex items-center justify-between bg-background/93 backdrop-blur-[14px] border-b border-border">
+      <header className="sticky top-0 z-20 p-2 md:px-8 py-3.5 flex items-center justify-between bg-background/93 backdrop-blur-[14px] border-b border-border">
         <div>
           <h1 className="font-heading font-extrabold tracking-tight text-foreground text-lg">
             Minhas Lojas
@@ -51,7 +51,7 @@ function RouteComponent() {
         </Button>
       </header>
 
-      <main className="flex-1 px-8 py-8">
+      <section className="flex-1 p-2 md:p-8">
         {/* Filters */}
         <div className="flex items-center gap-3 mb-6">
           <div className="relative max-w-xs flex-1">
@@ -101,7 +101,7 @@ function RouteComponent() {
             {/* Add new store card */}
             <button
               onClick={() => setCreateOpen(true)}
-              className="rounded-2xl border-2 border-dashed border-input flex flex-col items-center justify-center p-8 text-center cursor-pointer transition-colors hover:border-salmon-200 hover:bg-muted group min-h-[340px]"
+              className="rounded-2xl border-2 border-dashed border-input flex flex-col items-center justify-center p-8 text-center cursor-pointer transition-colors hover:border-salmon-200 hover:bg-muted group min-h-85"
             >
               <div className="size-12 rounded-2xl flex items-center justify-center mb-4 bg-background group-hover:bg-muted transition-colors">
                 <Plus className="size-5 text-muted-foreground group-hover:text-chart-3 transition-colors" />
@@ -113,7 +113,7 @@ function RouteComponent() {
             </button>
           </div>
         )}
-      </main>
+      </section>
 
       <StoreFormDialog open={createOpen} onOpenChange={setCreateOpen} mode="create" />
     </>
