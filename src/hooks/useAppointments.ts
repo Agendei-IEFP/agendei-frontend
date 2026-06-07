@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   cancelAppointment,
   createAppointment,
@@ -49,4 +49,26 @@ export function useStoreAppointments(storeId: string, date: string) {
     queryFn: () => getStoreAppointments(storeId, date),
     enabled: !!storeId,
   });
+}
+
+export function useAllStoreAppointments(storeIds: string[]) {
+  const results = useQueries({
+    queries: storeIds.map((storeId) => ({
+      queryKey: ["store-appointments", storeId],
+      queryFn: () => getStoreAppointments(storeId),
+    })),
+  });
+
+  const isLoading = results.some((r) => r.isLoading);
+
+  const now = new Date();
+  const all = results.flatMap((r) => r.data ?? []);
+  const upcoming = all
+    .filter((a) => new Date(a.starts_at) >= now)
+    .sort((a, b) => new Date(a.starts_at).getTime() - new Date(b.starts_at).getTime());
+  const past = all
+    .filter((a) => new Date(a.starts_at) < now)
+    .sort((a, b) => new Date(b.starts_at).getTime() - new Date(a.starts_at).getTime());
+
+  return { data: [...upcoming, ...past], total: all.length, isLoading };
 }
