@@ -263,6 +263,7 @@ export interface AppointmentAdminDTO {
   service_name: string | null;
   store_name: string | null;
   duration_minutes: number | null;
+  effective_price: DecimalString | null;
 }
 
 // ---------------------------------------------------------------------------
