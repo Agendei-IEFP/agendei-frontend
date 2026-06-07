@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Home, Store, Users, ClipboardList, Calendar, Settings, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -18,6 +19,7 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 export function AdminSidebar() {
@@ -27,8 +29,13 @@ export function AdminSidebar() {
   const lojaCount = lojas?.length ?? 0;
   const serviceCount = lojas?.reduce((acc, s) => acc + s.service_count, 0) ?? 0;
 
+  const { setOpenMobile, isMobile } = useSidebar();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isActive = (path: string) => pathname === path;
+
+  useEffect(() => {
+    if (isMobile) setOpenMobile(false);
+  }, [pathname, isMobile, setOpenMobile]);
 
   return (
     <Sidebar collapsible="offcanvas">
