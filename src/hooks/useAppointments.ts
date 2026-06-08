@@ -38,6 +38,7 @@ export function useCancelAppointment() {
     mutationFn: ({ id, reason }: { id: string; reason?: string }) => cancelAppointment(id, reason),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["my-appointments"] });
+      queryClient.invalidateQueries({ queryKey: ["my-professional-appointments"] });
       queryClient.invalidateQueries({ queryKey: ["slots"] });
     },
   });
