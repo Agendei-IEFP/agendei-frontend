@@ -250,6 +250,8 @@ export interface AppointmentDTO {
   effective_duration_minutes?: number | null;
   // Campos retornados por /me/professional-appointments
   client_name?: string | null;
+  client_phone?: string | null;
+  client_email?: string | null;
   duration_minutes?: number | null;
 }
 

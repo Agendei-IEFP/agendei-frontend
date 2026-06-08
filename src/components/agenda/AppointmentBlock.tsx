@@ -6,6 +6,7 @@ import { AppointmentStatus } from "@/types/enums";
 interface AppointmentBlockProps {
   appointment: AppointmentDTO;
   className?: string;
+  onClick?: () => void;
 }
 
 type BlockVariant = "occupied" | "completed" | "cancelled";
@@ -16,7 +17,7 @@ function getVariant(appt: AppointmentDTO): BlockVariant {
   return "occupied";
 }
 
-export function AppointmentBlock({ appointment, className }: AppointmentBlockProps) {
+export function AppointmentBlock({ appointment, className, onClick }: AppointmentBlockProps) {
   const variant = getVariant(appointment);
   const start = formatTime(toLocal(appointment.starts_at));
   const end = formatTime(toLocal(appointment.ends_at));
@@ -27,11 +28,13 @@ export function AppointmentBlock({ appointment, className }: AppointmentBlockPro
 
   return (
     <div
+      onClick={onClick}
       className={cn(
         "rounded-xl px-3 py-2.5",
         variant === "occupied" && "bg-salmon-100 border-l-4 border-chart-3",
         variant === "completed" && "bg-muted border-l-4 border-border opacity-65",
         variant === "cancelled" && "appt-cancelled bg-red-50 border-l-4 border-red-200",
+        onClick && "cursor-pointer",
         className,
       )}
     >

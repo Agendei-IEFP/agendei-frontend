@@ -7,6 +7,8 @@ import { useMyProfessionalStores } from "@/hooks/useProfessionals";
 import { useAllStoreAvailability } from "@/hooks/useStoreAvailability";
 import { WeekStrip } from "@/components/agenda/WeekStrip";
 import { DayTimeline } from "@/components/agenda/DayTimeline";
+import { AppointmentDetailModal } from "@/components/agenda/AppointmentDetailModal";
+import type { AppointmentDTO } from "@/types/api";
 import {
   getWeekStart,
   getWeekDays,
@@ -41,6 +43,7 @@ const MONTH_LABELS = [
 function Agenda() {
   const [selectedDay, setSelectedDay] = useState(new Date());
   const [selectedStoreId, setSelectedStoreId] = useState<string | null>(null);
+  const [selectedAppointment, setSelectedAppointment] = useState<AppointmentDTO | null>(null);
 
   const { data: appointments = [], isLoading } = useMyProfessionalAppointments();
   const { data: professionalStores = [] } = useMyProfessionalStores();
@@ -96,6 +99,7 @@ function Agenda() {
   });
 
   return (
+    <>
     <main className="flex-1 p-4 md:p-6 max-w-2xl mx-auto w-full">
       {/* Week navigation */}
       <div className="flex items-center justify-between gap-2 mb-3">
@@ -180,8 +184,19 @@ function Agenda() {
           <div className="size-7 animate-spin rounded-full border-2 border-border border-t-primary" />
         </div>
       ) : (
-        <DayTimeline day={selectedDay} appointments={dayAppointments} workBlocks={dayWorkBlocks} />
+        <DayTimeline
+          day={selectedDay}
+          appointments={dayAppointments}
+          workBlocks={dayWorkBlocks}
+          onAppointmentClick={setSelectedAppointment}
+        />
       )}
     </main>
+
+    <AppointmentDetailModal
+      appointment={selectedAppointment}
+      onOpenChange={(open) => !open && setSelectedAppointment(null)}
+    />
+    </>
   );
 }

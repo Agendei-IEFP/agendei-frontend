@@ -16,9 +16,10 @@ interface DayTimelineProps {
   day: Date;
   appointments: AppointmentDTO[];
   workBlocks?: WorkBlock[];
+  onAppointmentClick?: (appt: AppointmentDTO) => void;
 }
 
-export function DayTimeline({ day, appointments, workBlocks = [] }: DayTimelineProps) {
+export function DayTimeline({ day, appointments, workBlocks = [], onAppointmentClick }: DayTimelineProps) {
   const items = buildTimeline(appointments, workBlocks);
   const showNowLine = isToday(day);
   const now = new Date();
@@ -119,7 +120,11 @@ export function DayTimeline({ day, appointments, workBlocks = [] }: DayTimelineP
                   {startTime}
                 </span>
               </div>
-              <AppointmentBlock appointment={appt} className="flex-1" />
+              <AppointmentBlock
+                appointment={appt}
+                className="flex-1"
+                onClick={onAppointmentClick ? () => onAppointmentClick(appt) : undefined}
+              />
             </div>
           </div>
         );
