@@ -100,103 +100,103 @@ function Agenda() {
 
   return (
     <>
-    <main className="flex-1 p-4 md:p-6 max-w-2xl mx-auto w-full">
-      {/* Week navigation */}
-      <div className="flex items-center justify-between gap-2 mb-3">
-        <button
-          onClick={() => shiftWeek(-1)}
-          className="size-7 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted border border-border transition-colors"
-        >
-          <ChevronLeft className="size-4" />
-        </button>
-        <p className="text-xs font-semibold text-muted-foreground">{weekLabel}</p>
-        <button
-          onClick={() => shiftWeek(1)}
-          className="size-7 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted border border-border transition-colors"
-        >
-          <ChevronRight className="size-4" />
-        </button>
-      </div>
-
-      {/* Week strip */}
-      <div className="bg-card border border-border rounded-xl p-3 mb-4">
-        <WeekStrip
-          weekDays={weekDays}
-          selectedDay={selectedDay}
-          appointments={filteredAppointments}
-          onSelectDay={setSelectedDay}
-          workBlocksByWeekday={workBlocksByWeekday}
-        />
-      </div>
-
-      {/* Store filter pills — only shown when professional works in multiple stores */}
-      {professionalStores.length > 1 && (
-        <div className="flex gap-2 overflow-x-auto pb-1 mb-4 no-scrollbar">
+      <main className="flex-1 p-4 md:p-6 max-w-2xl mx-auto w-full">
+        {/* Week navigation */}
+        <div className="flex items-center justify-between gap-2 mb-3">
           <button
-            onClick={() => setSelectedStoreId(null)}
-            className={cn(
-              "shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full border transition-colors",
-              selectedStoreId === null
-                ? "bg-chart-3 text-white border-chart-3"
-                : "bg-card text-muted-foreground border-border hover:border-salmon-200",
-            )}
+            onClick={() => shiftWeek(-1)}
+            className="size-7 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted border border-border transition-colors"
           >
-            Todas
+            <ChevronLeft className="size-4" />
           </button>
-          {professionalStores.map((ps) => (
+          <p className="text-xs font-semibold text-muted-foreground">{weekLabel}</p>
+          <button
+            onClick={() => shiftWeek(1)}
+            className="size-7 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted border border-border transition-colors"
+          >
+            <ChevronRight className="size-4" />
+          </button>
+        </div>
+
+        {/* Week strip */}
+        <div className="bg-card border border-border rounded-xl p-3 mb-4">
+          <WeekStrip
+            weekDays={weekDays}
+            selectedDay={selectedDay}
+            appointments={filteredAppointments}
+            onSelectDay={setSelectedDay}
+            workBlocksByWeekday={workBlocksByWeekday}
+          />
+        </div>
+
+        {/* Store filter pills — only shown when professional works in multiple stores */}
+        {professionalStores.length > 1 && (
+          <div className="flex gap-2 overflow-x-auto pb-1 mb-4 no-scrollbar">
             <button
-              key={ps.id}
-              onClick={() => setSelectedStoreId(ps.id)}
+              onClick={() => setSelectedStoreId(null)}
               className={cn(
                 "shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full border transition-colors",
-                selectedStoreId === ps.id
+                selectedStoreId === null
                   ? "bg-chart-3 text-white border-chart-3"
                   : "bg-card text-muted-foreground border-border hover:border-salmon-200",
               )}
             >
-              {ps.store.name}
+              Todas
             </button>
-          ))}
-        </div>
-      )}
-
-      {/* Day label + free hours badge */}
-      <div className="flex items-center justify-between mb-3">
-        <p className="text-sm font-bold text-foreground capitalize">
-          {dayLabel}
-          {today && <span className="text-chart-3"> · Hoje</span>}
-        </p>
-        {!past && freeH > 0 && (
-          <span className="text-xs font-bold text-green-700 bg-green-100 px-2.5 py-1 rounded-full">
-            ~{freeH}h livres
-          </span>
+            {professionalStores.map((ps) => (
+              <button
+                key={ps.id}
+                onClick={() => setSelectedStoreId(ps.id)}
+                className={cn(
+                  "shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full border transition-colors",
+                  selectedStoreId === ps.id
+                    ? "bg-chart-3 text-white border-chart-3"
+                    : "bg-card text-muted-foreground border-border hover:border-salmon-200",
+                )}
+              >
+                {ps.store.name}
+              </button>
+            ))}
+          </div>
         )}
-        {past && (
-          <span className="text-xs font-semibold text-muted-foreground/50 bg-muted px-2.5 py-1 rounded-full">
-            Encerrado
-          </span>
-        )}
-      </div>
 
-      {/* Timeline */}
-      {isLoading ? (
-        <div className="flex justify-center py-16">
-          <div className="size-7 animate-spin rounded-full border-2 border-border border-t-primary" />
+        {/* Day label + free hours badge */}
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-sm font-bold text-foreground capitalize">
+            {dayLabel}
+            {today && <span className="text-chart-3"> · Hoje</span>}
+          </p>
+          {!past && freeH > 0 && (
+            <span className="text-xs font-bold text-green-700 bg-green-100 px-2.5 py-1 rounded-full">
+              ~{freeH}h livres
+            </span>
+          )}
+          {past && (
+            <span className="text-xs font-semibold text-muted-foreground/50 bg-muted px-2.5 py-1 rounded-full">
+              Encerrado
+            </span>
+          )}
         </div>
-      ) : (
-        <DayTimeline
-          day={selectedDay}
-          appointments={dayAppointments}
-          workBlocks={dayWorkBlocks}
-          onAppointmentClick={setSelectedAppointment}
-        />
-      )}
-    </main>
 
-    <AppointmentDetailModal
-      appointment={selectedAppointment}
-      onOpenChange={(open) => !open && setSelectedAppointment(null)}
-    />
+        {/* Timeline */}
+        {isLoading ? (
+          <div className="flex justify-center py-16">
+            <div className="size-7 animate-spin rounded-full border-2 border-border border-t-primary" />
+          </div>
+        ) : (
+          <DayTimeline
+            day={selectedDay}
+            appointments={dayAppointments}
+            workBlocks={dayWorkBlocks}
+            onAppointmentClick={setSelectedAppointment}
+          />
+        )}
+      </main>
+
+      <AppointmentDetailModal
+        appointment={selectedAppointment}
+        onOpenChange={(open) => !open && setSelectedAppointment(null)}
+      />
     </>
   );
 }

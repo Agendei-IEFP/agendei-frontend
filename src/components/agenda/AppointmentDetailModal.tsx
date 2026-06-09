@@ -5,12 +5,7 @@ import { AppointmentStatus } from "@/types/enums";
 import type { AppointmentDTO } from "@/types/api";
 import { useCancelAppointment } from "@/hooks/useAppointments";
 import { formatTime, toLocal } from "@/lib/agenda";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 interface AppointmentDetailModalProps {
   appointment: AppointmentDTO | null;
@@ -73,7 +68,8 @@ export function AppointmentDetailModal({ appointment, onOpenChange }: Appointmen
                   {appointment.service_name}
                   {appointment.duration_minutes && (
                     <span className="font-normal text-muted-foreground">
-                      {" "}· {appointment.duration_minutes} min
+                      {" "}
+                      · {appointment.duration_minutes} min
                     </span>
                   )}
                 </p>

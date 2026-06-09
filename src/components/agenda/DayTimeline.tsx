@@ -19,7 +19,12 @@ interface DayTimelineProps {
   onAppointmentClick?: (appt: AppointmentDTO) => void;
 }
 
-export function DayTimeline({ day, appointments, workBlocks = [], onAppointmentClick }: DayTimelineProps) {
+export function DayTimeline({
+  day,
+  appointments,
+  workBlocks = [],
+  onAppointmentClick,
+}: DayTimelineProps) {
   const items = buildTimeline(appointments, workBlocks);
   const showNowLine = isToday(day);
   const now = new Date();

@@ -231,8 +231,10 @@ export function buildTimeline(
   }
 
   return items.sort((a, b) => {
-    const aMin = a.type === "appointment" ? toMinutes(toLocal(a.appointment.starts_at)) : a.startMinutes;
-    const bMin = b.type === "appointment" ? toMinutes(toLocal(b.appointment.starts_at)) : b.startMinutes;
+    const aMin =
+      a.type === "appointment" ? toMinutes(toLocal(a.appointment.starts_at)) : a.startMinutes;
+    const bMin =
+      b.type === "appointment" ? toMinutes(toLocal(b.appointment.starts_at)) : b.startMinutes;
     return aMin - bMin;
   });
 }

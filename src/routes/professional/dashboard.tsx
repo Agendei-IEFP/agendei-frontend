@@ -50,8 +50,18 @@ const STATUS_CHIP: Record<AppointmentStatus, { label: string; className: string 
 
 const WEEKDAY_SHORT = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 const MONTH_SHORT = [
-  "jan", "fev", "mar", "abr", "mai", "jun",
-  "jul", "ago", "set", "out", "nov", "dez",
+  "jan",
+  "fev",
+  "mar",
+  "abr",
+  "mai",
+  "jun",
+  "jul",
+  "ago",
+  "set",
+  "out",
+  "nov",
+  "dez",
 ];
 
 function Dashboard() {
@@ -75,9 +85,7 @@ function Dashboard() {
   const cancelled = dayAppointments.filter((a) => a.status === AppointmentStatus.cancelled);
 
   const now = new Date();
-  const nextAppt = confirmed
-    .filter((a) => toLocal(a.starts_at) > now)
-    .at(0);
+  const nextAppt = confirmed.filter((a) => toLocal(a.starts_at) > now).at(0);
 
   const totalMinutes = confirmed.reduce((s, a) => s + (a.duration_minutes ?? 0), 0);
 
@@ -119,7 +127,9 @@ function Dashboard() {
             </button>
             <div className="px-4 py-2 rounded-xl text-center bg-white border border-border min-w-45">
               <p className="text-sm font-bold text-foreground">{formatDate(date)}</p>
-              <p className="text-xs font-medium text-chart-3">{today ? `Hoje · ${countLabel}` : countLabel}</p>
+              <p className="text-xs font-medium text-chart-3">
+                {today ? `Hoje · ${countLabel}` : countLabel}
+              </p>
             </div>
             <button
               onClick={() => shift(1)}
@@ -239,7 +249,9 @@ function Dashboard() {
 
                 <div className="flex items-center gap-3 py-2">
                   <div className="flex-1 h-px bg-border" />
-                  <p className="text-xs text-muted-foreground/50 font-medium shrink-0">Fim do dia</p>
+                  <p className="text-xs text-muted-foreground/50 font-medium shrink-0">
+                    Fim do dia
+                  </p>
                   <div className="flex-1 h-px bg-border" />
                 </div>
               </div>
@@ -276,7 +288,9 @@ function Dashboard() {
                       <span
                         className={cn(
                           "text-[0.65rem] font-bold px-2 py-0.5 rounded-full",
-                          count > 0 ? "bg-green-100 text-green-700" : "bg-muted text-muted-foreground",
+                          count > 0
+                            ? "bg-green-100 text-green-700"
+                            : "bg-muted text-muted-foreground",
                         )}
                       >
                         {count}
