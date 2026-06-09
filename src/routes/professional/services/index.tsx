@@ -16,17 +16,13 @@ import { useServices, useDeleteService } from "@/hooks/useServices";
 import { ServiceFormDialog } from "@/components/services/ServiceFormDialog";
 import type { CanonicalServiceDTO } from "@/types/api";
 import { cn } from "@/lib/utils";
+import { formatPrice } from "@/lib/format";
 
 export const Route = createFileRoute("/professional/services/")({
   component: ServicesList,
 });
 
 type Filter = "all" | "active" | "inactive";
-
-function formatPrice(price: string): string {
-  const n = parseFloat(price);
-  return n.toLocaleString("pt-PT", { style: "currency", currency: "EUR" });
-}
 
 interface ServiceCardProps {
   service: CanonicalServiceDTO;

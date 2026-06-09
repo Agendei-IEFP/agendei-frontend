@@ -11,9 +11,8 @@ export async function replaceWorkSchedules(
   professionalStoreId: string,
   blocks: ScheduleBlock[],
 ): Promise<WorkScheduleDTO[]> {
-  const { data } = await api.put(
-    `/professional-stores/${professionalStoreId}/schedules`,
-    { blocks },
-  );
+  const { data } = await api.put(`/professional-stores/${professionalStoreId}/schedules`, {
+    blocks,
+  });
   return data;
 }

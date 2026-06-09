@@ -22,9 +22,6 @@ export async function acceptInvite(
   token: string,
   body?: AcceptInviteAnonymousBody,
 ): Promise<InviteAcceptResponseDTO> {
-  const { data } = await api.post<InviteAcceptResponseDTO>(
-    `/invites/${token}/accept`,
-    body ?? {},
-  );
+  const { data } = await api.post<InviteAcceptResponseDTO>(`/invites/${token}/accept`, body ?? {});
   return data;
 }

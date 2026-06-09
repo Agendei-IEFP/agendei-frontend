@@ -2,6 +2,7 @@ import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { refresh } from "@/lib/api/auth";
 import { useAuthStore } from "@/store/authStore";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 export const Route = createRootRoute({
   /**
@@ -23,9 +24,9 @@ export const Route = createRootRoute({
 
 function RootLayout() {
   return (
-    <>
+    <TooltipProvider>
       <Outlet />
       {import.meta.env.DEV && <TanStackRouterDevtools />}
-    </>
+    </TooltipProvider>
   );
 }

@@ -1,5 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-import { getMyProfessionals, getMyProfessionalStores } from "@/lib/api/professionals";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  getMyProfessionals,
+  getMyProfessionalStores,
+  unlinkProfessional,
+  updateProfessional,
+} from "@/lib/api/professionals";
 
 export function useMyProfessionals() {
   return useQuery({
@@ -12,5 +17,39 @@ export function useMyProfessionalStores() {
   return useQuery({
     queryKey: ["professional-stores", "mine"],
     queryFn: getMyProfessionalStores,
+  });
+}
+
+export function useUpdateProfessional() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      storeId,
+      professionalId,
+      updates,
+    }: {
+      storeId: string;
+      professionalId: string;
+      updates: Partial<{ bio: string | null; photo_url: string | null; is_active: boolean }>;
+    }) => updateProfessional(storeId, professionalId, updates),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["professionals"] });
+    },
+  });
+}
+
+export function useUnlinkProfessional() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      storeId,
+      professionalStoreId,
+    }: {
+      storeId: string;
+      professionalStoreId: string;
+    }) => unlinkProfessional(storeId, professionalStoreId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["professionals"] });
+    },
   });
 }

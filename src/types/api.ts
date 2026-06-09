@@ -62,6 +62,14 @@ export interface UserDTO {
 // Loja
 // ---------------------------------------------------------------------------
 
+export type StoreType =
+  | "hair_salon"
+  | "barbershop"
+  | "nails"
+  | "aesthetics"
+  | "massage"
+  | "treatments";
+
 export interface StoreDTO {
   id: string;
   owner_id: string;
@@ -72,8 +80,28 @@ export interface StoreDTO {
   address: string | null;
   logo_url: string | null;
   is_active: boolean;
+  store_types: StoreType[];
   created_at: ISOTimestamp;
   updated_at: ISOTimestamp;
+  professional_count: number;
+  service_count: number;
+}
+
+export interface StoreOfferingDTO {
+  service_id: string;
+  service_name: string;
+  effective_price: DecimalString;
+  effective_duration_minutes: number;
+}
+
+export interface StoreProfessionalDTO {
+  id: string;
+  user_id: string;
+  name: string;
+  bio: string | null;
+  photo_url: string | null;
+  is_active: boolean;
+  professional_store_id: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -112,6 +140,7 @@ export interface ProfessionalWithStoreDTO {
   is_active: boolean;
   store_id: string;
   store_name: string;
+  professional_store_id: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -199,6 +228,7 @@ export interface AppointmentDTO {
   id: string;
   client_id: string;
   professional_id: string;
+  professional_store_id: string;
   offering_id: string;
   starts_at: ISOTimestamp;
   ends_at: ISOTimestamp;
@@ -212,6 +242,30 @@ export interface AppointmentDTO {
   client?: UserDTO;
   professional?: ProfessionalDTO;
   offering?: ServiceDTO;
+  // Campos expandidos — presentes em GET /me/appointments (AppointmentClientPublic)
+  service_name?: string | null;
+  professional_name?: string | null;
+  store_name?: string | null;
+  effective_price?: string | null;
+  effective_duration_minutes?: number | null;
+  // Campos retornados por /me/professional-appointments
+  client_name?: string | null;
+  client_phone?: string | null;
+  client_email?: string | null;
+  duration_minutes?: number | null;
+}
+
+export interface AppointmentAdminDTO {
+  id: string;
+  starts_at: ISOTimestamp;
+  ends_at: ISOTimestamp;
+  status: AppointmentStatus;
+  client_name: string | null;
+  professional_name: string | null;
+  service_name: string | null;
+  store_name: string | null;
+  duration_minutes: number | null;
+  effective_price: DecimalString | null;
 }
 
 // ---------------------------------------------------------------------------

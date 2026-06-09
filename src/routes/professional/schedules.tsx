@@ -30,7 +30,9 @@ function StoreSchedule({ professionalStoreId }: StoreScheduleProps) {
     );
   }
 
-  async function handleSave(newBlocks: { weekday: number; start_time: string; end_time: string }[]) {
+  async function handleSave(
+    newBlocks: { weekday: number; start_time: string; end_time: string }[],
+  ) {
     setIsSaving(true);
     try {
       await replaceSchedules.mutateAsync(newBlocks);
@@ -39,9 +41,7 @@ function StoreSchedule({ professionalStoreId }: StoreScheduleProps) {
     }
   }
 
-  return (
-    <WeeklyScheduleGrid schedules={schedules} isSaving={isSaving} onSave={handleSave} />
-  );
+  return <WeeklyScheduleGrid schedules={schedules} isSaving={isSaving} onSave={handleSave} />;
 }
 
 // ---------------------------------------------------------------------------

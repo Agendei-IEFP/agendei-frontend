@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, redirect, useRouterState } from "@tanstack/react-router";
-import { CalendarDays, Clock, Home, LogOut, Store, Tag } from "lucide-react";
+import { CalendarDays, Home, LogOut, Store, Tag } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { useLogout } from "@/hooks/useAuth";
 import { useMyProfessionalStores } from "@/hooks/useServices";
@@ -113,11 +113,6 @@ function ProfissionalLayout() {
             Meus Serviços
           </SidebarLink>
 
-          <SidebarLink to="/professional/schedules">
-            <Clock className="size-4 shrink-0" />
-            Meus Horários
-          </SidebarLink>
-
           {sortedStores.length > 0 && (
             <>
               <p className="text-xs font-bold uppercase tracking-widest px-2.5 pt-4 pb-1.5 text-muted-warm">
@@ -168,7 +163,6 @@ function ProfissionalLayout() {
           { to: "/professional/dashboard", icon: Home, label: "Painel" },
           { to: "/professional/agenda", icon: CalendarDays, label: "Agenda" },
           { to: "/professional/services", icon: Tag, label: "Serviços" },
-          { to: "/professional/schedules", icon: Clock, label: "Horários" },
         ].map(({ to, icon: Icon, label }) => {
           const isActive = pathname === to || pathname.startsWith(to + "/");
           return (

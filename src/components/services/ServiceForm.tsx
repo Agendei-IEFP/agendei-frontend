@@ -96,15 +96,11 @@ export function ServiceForm({
           className={inputClass}
           aria-invalid={!!errors.name}
         />
-        {errors.name && (
-          <p className="mt-1 text-xs text-destructive">{errors.name.message}</p>
-        )}
+        {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name.message}</p>}
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-foreground mb-1.5">
-          Descrição
-        </label>
+        <label className="block text-sm font-semibold text-foreground mb-1.5">Descrição</label>
         <textarea
           {...register("description")}
           rows={3}
@@ -125,9 +121,7 @@ export function ServiceForm({
             aria-invalid={!!errors.default_price}
           />
           {errors.default_price && (
-            <p className="mt-1 text-xs text-destructive">
-              {errors.default_price.message}
-            </p>
+            <p className="mt-1 text-xs text-destructive">{errors.default_price.message}</p>
           )}
         </div>
         <div>
@@ -155,9 +149,7 @@ export function ServiceForm({
         <div className="flex items-center justify-between pt-3 border-t border-border">
           <div>
             <p className="text-sm font-semibold text-foreground">Serviço ativo</p>
-            <p className="text-xs text-muted-foreground">
-              Clientes podem agendar este serviço
-            </p>
+            <p className="text-xs text-muted-foreground">Clientes podem agendar este serviço</p>
           </div>
           <button
             type="button"

@@ -1,5 +1,8 @@
+import { useEffect } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Home, Store, Users, ClipboardList, Calendar, Settings, LogOut } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { getInitials } from "@/lib/format";
 import { useAuthStore } from "@/store/authStore";
 import { useMyStores } from "@/hooks/useStores";
 import { useLogout } from "@/hooks/useAuth";
@@ -16,25 +19,23 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
-
-function getInitials(nome: string): string {
-  return nome
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0].toUpperCase())
-    .join("");
-}
 
 export function AdminSidebar() {
   const user = useAuthStore((s) => s.user);
   const { mutate: logoutUser } = useLogout();
   const { data: lojas } = useMyStores();
   const lojaCount = lojas?.length ?? 0;
+  const serviceCount = lojas?.reduce((acc, s) => acc + s.service_count, 0) ?? 0;
 
+  const { setOpenMobile, isMobile } = useSidebar();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isActive = (path: string) => pathname === path;
+
+  useEffect(() => {
+    if (isMobile) setOpenMobile(false);
+  }, [pathname, isMobile, setOpenMobile]);
 
   return (
     <Sidebar collapsible="offcanvas">
@@ -64,7 +65,14 @@ export function AdminSidebar() {
                     <span>Minhas Lojas</span>
                   </Link>
                 </SidebarMenuButton>
-                <SidebarMenuBadge className="bg-slate-100 text-slate-400 text-[0.62rem]">
+                <SidebarMenuBadge
+                  className={cn(
+                    "text-[0.62rem]",
+                    isActive("/admin/store")
+                      ? "bg-muted text-chart-3"
+                      : "bg-slate-100 text-slate-400",
+                  )}
+                >
                   {lojaCount}
                 </SidebarMenuBadge>
               </SidebarMenuItem>
@@ -87,15 +95,29 @@ export function AdminSidebar() {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton disabled>
-                  <ClipboardList />
-                  <span>Serviços</span>
+                <SidebarMenuButton asChild isActive={isActive("/admin/servicos")}>
+                  <Link to="/admin/servicos">
+                    <ClipboardList />
+                    <span>Serviços</span>
+                  </Link>
                 </SidebarMenuButton>
+                <SidebarMenuBadge
+                  className={cn(
+                    "text-[0.62rem]",
+                    isActive("/admin/servicos")
+                      ? "bg-muted text-chart-3"
+                      : "bg-slate-100 text-slate-400",
+                  )}
+                >
+                  {serviceCount}
+                </SidebarMenuBadge>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton disabled>
-                  <Calendar />
-                  <span>Agendamentos</span>
+                <SidebarMenuButton asChild isActive={isActive("/admin/agenda")}>
+                  <Link to="/admin/agenda">
+                    <Calendar />
+                    <span>Agendamentos</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

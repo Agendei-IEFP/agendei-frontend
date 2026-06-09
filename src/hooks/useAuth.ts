@@ -10,7 +10,7 @@ function redirectByRole(navigate: ReturnType<typeof useNavigate>, role: RoleEnum
   } else if (role === "professional") {
     navigate({ to: "/professional/dashboard" });
   } else {
-    navigate({ to: "/stores" })
+    navigate({ to: "/stores" });
   }
 }
 
@@ -54,7 +54,7 @@ export function useLogout() {
     // queremos limpar o estado local independentemente
     onSettled: () => {
       clearAuth();
-      navigate({ to: "/login" });
+      navigate({ to: "/stores" });
     },
   });
 }

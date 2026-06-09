@@ -99,10 +99,7 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
           </div>
 
           {/* Formulário de login */}
-          <form
-            className="space-y-4"
-            onSubmit={handleSubmit((data) => loginMutate(data))}
-          >
+          <form className="space-y-4" onSubmit={handleSubmit((data) => loginMutate(data))}>
             {/* Campo de email */}
             <div className="flex flex-col gap-1">
               <Label className="font-semibold text-slate-700" htmlFor="email">
@@ -120,19 +117,14 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
                 />
               </div>
               {errors.email && (
-                <p className="text-destructive text-xs mt-1">
-                  {errors.email.message}
-                </p>
+                <p className="text-destructive text-xs mt-1">{errors.email.message}</p>
               )}
             </div>
 
             {/* Campo de senha */}
             <div className="flex flex-col gap-1">
               <div className="flex items-center justify-between">
-                <Label
-                  className="font-semibold text-slate-700"
-                  htmlFor="password"
-                >
+                <Label className="font-semibold text-slate-700" htmlFor="password">
                   Senha
                 </Label>
                 <Link to="/login" className="text-xs font-medium text-chart-3">
@@ -151,9 +143,7 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
                 />
               </div>
               {errors.password && (
-                <p className="text-destructive text-xs mt-1">
-                  {errors.password.message}
-                </p>
+                <p className="text-destructive text-xs mt-1">{errors.password.message}</p>
               )}
             </div>
 

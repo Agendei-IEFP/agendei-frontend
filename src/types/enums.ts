@@ -7,7 +7,6 @@ export const RoleEnum = {
 export type RoleEnum = (typeof RoleEnum)[keyof typeof RoleEnum];
 
 export const AppointmentStatus = {
-  pending: "pending",
   confirmed: "confirmed",
   cancelled: "cancelled",
   completed: "completed",

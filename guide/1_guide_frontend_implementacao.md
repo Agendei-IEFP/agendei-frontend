@@ -385,8 +385,7 @@ O router gerou automaticamente `getParentRoute: () => AdminRoute` para todos os 
 ```ts
 export const Route = createFileRoute("/admin")({
   beforeLoad: async () => {
-    const { user, accessToken, setAccessToken, logout } =
-      useAuthStore.getState(); // ← getState(), não o hook — estamos fora de componente
+    const { user, accessToken, setAccessToken, logout } = useAuthStore.getState(); // ← getState(), não o hook — estamos fora de componente
 
     // 1. Sem usuário → redireciona para login
     if (!user) throw redirect({ to: "/login" });

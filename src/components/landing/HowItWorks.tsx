@@ -12,7 +12,7 @@ function PreviewServico() {
             <p className="text-xs text-slate-500">60 min</p>
           </div>
           <div className="text-right">
-            <p className="text-sm font-bold text-chart-3">€ 80</p>
+            <p className="text-sm font-bold text-chart-3">€ 20</p>
             <Check className="size-3.5 ml-auto text-primary" />
           </div>
         </div>
@@ -23,7 +23,7 @@ function PreviewServico() {
             <p className="text-xs text-slate-600">Coloração</p>
             <p className="text-xs text-slate-400">120 min</p>
           </div>
-          <p className="text-xs font-bold text-slate-600">€ 180</p>
+          <p className="text-xs font-bold text-slate-600">€ 30</p>
         </div>
       </div>
     </div>
@@ -79,7 +79,7 @@ function PreviewConfirmar() {
         ))}
         <div className="flex justify-between text-xs border-t border-slate-100 pt-1.5">
           <span className="text-slate-400">Total</span>
-          <span className="font-bold text-slate-900">€ 80,00</span>
+          <span className="font-bold text-slate-900">€ 50,00</span>
         </div>
       </div>
       <div className="step-success-banner">
@@ -255,7 +255,7 @@ export function HowItWorks() {
         <p className="text-center text-slate-500 text-sm mb-10 max-w-lg mx-auto">{desc}</p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-          <div className="absolute top-8 left-1/3 right-1/3 h-px bg-gradient-to-r from-input to-muted hidden md:block" />
+          <div className="absolute top-8 left-1/3 right-1/3 h-px bg-linear-to-r from-input to-muted hidden md:block" />
           {steps.map(({ num, title, desc: stepDesc, preview }, i) => (
             <div key={num} className={`text-center reveal reveal-d${i + 1}`}>
               <div className="size-12 md:size-16 rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 bg-linear-to-br from-chart-3 to-primary shadow-[0_8px_24px_rgba(224,80,64,0.3)]">

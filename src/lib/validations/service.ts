@@ -21,11 +21,7 @@ export const offeringSchema = z.object({
     .regex(/^\d+(\.\d{1,2})?$/, "Preço inválido")
     .optional()
     .nullable(),
-  duration_override: z
-    .number()
-    .min(15, "Duração mínima é 15 minutos")
-    .optional()
-    .nullable(),
+  duration_override: z.number().min(15, "Duração mínima é 15 minutos").optional().nullable(),
 });
 
 export type OfferingFormData = z.infer<typeof offeringSchema>;
@@ -36,11 +32,7 @@ export const offeringUpdateSchema = z.object({
     .regex(/^\d+(\.\d{1,2})?$/, "Preço inválido")
     .optional()
     .nullable(),
-  duration_override: z
-    .number()
-    .min(15, "Duração mínima é 15 minutos")
-    .optional()
-    .nullable(),
+  duration_override: z.number().min(15, "Duração mínima é 15 minutos").optional().nullable(),
   is_enabled: z.boolean().optional(),
 });
 
