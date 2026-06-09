@@ -8,17 +8,6 @@ import { getApiErrorMessage } from "@/lib/api/errorUtils";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
-import type { StoreType } from "@/types/api";
-
-const STORE_TYPE_OPTIONS: { value: StoreType; label: string }[] = [
-  { value: "hair_salon", label: "Cabelo" },
-  { value: "barbershop", label: "Barbearia" },
-  { value: "nails", label: "Unhas" },
-  { value: "aesthetics", label: "Estética" },
-  { value: "massage", label: "Massagem" },
-  { value: "treatments", label: "Tratamentos" },
-];
 
 interface StoreFormProps {
   formId: string;
@@ -46,8 +35,6 @@ export function StoreForm({
     register,
     handleSubmit,
     formState: { errors },
-    watch,
-    setValue,
   } = useForm<StoreFormData>({
     resolver: zodResolver(storeSchema),
     defaultValues: {
@@ -60,21 +47,6 @@ export function StoreForm({
       store_types: defaultValues?.store_types ?? [],
     },
   });
-
-  const selectedTypes = watch("store_types");
-
-  function toggleType(type: StoreType) {
-    const current = selectedTypes ?? [];
-    if (current.includes(type)) {
-      setValue(
-        "store_types",
-        current.filter((t) => t !== type),
-        { shouldValidate: true },
-      );
-    } else if (current.length < 3) {
-      setValue("store_types", [...current, type], { shouldValidate: true });
-    }
-  }
 
   const isPending = createStore.isPending || updateStore.isPending;
 
@@ -200,38 +172,6 @@ export function StoreForm({
           <p className="text-xs text-muted-foreground">
             Apenas URL por agora. Upload de arquivo em breve.
           </p>
-        )}
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label className="font-semibold text-slate-700">
-          Tipos de serviço <span className="text-muted-foreground font-normal">(máx. 3)</span>
-        </Label>
-        <div className="flex flex-wrap gap-2">
-          {STORE_TYPE_OPTIONS.map(({ value, label }) => {
-            const isSelected = selectedTypes?.includes(value);
-            const isDisabled = !isSelected && (selectedTypes?.length ?? 0) >= 3;
-            return (
-              <button
-                key={value}
-                type="button"
-                disabled={isDisabled}
-                onClick={() => toggleType(value)}
-                className={cn(
-                  "inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold border transition-all",
-                  isSelected
-                    ? "border-chart-3 bg-chart-3 text-white"
-                    : "border-input bg-white text-foreground hover:border-salmon-200 hover:bg-muted",
-                  isDisabled && "opacity-40 cursor-not-allowed",
-                )}
-              >
-                {label}
-              </button>
-            );
-          })}
-        </div>
-        {errors.store_types && (
-          <p className="text-destructive text-xs">{errors.store_types.message}</p>
         )}
       </div>
     </form>

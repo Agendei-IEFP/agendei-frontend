@@ -1,18 +1,11 @@
 import { Clock, Banknote } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { formatPrice } from "@/lib/format";
+import { formatDuration, formatPrice } from "@/lib/format";
 import type { StoreOfferingDTO } from "@/types/api";
 
 interface OfferingListProps {
   offerings: StoreOfferingDTO[];
   className?: string;
-}
-
-function formatDuration(minutes: number): string {
-  if (minutes < 60) return `${minutes} min`;
-  const h = Math.floor(minutes / 60);
-  const m = minutes % 60;
-  return m === 0 ? `${h}h` : `${h}h ${m}min`;
 }
 
 export function OfferingList({ offerings, className }: OfferingListProps) {

@@ -10,16 +10,12 @@ import { useAdminOfferings, type AdminOfferingRow } from "@/hooks/useAdminOfferi
 import { StatusBadge } from "@/components/agendamentos/StatusBadge";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { StoreFormDialog } from "@/components/store/StoreFormDialog";
-import { capitalize, formatCurrentDate } from "@/lib/format";
+import { capitalize, formatCurrentDate, getGreetingName } from "@/lib/format";
 import type { AppointmentAdminDTO, ProfessionalWithStoreDTO, StoreDTO } from "@/types/api";
 
 export const Route = createFileRoute("/admin/dashboard")({
   component: AdminDashboard,
 });
-
-function getGreetingName(nome: string): string {
-  return nome.split(" ")[0];
-}
 
 function AdminDashboard() {
   const user = useAuthStore((s) => s.user);
@@ -141,15 +137,10 @@ function AdminDashboard() {
               {/* Minhas Lojas — 2/3 */}
               <div className="xl:col-span-2 rounded-2xl border border-border bg-card">
                 <div className="flex items-center justify-between px-4 md:px-6 py-4 border-b border-border">
-                  <div>
-                    <h2 className="font-heading font-bold text-slate-900 text-[1.05rem] tracking-[-0.02em]">
-                      Minhas Lojas
-                    </h2>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      {lojas.length} estabelecimento{lojas.length !== 1 ? "s" : ""} ativo
-                      {lojas.length !== 1 ? "s" : ""}
-                    </p>
-                  </div>
+                  <h2 className="font-heading font-bold text-slate-900 text-[1.05rem] tracking-[-0.02em]">
+                    Minhas Lojas
+                  </h2>
+
                   <button
                     type="button"
                     onClick={openCreate}
@@ -160,8 +151,8 @@ function AdminDashboard() {
                   </button>
                 </div>
                 <div className="p-3 md:p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {lojas.map((store, i) => (
-                    <DashboardStoreCard key={store.id} store={store} index={i} onEdit={openEdit} />
+                  {lojas.map((store) => (
+                    <DashboardStoreCard key={store.id} store={store} onEdit={openEdit} />
                   ))}
                 </div>
               </div>
@@ -353,24 +344,16 @@ function StatCard({ label, icon, iconBg, value, sub }: StatCardProps) {
   );
 }
 
-const STORE_BANNERS = [
-  "from-salmon-100 to-salmon-200",
-  "from-blue-100 to-blue-200",
-  "from-violet-100 to-violet-200",
-  "from-emerald-100 to-emerald-200",
-];
-
 interface DashboardStoreCardProps {
   store: StoreDTO;
-  index: number;
   onEdit: (store: StoreDTO) => void;
 }
 
-function DashboardStoreCard({ store, index, onEdit }: DashboardStoreCardProps) {
+function DashboardStoreCard({ store, onEdit }: DashboardStoreCardProps) {
   return (
     <div className="rounded-2xl border border-border overflow-hidden transition-all hover:border-salmon-200 hover:shadow-salmon-card">
       <div
-        className={`h-24 bg-linear-to-br ${STORE_BANNERS[index % STORE_BANNERS.length]} relative flex items-end p-3.5`}
+        className={`h-24 bg-linear-to-br from-salmon-100 to-salmon-200 relative flex items-end p-3.5`}
       >
         <span className="absolute top-2.5 right-2.5 flex items-center gap-1 text-[0.65rem] font-semibold px-2 py-0.5 rounded-full bg-white text-emerald-700">
           <span className="size-1.5 rounded-full bg-emerald-500 inline-block" />

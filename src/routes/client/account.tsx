@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { getApiErrorMessage } from "@/lib/api/errorUtils";
 import { useAuthStore } from "@/store/authStore";
-import { useUpdateMe, useDeleteMe } from "@/hooks/useMe";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,53 +14,64 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { deleteMe, updateMe } from "@/lib/api/users";
+import { Input } from "@/components/ui/input";
 
 export const Route = createFileRoute("/client/account")({
   component: ClientAccountPage,
 });
 
-const inputClass = cn(
-  "w-full rounded-lg border border-input bg-white px-3 py-2.5 text-sm text-foreground",
-  "placeholder:text-muted-foreground",
-  "focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20",
-  "transition-colors duration-150",
-);
-
 function ClientAccountPage() {
   const user = useAuthStore((s) => s.user);
+  const setUser = useAuthStore((s) => s.setUser);
+  const logout = useAuthStore((s) => s.logout);
 
   const [name, setName] = useState(user?.name ?? "");
   const [phone, setPhone] = useState(user?.phone ?? "");
   const [email, setEmail] = useState(user?.email ?? "");
+
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
-  const updateMe = useUpdateMe();
-  const deleteMe = useDeleteMe();
+  const navigate = useNavigate();
 
-  async function handleSave(e: React.FormEvent) {
+  async function handleSave(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     setSaveSuccess(false);
     setSaveError(null);
+    setIsLoadingSubmit(true);
+
     try {
-      await updateMe.mutateAsync({
+      const response = await updateMe({
+        email: email.trim() || undefined,
         name: name.trim() || undefined,
         phone: phone.trim() || undefined,
-        email: email.trim() || undefined,
       });
+
+      setUser({ ...user, ...response });
+
       setSaveSuccess(true);
     } catch (err) {
       setSaveError(getApiErrorMessage(err));
+    } finally {
+      setIsLoadingSubmit(false);
     }
   }
 
   async function handleDelete() {
     setDeleteError(null);
+    setIsLoadingDelete(true);
     try {
-      await deleteMe.mutateAsync();
+      await deleteMe();
+      logout();
+      void navigate({ to: "/" });
     } catch (err) {
       setDeleteError(getApiErrorMessage(err));
+    } finally {
+      setIsLoadingDelete(false);
     }
   }
 
@@ -78,42 +88,39 @@ function ClientAccountPage() {
 
         <div className="flex flex-col gap-1">
           <label className="text-xs font-medium text-muted-foreground">Nome</label>
-          <input
+          <Input
             type="text"
             value={name}
             onChange={(e) => {
               setName(e.target.value);
               setSaveSuccess(false);
             }}
-            className={inputClass}
             placeholder="O teu nome"
           />
         </div>
 
         <div className="flex flex-col gap-1">
           <label className="text-xs font-medium text-muted-foreground">Telefone</label>
-          <input
+          <Input
             type="tel"
             value={phone}
             onChange={(e) => {
               setPhone(e.target.value);
               setSaveSuccess(false);
             }}
-            className={inputClass}
             placeholder="+351 900 000 000"
           />
         </div>
 
         <div className="flex flex-col gap-1">
           <label className="text-xs font-medium text-muted-foreground">Email</label>
-          <input
+          <Input
             type="email"
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
               setSaveSuccess(false);
             }}
-            className={inputClass}
             placeholder="o-teu@email.com"
           />
         </div>
@@ -123,14 +130,14 @@ function ClientAccountPage() {
 
         <button
           type="submit"
-          disabled={updateMe.isPending}
+          disabled={isLoadingSubmit}
           className={cn(
             "self-start px-5 py-2.5 rounded-xl text-sm font-bold text-white",
             "bg-linear-to-br from-chart-3 to-primary",
             "shadow-[0_3px_14px_rgba(224,80,64,0.28)] disabled:opacity-50 transition-opacity",
           )}
         >
-          {updateMe.isPending ? "A guardar..." : "Guardar"}
+          {isLoadingSubmit ? "A guardar..." : "Guardar"}
         </button>
       </form>
 
@@ -160,10 +167,10 @@ function ClientAccountPage() {
               <AlertDialogCancel>Cancelar</AlertDialogCancel>
               <AlertDialogAction
                 onClick={handleDelete}
-                disabled={deleteMe.isPending}
+                disabled={isLoadingDelete}
                 className="bg-destructive text-white hover:bg-destructive/90"
               >
-                {deleteMe.isPending ? "A apagar..." : "Apagar conta"}
+                {isLoadingDelete ? "A apagar..." : "Apagar conta"}
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

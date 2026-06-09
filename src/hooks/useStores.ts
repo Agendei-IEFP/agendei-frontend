@@ -10,12 +10,11 @@ import {
   updateStore,
 } from "@/lib/api/stores";
 import type { StoreFormData } from "@/lib/validations/store";
-import type { StoreType } from "@/types/api";
 
-export function useStores(storeType?: StoreType) {
+export function useStores() {
   return useQuery({
-    queryKey: ["stores", "public", storeType ?? "all"],
-    queryFn: () => listStores(storeType),
+    queryKey: ["stores", "public"],
+    queryFn: listStores,
   });
 }
 

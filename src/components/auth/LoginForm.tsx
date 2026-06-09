@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Calendar, Mail, Lock, Check } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginFormData } from "@/lib/validations/auth";
-import { useLogin } from "@/hooks/useAuth";
+import { login } from "@/lib/api/auth";
+import { useAuthStore } from "@/store/authStore";
 import { getApiErrorMessage } from "@/lib/api/errorUtils";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,7 +20,32 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>({ resolver: zodResolver(loginSchema) });
-  const { mutate: loginMutate, isPending, error } = useLogin(redirectTo);
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState<unknown>(null);
+  const setAuth = useAuthStore((s) => s.login);
+  const navigate = useNavigate();
+
+  async function onSubmit(data: LoginFormData) {
+    setIsPending(true);
+    setError(null);
+    try {
+      const result = await login(data);
+      setAuth(result.access_token, result.user);
+      if (redirectTo) {
+        navigate({ to: redirectTo });
+      } else if (result.user.role === "store_admin") {
+        navigate({ to: "/admin/dashboard" });
+      } else if (result.user.role === "professional") {
+        navigate({ to: "/professional/dashboard" });
+      } else {
+        navigate({ to: "/stores" });
+      }
+    } catch (err) {
+      setError(err);
+    } finally {
+      setIsPending(false);
+    }
+  }
 
   return (
     // Página — fundo vermelho visível em sm+, tela cheia em mobile
@@ -27,11 +54,6 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
       <div className="flex-1 sm:flex-none w-full sm:max-w-4xl sm:rounded-2xl overflow-hidden sm:shadow-xl sm:border sm:border-primary flex flex-col md:flex-row">
         {/* Painel esquerdo — marca (visível apenas em md+) */}
         <div className="hidden md:flex flex-1 flex-col justify-between p-10 relative overflow-hidden bg-brand-panel">
-          {/* Círculos decorativos de fundo */}
-          <div className="absolute -top-16 -right-16 size-56 rounded-full bg-white/7" />
-          <div className="absolute bottom-10 -left-12 size-40 rounded-full bg-white/5" />
-          <div className="absolute top-1/2 -translate-y-1/2 right-8 size-20 rounded-full bg-white/6" />
-
           {/* Bloco superior — logo, título e descrição */}
           <div className="relative">
             {/* Logo + nome da marca */}
@@ -99,7 +121,7 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
           </div>
 
           {/* Formulário de login */}
-          <form className="space-y-4" onSubmit={handleSubmit((data) => loginMutate(data))}>
+          <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
             {/* Campo de email */}
             <div className="flex flex-col gap-1">
               <Label className="font-semibold text-slate-700" htmlFor="email">
@@ -155,7 +177,7 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
               {isPending ? "Entrando..." : "Entrar na conta"}
             </button>
 
-            {error && (
+            {error !== null && (
               <div className="rounded-lg border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm text-destructive">
                 {getApiErrorMessage(error)}
               </div>

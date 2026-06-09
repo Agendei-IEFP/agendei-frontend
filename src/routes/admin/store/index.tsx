@@ -94,8 +94,8 @@ function RouteComponent() {
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
-            {filtered.map((store, i) => (
-              <StoreCard key={store.id} store={store} index={i} />
+            {filtered.map((store) => (
+              <StoreCard key={store.id} store={store} />
             ))}
 
             {/* Add new store card */}
