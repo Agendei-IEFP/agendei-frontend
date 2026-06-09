@@ -1,13 +1,12 @@
-import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { getInitials, formatPrice } from "@/lib/format";
+import { formatPrice } from "@/lib/format";
 import { useAdminOfferings } from "@/hooks/useAdminOfferings";
 import { updateOffering } from "@/lib/api/services";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export const Route = createFileRoute("/admin/servicos/")({
   component: RouteComponent,
@@ -17,9 +16,7 @@ function RouteComponent() {
   const { rows, isLoading, stores } = useAdminOfferings();
   const queryClient = useQueryClient();
 
-  const [selectedStoreId, setSelectedStoreId] = useState<string | null>(null);
-  const [selectedProfId, setSelectedProfId] = useState<string | null>(null);
-  const [search, setSearch] = useState("");
+  const servicesExists = stores.some((store) => store.service_count);
 
   const { mutate: toggleOffering, isPending: isToggling } = useMutation({
     mutationFn: ({
@@ -36,113 +33,20 @@ function RouteComponent() {
     },
   });
 
-  function handleStoreSelect(storeId: string | null) {
-    setSelectedStoreId(storeId);
-    setSelectedProfId(null);
-  }
-
-  const storeFiltered = useMemo(() => {
-    if (!selectedStoreId) return rows;
-    return rows.filter((r) => r.store.id === selectedStoreId);
-  }, [rows, selectedStoreId]);
-
-  const availableProfessionals = useMemo(() => {
-    const seen = new Set<string>();
-    return storeFiltered
-      .filter((r) => {
-        if (seen.has(r.professional.id)) return false;
-        seen.add(r.professional.id);
-        return true;
-      })
-      .map((r) => r.professional);
-  }, [storeFiltered]);
-
-  const profFiltered = useMemo(() => {
-    if (!selectedProfId) return storeFiltered;
-    return storeFiltered.filter((r) => r.professional.id === selectedProfId);
-  }, [storeFiltered, selectedProfId]);
-
-  const finalRows = useMemo(() => {
-    if (!search) return profFiltered;
-    const q = search.toLowerCase();
-    return profFiltered.filter((r) => r.offering.service.name.toLowerCase().includes(q));
-  }, [profFiltered, search]);
-
-  const totalServiceCount = stores.reduce((acc, s) => acc + s.service_count, 0);
-
   return (
     <>
       {/* Header */}
-      <header className="sticky top-0 z-20 px-8 py-3.5 flex items-center justify-between bg-background/93 backdrop-blur-[14px] border-b border-border">
-        <div>
+      <header className="sticky top-0 z-20 p-2 md:px-8 py-3.5 flex items-center justify-between bg-background/93 backdrop-blur-[14px] border-b border-border">
+        <div className="flex items-center gap-2">
+          <SidebarTrigger className="md:hidden text-slate-500" />
+
           <h1 className="font-heading font-extrabold tracking-tight text-foreground text-lg">
             Serviços
           </h1>
-          <p className="text-xs text-muted-foreground">
-            {totalServiceCount} serviços em {stores.length} {stores.length === 1 ? "loja" : "lojas"}
-          </p>
         </div>
       </header>
 
-      <main className="flex-1 px-8 py-8">
-        {/* Filters */}
-        <div className="flex items-center gap-3 mb-6 flex-wrap">
-          {/* Store tabs */}
-          <div className="flex items-center gap-1 p-1 rounded-full bg-white border border-border">
-            <button
-              onClick={() => handleStoreSelect(null)}
-              className={cn(
-                "px-3.5 py-1.5 rounded-full text-[0.8125rem] font-semibold cursor-pointer transition-all border border-transparent",
-                !selectedStoreId
-                  ? "bg-chart-3 text-white shadow-[0_2px_10px_rgba(224,80,64,.25)]"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground",
-              )}
-            >
-              Todos
-            </button>
-            {stores.map((store) => (
-              <button
-                key={store.id}
-                onClick={() => handleStoreSelect(store.id)}
-                className={cn(
-                  "px-3.5 py-1.5 rounded-full text-[0.8125rem] font-semibold cursor-pointer transition-all border border-transparent",
-                  selectedStoreId === store.id
-                    ? "bg-chart-3 text-white shadow-[0_2px_10px_rgba(224,80,64,.25)]"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                )}
-              >
-                {store.name}
-              </button>
-            ))}
-          </div>
-
-          {/* Professional filter */}
-          <select
-            value={selectedProfId ?? ""}
-            onChange={(e) => setSelectedProfId(e.target.value || null)}
-            className="rounded-lg border border-input bg-white px-3 py-2 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20 transition-colors"
-          >
-            <option value="">Todos os profissionais</option>
-            {availableProfessionals.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name}
-              </option>
-            ))}
-          </select>
-
-          {/* Search */}
-          <div className="ml-auto relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
-            <input
-              type="text"
-              placeholder="Buscar serviço..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="rounded-lg border border-input bg-white pl-9 pr-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20 transition-colors w-48"
-            />
-          </div>
-        </div>
-
+      <main className="flex-1 p-2 md:p-8">
         {/* Table */}
         <div className="rounded-2xl border border-border bg-card overflow-hidden">
           {isLoading ? (
@@ -151,19 +55,14 @@ function RouteComponent() {
                 <Skeleton key={i} className="h-12 w-full rounded-lg" />
               ))}
             </div>
-          ) : finalRows.length === 0 ? (
+          ) : servicesExists === undefined ? (
             <div className="flex flex-col items-center justify-center py-16 text-center">
               <p className="text-sm font-semibold text-foreground mb-1">
                 Nenhum serviço encontrado
               </p>
-              <p className="text-xs text-muted-foreground">
-                {rows.length === 0
-                  ? "Peça a um profissional para cadastrar serviços"
-                  : "Tente ajustar os filtros"}
-              </p>
             </div>
           ) : (
-            <>
+            <div className="overflow-x-scroll">
               <table className="w-full text-sm border-collapse">
                 <thead>
                   <tr className="border-b border-border bg-background">
@@ -189,7 +88,7 @@ function RouteComponent() {
                   </tr>
                 </thead>
                 <tbody>
-                  {finalRows.map(({ offering, professional, store }) => (
+                  {rows.map(({ offering, professional, store }) => (
                     <tr
                       key={offering.id}
                       className="border-b border-border last:border-0 hover:bg-background transition-colors"
@@ -214,9 +113,6 @@ function RouteComponent() {
                       {/* Professional */}
                       <td className="px-4 py-3.5">
                         <div className="flex items-center gap-2">
-                          <div className="size-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 bg-muted text-chart-4">
-                            {getInitials(professional.name)}
-                          </div>
                           <span className="text-xs font-medium text-foreground">
                             {professional.name}
                           </span>
@@ -280,14 +176,7 @@ function RouteComponent() {
                   ))}
                 </tbody>
               </table>
-
-              <div className="px-5 py-3 border-t border-border bg-background">
-                <p className="text-xs text-muted-foreground">
-                  {finalRows.length} {finalRows.length === 1 ? "serviço" : "serviços"}
-                  {finalRows.length !== rows.length && ` de ${rows.length} total`}
-                </p>
-              </div>
-            </>
+            </div>
           )}
         </div>
       </main>

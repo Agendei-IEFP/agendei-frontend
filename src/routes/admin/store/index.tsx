@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { StoreFormDialog } from "@/components/store/StoreFormDialog";
 import { StoreCard } from "@/components/admin/StoreCard";
 import { useMyStores } from "@/hooks/useStores";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export const Route = createFileRoute("/admin/store/")({
   component: RouteComponent,
@@ -33,14 +34,12 @@ function RouteComponent() {
     <>
       {/* Header */}
       <header className="sticky top-0 z-20 p-2 md:px-8 py-3.5 flex items-center justify-between bg-background/93 backdrop-blur-[14px] border-b border-border">
-        <div>
+        <div className="flex items-center gap-2">
+          <SidebarTrigger className="md:hidden text-slate-500" />
+
           <h1 className="font-heading font-extrabold tracking-tight text-foreground text-lg">
             Minhas Lojas
           </h1>
-          <p className="text-xs text-muted-foreground">
-            {stores.length}{" "}
-            {stores.length === 1 ? "estabelecimento cadastrado" : "estabelecimentos cadastrados"}
-          </p>
         </div>
         <Button
           className="bg-linear-to-br from-chart-3 to-primary text-white shadow-[0_3px_14px_rgba(224,80,64,0.28)] hover:-translate-y-px hover:shadow-[0_6px_20px_rgba(224,80,64,0.38)]"

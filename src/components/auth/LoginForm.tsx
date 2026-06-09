@@ -109,7 +109,7 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
 
           {/* Cabeçalho do formulário — título e link de cadastro */}
           <div className="mb-8">
-            <h3 className="font-heading font-black text-slate-900 text-2xl tracking-[-0.025em] mb-1.5">
+            <h3 className="font-heading font-black text-slate-900 text-2xl tracking-tight mb-1.5">
               Entrar na conta
             </h3>
             <p className="text-sm text-slate-500">

@@ -4,6 +4,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useLogout } from "@/hooks/useAuth";
 import { useMyProfessionalStores } from "@/hooks/useServices";
 import { refresh } from "@/lib/api/auth";
+import { getInitials } from "@/lib/format";
 
 export const Route = createFileRoute("/professional")({
   beforeLoad: async () => {
@@ -50,15 +51,6 @@ function ProfissionalLayout() {
   const { data: professionalStores = [] } = useMyProfessionalStores();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
-  const initials = user?.name
-    ? user.name
-        .split(" ")
-        .map((n) => n[0])
-        .slice(0, 2)
-        .join("")
-        .toUpperCase()
-    : "?";
-
   const sortedStores = [...professionalStores].sort((a, b) =>
     a.store.name.localeCompare(b.store.name),
   );
@@ -79,7 +71,7 @@ function ProfissionalLayout() {
         <div className="px-4 py-3 border-b border-border">
           <div className="flex items-center gap-2.5">
             <div className="size-9 rounded-xl flex items-center justify-center text-sm font-bold text-white shrink-0 bg-linear-to-br from-chart-3 to-chart-2">
-              {initials}
+              {getInitials(user?.name || "--")}
             </div>
             <div className="min-w-0">
               <p className="text-xs font-bold text-foreground truncate">{user?.name}</p>

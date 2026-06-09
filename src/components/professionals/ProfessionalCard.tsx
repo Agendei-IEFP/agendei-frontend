@@ -10,20 +10,10 @@ interface ProfessionalCardProps {
   className?: string;
 }
 
-const AVATAR_COLORS = [
-  "bg-salmon-100 text-chart-4",
-  "bg-blue-100 text-blue-700",
-  "bg-emerald-100 text-emerald-700",
-  "bg-amber-100 text-amber-700",
-  "bg-purple-100 text-purple-700",
-];
-
 export function ProfessionalCard({ professional, className }: ProfessionalCardProps) {
   const [editOpen, setEditOpen] = useState(false);
   const unlinkMutation = useUnlinkProfessional();
 
-  const colorIndex = professional.id.charCodeAt(0) % AVATAR_COLORS.length;
-  const avatarColor = AVATAR_COLORS[colorIndex];
   const initials = getInitials(professional.name);
 
   function handleRemove() {
@@ -44,10 +34,9 @@ export function ProfessionalCard({ professional, className }: ProfessionalCardPr
       {/* Header */}
       <div className="flex items-start gap-3 mb-4">
         <div
-          className={cn(
-            "size-12 rounded-full flex items-center justify-center text-sm font-bold shrink-0",
-            avatarColor,
-          )}
+          className={
+            "size-12 rounded-full flex items-center justify-center text-sm font-bold shrink-0 bg-salmon-100 text-chart-4"
+          }
         >
           {initials}
         </div>

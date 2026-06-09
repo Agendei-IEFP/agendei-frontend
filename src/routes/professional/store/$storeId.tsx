@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Plus, Pencil, Trash2, Store, Clock, Tag, Check, X, Info } from "lucide-react";
+import { Plus, Pencil, Trash2, Store, Clock, Tag, Check, X } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,13 +12,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
 import {
   useMyProfessionalStores,
   useServices,
@@ -211,42 +204,6 @@ function OfferingRow({ offering, professionalStoreId }: OfferingRowProps) {
 }
 
 // ---------------------------------------------------------------------------
-// Info modal for per-store schedule explanation
-// ---------------------------------------------------------------------------
-
-function ScheduleInfoModal() {
-  const [open, setOpen] = useState(false);
-  return (
-    <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="flex items-center justify-center size-6 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-        aria-label="Saiba mais sobre horários por loja"
-      >
-        <Info className="size-3.5" />
-      </button>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Horário por estabelecimento</DialogTitle>
-            <DialogDescription asChild>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <p>
-                  O horário configurado aqui é específico para{" "}
-                  <strong className="text-foreground">esta loja</strong>. Ele não altera o horário
-                  das outras lojas em que você trabalha.
-                </p>
-              </div>
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
-    </>
-  );
-}
-
-// ---------------------------------------------------------------------------
 // Store availability grid (override per store)
 // ---------------------------------------------------------------------------
 
@@ -338,12 +295,9 @@ function StoreView() {
         <div className="size-10 rounded-xl bg-muted flex items-center justify-center">
           <Store className="size-5 text-chart-3" />
         </div>
-        <div>
-          <h2 className="font-heading font-bold text-foreground text-[clamp(1.1rem,5vw,1.5rem)] tracking-tight">
-            {ps.store.name}
-          </h2>
-          <p className="text-sm text-muted-foreground">Configurações deste estabelecimento</p>
-        </div>
+        <h2 className="font-heading font-bold text-foreground text-[clamp(1.1rem,5vw,1.5rem)] tracking-tight">
+          Gestão - {ps.store.name}
+        </h2>
       </div>
 
       {/* ── Bloco 1: Serviços nesta loja ── */}
@@ -359,7 +313,7 @@ function StoreView() {
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-linear-to-br from-chart-3 to-primary shadow-[0_3px_14px_rgba(224,80,64,0.28)] hover:-translate-y-px transition-all"
             >
               <Plus className="size-3.5" />
-              Adicionar serviço
+              <span className="hidden sm:block">Adicionar serviço</span>
             </button>
           )}
         </div>
@@ -439,7 +393,6 @@ function StoreView() {
         <div className="flex items-center gap-2 mb-4">
           <Clock className="size-4 text-chart-3" />
           <h3 className="font-semibold text-foreground">Horários de funcionamento</h3>
-          <ScheduleInfoModal />
         </div>
 
         <div className="rounded-2xl border border-border bg-card p-2 sm:p-4 mb-4">

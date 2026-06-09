@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Plus, Search, Pencil, Trash2, Tag } from "lucide-react";
+import { Plus, Pencil, Trash2, Tag } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -124,7 +124,6 @@ function ServiceCard({ service, onDelete, onEdit, deleting }: ServiceCardProps) 
 }
 
 function ServicesList() {
-  const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
 
   const [serviceDialog, setServiceDialog] = useState<{
@@ -140,48 +139,31 @@ function ServicesList() {
   const { data: services = [], isLoading } = useServices();
   const deleteService = useDeleteService();
 
-  const filtered = services.filter((s) => {
-    const matchesSearch = s.name.toLowerCase().includes(search.toLowerCase());
-    const matchesFilter = filter === "all" || (filter === "active" ? s.is_active : !s.is_active);
-    return matchesSearch && matchesFilter;
-  });
-
-  const activeCount = services.filter((s) => s.is_active).length;
-  const inactiveCount = services.filter((s) => !s.is_active).length;
+  const filtered = services.filter(
+    (s) => filter === "all" || (filter === "active" ? s.is_active : !s.is_active),
+  );
 
   return (
     <main className="flex-1 p-4 md:p-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <div>
+        <div className="flex items-center justify-between gap-2">
           <h2 className="font-heading font-bold text-foreground text-2xl tracking-tight">
             Meus Serviços
           </h2>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            Gerencie os serviços que você oferece
-          </p>
+          <button
+            type="button"
+            onClick={openCreate}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-white bg-linear-to-br from-chart-3 to-primary shadow-[0_3px_14px_rgba(224,80,64,0.28)] hover:-translate-y-px hover:shadow-[0_6px_20px_rgba(224,80,64,0.38)] transition-all self-start"
+          >
+            <Plus className="size-4" />
+            <span className="hidden sm:block">Novo serviço</span>
+          </button>
         </div>
-        <button
-          type="button"
-          onClick={openCreate}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-white bg-linear-to-br from-chart-3 to-primary shadow-[0_3px_14px_rgba(224,80,64,0.28)] hover:-translate-y-px hover:shadow-[0_6px_20px_rgba(224,80,64,0.38)] transition-all self-start"
-        >
-          <Plus className="size-4" />
-          Novo serviço
-        </button>
       </div>
 
       {/* Search + filters */}
       <div className="flex flex-col sm:flex-row gap-3 mb-5">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Buscar serviço..."
-            className="w-full rounded-lg border border-input bg-white pl-9 pr-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20 transition-colors"
-          />
-        </div>
         <div className="flex items-center gap-1 p-1 rounded-lg bg-muted/60">
           {(["all", "active", "inactive"] as Filter[]).map((f) => (
             <button
@@ -200,22 +182,6 @@ function ServicesList() {
         </div>
       </div>
 
-      {/* Stats mini */}
-      <div className="grid grid-cols-3 gap-3 mb-6">
-        <div className="rounded-xl border border-border bg-card p-3 text-center">
-          <p className="text-lg font-bold text-foreground">{services.length}</p>
-          <p className="text-xs text-muted-foreground">total</p>
-        </div>
-        <div className="rounded-xl border border-border bg-card p-3 text-center">
-          <p className="text-lg font-bold text-emerald-600">{activeCount}</p>
-          <p className="text-xs text-muted-foreground">ativos</p>
-        </div>
-        <div className="rounded-xl border border-border bg-card p-3 text-center">
-          <p className="text-lg font-bold text-muted-foreground">{inactiveCount}</p>
-          <p className="text-xs text-muted-foreground">inativos</p>
-        </div>
-      </div>
-
       {/* Grid de cards */}
       {isLoading ? (
         <div className="flex items-center justify-center py-16">
@@ -227,14 +193,14 @@ function ServicesList() {
             <Tag className="size-6 text-muted-foreground" />
           </div>
           <p className="font-semibold text-foreground mb-1">
-            {search || filter !== "all" ? "Nenhum serviço encontrado" : "Ainda não há serviços"}
+            {filter !== "all" ? "Nenhum serviço encontrado" : "Ainda não há serviços"}
           </p>
           <p className="text-sm text-muted-foreground mb-4">
-            {search || filter !== "all"
+            {filter !== "all"
               ? "Tente ajustar os filtros ou a busca."
               : "Crie o seu primeiro serviço para começar."}
           </p>
-          {!search && filter === "all" && (
+          {filter === "all" && (
             <button
               type="button"
               onClick={openCreate}

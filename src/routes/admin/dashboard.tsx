@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
-import { Bell, Calendar, ClipboardList, MapPin, Pencil, Plus, Store, Users } from "lucide-react";
+import { Calendar, ClipboardList, MapPin, Pencil, Plus, Store, Users } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { useMyStores } from "@/hooks/useStores";
 import { useMyProfessionals } from "@/hooks/useProfessionals";
@@ -10,7 +10,7 @@ import { useAdminOfferings, type AdminOfferingRow } from "@/hooks/useAdminOfferi
 import { StatusBadge } from "@/components/agendamentos/StatusBadge";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { StoreFormDialog } from "@/components/store/StoreFormDialog";
-import { capitalize, formatCurrentDate, getGreetingName } from "@/lib/format";
+import { capitalize, formatCurrentDate, getGreetingName, getInitials } from "@/lib/format";
 import type { AppointmentAdminDTO, ProfessionalWithStoreDTO, StoreDTO } from "@/types/api";
 
 export const Route = createFileRoute("/admin/dashboard")({
@@ -44,8 +44,8 @@ function AdminDashboard() {
 
   return (
     <div className="flex flex-col flex-1">
-      {/* ── Header ── */}
-      <header className="sticky top-0 z-20 px-4 md:px-8 py-3.5 flex items-center justify-between bg-background/93 backdrop-blur-sm border-b border-border">
+      {/*  Header  */}
+      <header className="sticky top-0 z-20 px-2 md:px-8 py-3.5 flex items-center justify-between bg-background/93 backdrop-blur-sm border-b border-border">
         <div className="flex items-center gap-2">
           <SidebarTrigger className="md:hidden text-slate-500" />
           <div>
@@ -56,9 +56,6 @@ function AdminDashboard() {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <button className="p-2 rounded-lg text-slate-500 hover:bg-muted hover:text-slate-800 transition-colors">
-            <Bell className="size-4.5" />
-          </button>
           <button
             type="button"
             onClick={openCreate}
@@ -70,7 +67,7 @@ function AdminDashboard() {
         </div>
       </header>
 
-      {/* ── Content ── */}
+      {/*  Content  */}
       <main className="flex-1 p-2 md:p-8">
         {/* Welcome banner — shown only when there are no stores yet */}
         {!hasLojas && (
@@ -79,7 +76,7 @@ function AdminDashboard() {
               <p className="text-[0.7rem] font-bold uppercase tracking-widest mb-1 text-chart-4">
                 Bem-vindo ao Agendei
               </p>
-              <h2 className="font-heading font-bold text-slate-900 text-xl tracking-[-0.025em] mb-1">
+              <h2 className="font-heading font-bold text-slate-900 text-xl tracking-tight mb-1">
                 Olá, {user ? getGreetingName(user.name) : ""}!
               </h2>
               <p className="text-sm text-muted-foreground">
@@ -97,7 +94,7 @@ function AdminDashboard() {
           </div>
         )}
 
-        {/* ── Stats row ── */}
+        {/*  Stats row  */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 mb-7">
           <StatCard
             label="Lojas"
@@ -129,7 +126,7 @@ function AdminDashboard() {
           />
         </div>
 
-        {/* ── Main sections (only when stores exist) ── */}
+        {/*  Main sections (only when stores exist)  */}
         {hasLojas && (
           <>
             {/* Row 1: Stores + Team */}
@@ -157,18 +154,12 @@ function AdminDashboard() {
                 </div>
               </div>
 
-              {/* Equipe — 1/3 */}
+              {/* Equipa — 1/3 */}
               <div className="rounded-2xl border border-border bg-card flex flex-col">
                 <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-                  <div>
-                    <h2 className="font-heading font-bold text-slate-900 text-[1.05rem] tracking-[-0.02em]">
-                      Equipe
-                    </h2>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      {professionals.length} profissional{professionals.length !== 1 ? "is" : ""}{" "}
-                      ativo{professionals.length !== 1 ? "s" : ""}
-                    </p>
-                  </div>
+                  <h2 className="font-heading font-bold text-slate-900 text-[1.05rem] tracking-[-0.02em]">
+                    Equipa
+                  </h2>
                   <Link
                     to="/admin/professionals"
                     className="text-xs text-slate-500 hover:text-slate-900 flex items-center gap-1 px-2.5 py-1.5 rounded-lg hover:bg-muted transition-colors"
@@ -177,7 +168,7 @@ function AdminDashboard() {
                   </Link>
                 </div>
                 <div className="flex-1 p-3 space-y-0.5">
-                  {professionals.slice(0, 7).map((p) => (
+                  {professionals.slice(0, 6).map((p) => (
                     <ProfRow key={p.id} prof={p} />
                   ))}
                 </div>
@@ -229,14 +220,9 @@ function AdminDashboard() {
               {/* Serviços — 1/3 */}
               <div className="rounded-2xl border border-border bg-card flex flex-col">
                 <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-                  <div>
-                    <h2 className="font-heading font-bold text-slate-900 text-[1.05rem] tracking-[-0.02em]">
-                      Serviços
-                    </h2>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      {serviceCount} cadastrado{serviceCount !== 1 ? "s" : ""}
-                    </p>
-                  </div>
+                  <h2 className="font-heading font-bold text-slate-900 text-[1.05rem] tracking-[-0.02em]">
+                    Serviços
+                  </h2>
                   <Link
                     to="/admin/servicos"
                     className="text-xs text-slate-500 hover:text-slate-900 flex items-center gap-1 px-2.5 py-1.5 rounded-lg hover:bg-muted transition-colors"
@@ -254,7 +240,7 @@ function AdminDashboard() {
           </>
         )}
 
-        {/* ── O que você vai poder fazer (empty state only) ── */}
+        {/*  O que você vai poder fazer (empty state only)  */}
         {!hasLojas && (
           <>
             <div className="mb-5">
@@ -319,8 +305,7 @@ function AdminDashboard() {
   );
 }
 
-// ── Sub-components ──────────────────────────────────────────────────────────
-
+// Sub Components
 interface StatCardProps {
   label: string;
   icon: React.ReactNode;
@@ -406,16 +391,10 @@ function DashboardStoreCard({ store, onEdit }: DashboardStoreCardProps) {
 }
 
 function ProfRow({ prof }: { prof: ProfessionalWithStoreDTO }) {
-  const initials = prof.name
-    .split(" ")
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
   return (
     <div className="flex items-center gap-3 px-2 py-2.5 rounded-xl hover:bg-slate-50 transition-colors">
       <div className="size-8 rounded-full bg-salmon-100 text-chart-4 flex items-center justify-center text-[0.7rem] font-bold shrink-0">
-        {initials}
+        {getInitials(prof.name)}
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-xs font-semibold text-slate-900 truncate">{prof.name}</p>
@@ -442,12 +421,7 @@ function apptDateLabel(isoString: string): string {
 }
 
 function ApptRow({ appt }: { appt: AppointmentAdminDTO }) {
-  const initials = (appt.client_name ?? "?")
-    .split(" ")
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
+  // Verificar se existe algo semelhante em algum local para tornar uma utilidade compartilhada, talvez no próprio StatusBadge ou algo do tipo
   const time = new Date(appt.starts_at).toLocaleTimeString("pt-PT", {
     hour: "2-digit",
     minute: "2-digit",
@@ -459,7 +433,7 @@ function ApptRow({ appt }: { appt: AppointmentAdminDTO }) {
       <div
         className={`flex size-9 rounded-full items-center justify-center text-xs font-bold shrink-0 ${isCancelled ? "bg-red-100 text-red-700" : "bg-salmon-100 text-chart-4"}`}
       >
-        {initials}
+        {getInitials(appt.client_name ?? "—")}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
