@@ -42,7 +42,7 @@ export function ProfessionalCard({ professional, storeId }: ProfessionalCardProp
           void navigate({
             to: "/stores/$storeId/book",
             params: { storeId },
-            search: { psid: professional.professional_store_id },
+            search: { psid: professional.id },
           })
         }
         className={cn(

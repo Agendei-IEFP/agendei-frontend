@@ -20,7 +20,7 @@ export function ProfessionalCard({ professional, className }: ProfessionalCardPr
     if (!window.confirm(`Remover ${professional.name} desta loja?`)) return;
     unlinkMutation.mutate({
       storeId: professional.store_id,
-      professionalStoreId: professional.professional_store_id,
+      professionalId: professional.id,
     });
   }
 

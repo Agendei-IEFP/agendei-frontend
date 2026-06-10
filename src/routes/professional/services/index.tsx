@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useServices, useDeleteService } from "@/hooks/useServices";
 import { ServiceFormDialog } from "@/components/services/ServiceFormDialog";
-import type { CanonicalServiceDTO } from "@/types/api";
+import type { ServiceDTO } from "@/types/api";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/format";
 
@@ -25,9 +25,9 @@ export const Route = createFileRoute("/professional/services/")({
 type Filter = "all" | "active" | "inactive";
 
 interface ServiceCardProps {
-  service: CanonicalServiceDTO;
+  service: ServiceDTO;
   onDelete: (id: string) => void;
-  onEdit: (service: CanonicalServiceDTO) => void;
+  onEdit: (service: ServiceDTO) => void;
   deleting: boolean;
 }
 
@@ -69,13 +69,13 @@ function ServiceCard({ service, onDelete, onEdit, deleting }: ServiceCardProps) 
         <div className="flex items-center gap-3">
           <div>
             <p className="text-xs text-muted-foreground">Preço</p>
-            <p className="text-sm font-bold text-chart-3">{formatPrice(service.default_price)}</p>
+            <p className="text-sm font-bold text-chart-3">{formatPrice(service.price)}</p>
           </div>
           <div className="w-px h-8 bg-border" />
           <div>
             <p className="text-xs text-muted-foreground">Duração</p>
             <p className="text-sm font-bold text-foreground">
-              {service.default_duration_minutes} min
+              {service.duration_minutes} min
             </p>
           </div>
         </div>
@@ -129,11 +129,11 @@ function ServicesList() {
   const [serviceDialog, setServiceDialog] = useState<{
     open: boolean;
     mode: "create" | "edit";
-    service?: CanonicalServiceDTO;
+    service?: ServiceDTO;
   }>({ open: false, mode: "create" });
 
   const openCreate = () => setServiceDialog({ open: true, mode: "create", service: undefined });
-  const openEdit = (service: CanonicalServiceDTO) =>
+  const openEdit = (service: ServiceDTO) =>
     setServiceDialog({ open: true, mode: "edit", service });
 
   const { data: services = [], isLoading } = useServices();
@@ -236,8 +236,8 @@ function ServicesList() {
             ? {
                 name: serviceDialog.service.name,
                 description: serviceDialog.service.description ?? "",
-                default_price: serviceDialog.service.default_price,
-                default_duration_minutes: serviceDialog.service.default_duration_minutes,
+                price: serviceDialog.service.price,
+                duration_minutes: serviceDialog.service.duration_minutes,
                 is_active: serviceDialog.service.is_active,
               }
             : undefined

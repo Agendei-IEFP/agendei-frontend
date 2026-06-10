@@ -1,10 +1,10 @@
 import { Clock, Banknote } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatDuration, formatPrice } from "@/lib/format";
-import type { StoreOfferingDTO } from "@/types/api";
+import type { StoreServiceDTO } from "@/types/api";
 
 interface OfferingListProps {
-  offerings: StoreOfferingDTO[];
+  offerings: StoreServiceDTO[];
   className?: string;
 }
 
@@ -26,11 +26,11 @@ export function OfferingList({ offerings, className }: OfferingListProps) {
             <div className="flex items-center gap-4 text-xs text-muted-foreground shrink-0">
               <span className="flex items-center gap-1">
                 <Clock className="size-3.5 shrink-0" />
-                {formatDuration(offering.effective_duration_minutes)}
+                {formatDuration(offering.duration_minutes)}
               </span>
               <span className="flex items-center gap-1 font-semibold text-foreground">
                 <Banknote className="size-3.5 shrink-0" />
-                {formatPrice(offering.effective_price)}
+                {formatPrice(offering.price)}
               </span>
             </div>
           </div>

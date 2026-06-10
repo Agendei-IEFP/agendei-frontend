@@ -44,8 +44,8 @@ export function ServiceForm({
     defaultValues: {
       name: defaultValues?.name ?? "",
       description: defaultValues?.description ?? "",
-      default_price: defaultValues?.default_price ?? "",
-      default_duration_minutes: defaultValues?.default_duration_minutes ?? 60,
+      price: defaultValues?.price ?? "",
+      duration_minutes: defaultValues?.duration_minutes ?? 60,
     },
   });
 
@@ -63,8 +63,8 @@ export function ServiceForm({
         await createService.mutateAsync({
           name: data.name,
           description: data.description ?? null,
-          default_price: data.default_price,
-          default_duration_minutes: data.default_duration_minutes,
+          price: data.price,
+          duration_minutes: data.duration_minutes,
         });
       } else {
         if (!serviceId) throw new Error("serviceId é obrigatório no modo edit");
@@ -73,8 +73,8 @@ export function ServiceForm({
           body: {
             name: data.name,
             description: data.description ?? null,
-            default_price: data.default_price,
-            default_duration_minutes: data.default_duration_minutes,
+            price: data.price,
+            duration_minutes: data.duration_minutes,
           },
         });
       }
@@ -112,16 +112,16 @@ export function ServiceForm({
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-semibold text-foreground mb-1.5">
-            Preço padrão (€) <span className="text-destructive">*</span>
+            Preço (€) <span className="text-destructive">*</span>
           </label>
           <input
-            {...register("default_price")}
+            {...register("price")}
             placeholder="0.00"
             className={inputClass}
-            aria-invalid={!!errors.default_price}
+            aria-invalid={!!errors.price}
           />
-          {errors.default_price && (
-            <p className="mt-1 text-xs text-destructive">{errors.default_price.message}</p>
+          {errors.price && (
+            <p className="mt-1 text-xs text-destructive">{errors.price.message}</p>
           )}
         </div>
         <div>
@@ -129,17 +129,17 @@ export function ServiceForm({
             Duração (min) <span className="text-destructive">*</span>
           </label>
           <input
-            {...register("default_duration_minutes", { valueAsNumber: true })}
+            {...register("duration_minutes", { valueAsNumber: true })}
             type="number"
             min={15}
             step={5}
             placeholder="60"
             className={inputClass}
-            aria-invalid={!!errors.default_duration_minutes}
+            aria-invalid={!!errors.duration_minutes}
           />
-          {errors.default_duration_minutes && (
+          {errors.duration_minutes && (
             <p className="mt-1 text-xs text-destructive">
-              {errors.default_duration_minutes.message}
+              {errors.duration_minutes.message}
             </p>
           )}
         </div>

@@ -1,8 +1,9 @@
 import { createFileRoute, Link, Outlet, redirect, useRouterState } from "@tanstack/react-router";
-import { CalendarDays, Home, LogOut, Store, Tag } from "lucide-react";
+import { CalendarDays, Clock, Home, LogOut, Store, Tag } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { useLogout } from "@/hooks/useAuth";
-import { useMyProfessionalStores } from "@/hooks/useServices";
+import { useMyProfile } from "@/hooks/useServices";
+import { useStore } from "@/hooks/useStores";
 import { refresh } from "@/lib/api/auth";
 import { getInitials } from "@/lib/format";
 
@@ -48,12 +49,9 @@ function SidebarLink({ to, children }: { to: string; children: React.ReactNode }
 function ProfissionalLayout() {
   const user = useAuthStore((s) => s.user);
   const logout = useLogout();
-  const { data: professionalStores = [] } = useMyProfessionalStores();
+  const { data: profile } = useMyProfile();
+  const { data: myStore } = useStore(profile?.store_id ?? "");
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-
-  const sortedStores = [...professionalStores].sort((a, b) =>
-    a.store.name.localeCompare(b.store.name),
-  );
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -105,29 +103,28 @@ function ProfissionalLayout() {
             Meus Serviços
           </SidebarLink>
 
-          {sortedStores.length > 0 && (
+          <SidebarLink to="/professional/schedules">
+            <Clock className="size-4 shrink-0" />
+            Meus Horários
+          </SidebarLink>
+
+          {myStore && (
             <>
               <p className="text-xs font-bold uppercase tracking-widest px-2.5 pt-4 pb-1.5 text-muted-warm">
-                Estabelecimentos
+                Minha Loja
               </p>
-              {sortedStores.map((ps) => {
-                const isActive = pathname.startsWith(`/professional/store/${ps.store_id}`);
-                return (
-                  <Link
-                    key={ps.id}
-                    to="/professional/store/$storeId"
-                    params={{ storeId: ps.store_id }}
-                    className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors ${
-                      isActive
-                        ? "bg-salmon-100 text-chart-3"
-                        : "text-foreground hover:bg-muted hover:text-chart-3"
-                    }`}
-                  >
-                    <Store className="size-4 shrink-0" />
-                    <span className="truncate">{ps.store.name}</span>
-                  </Link>
-                );
-              })}
+              <Link
+                to="/professional/store/$storeId"
+                params={{ storeId: myStore.id }}
+                className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors ${
+                  pathname.startsWith(`/professional/store/${myStore.id}`)
+                    ? "bg-salmon-100 text-chart-3"
+                    : "text-foreground hover:bg-muted hover:text-chart-3"
+                }`}
+              >
+                <Store className="size-4 shrink-0" />
+                <span className="truncate">{myStore.name}</span>
+              </Link>
             </>
           )}
         </nav>
@@ -171,22 +168,22 @@ function ProfissionalLayout() {
           );
         })}
 
-        {/* Estabelecimentos — navega para primeiro */}
-        {sortedStores.length > 0 ? (
+        {/* Loja vinculada */}
+        {myStore ? (
           <Link
             to="/professional/store/$storeId"
-            params={{ storeId: sortedStores[0].store_id }}
+            params={{ storeId: myStore.id }}
             className={`flex-1 flex flex-col items-center justify-center gap-1 py-3 text-xs font-medium transition-colors ${
               pathname.startsWith("/professional/store") ? "text-chart-3" : "text-muted-foreground"
             }`}
           >
             <Store className="size-5" />
-            Lojas
+            Loja
           </Link>
         ) : (
           <span className="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-xs font-medium text-muted-foreground opacity-40 cursor-not-allowed">
             <Store className="size-5" />
-            Lojas
+            Loja
           </span>
         )}
       </nav>

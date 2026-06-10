@@ -151,8 +151,8 @@ function AppointmentCard({ appointment, onCancel }: AppointmentCardProps) {
           <Clock className="size-3 shrink-0" />
           {formatTime(apt.starts_at)} – {formatTime(apt.ends_at)}
         </span>
-        {apt.effective_price && (
-          <span className="font-semibold text-foreground">{formatPrice(apt.effective_price)}</span>
+        {apt.price && (
+          <span className="font-semibold text-foreground">{formatPrice(apt.price)}</span>
         )}
       </div>
 

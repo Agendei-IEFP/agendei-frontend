@@ -6,13 +6,12 @@ import { cn } from "@/lib/utils";
 import { formatDate, formatPrice, getInitials } from "@/lib/format";
 import { getApiErrorMessage } from "@/lib/api/errorUtils";
 import { useAuthStore } from "@/store/authStore";
-import { useStoreProfessionals } from "@/hooks/useStores";
-import { useOfferings } from "@/hooks/useServices";
+import { useStoreProfessionals, useStoreServices } from "@/hooks/useStores";
 import { useAvailableSlots } from "@/hooks/useSlots";
 import { useCreateAppointment } from "@/hooks/useAppointments";
 import { StoresNavbar } from "@/components/stores/StoresNavbar";
 import { Button } from "@/components/ui/button";
-import type { StoreProfessionalDTO, OfferingDTO } from "@/types/api";
+import type { StoreProfessionalDTO, StoreServiceDTO } from "@/types/api";
 
 const searchSchema = z.object({
   psid: z.string().optional(),
@@ -50,20 +49,30 @@ function BookPage() {
   const accessToken = useAuthStore((s) => s.accessToken);
 
   const [step, setStep] = useState<1 | 2 | 3 | "success">(1);
-  const [professionalStoreId, setProfessionalStoreId] = useState<string | null>(psid ?? null);
   const [selectedProfessional, setSelectedProfessional] = useState<StoreProfessionalDTO | null>(
     null,
   );
-  const [selectedOffering, setSelectedOffering] = useState<OfferingDTO | null>(null);
+  const [selectedService, setSelectedService] = useState<StoreServiceDTO | null>(null);
   const [date, setDate] = useState("");
   const [slot, setSlot] = useState<{ start: string; end: string } | null>(null);
   const [notes, setNotes] = useState("");
   const [confirmError, setConfirmError] = useState<string | null>(null);
 
   const professionalsQuery = useStoreProfessionals(storeId);
-  const offeringsQuery = useOfferings(professionalStoreId);
-  const slotsQuery = useAvailableSlots(professionalStoreId, selectedOffering?.id ?? null, date);
+  const storeServicesQuery = useStoreServices(storeId);
+  const slotsQuery = useAvailableSlots(
+    selectedProfessional?.id ?? null,
+    selectedService?.service_id ?? null,
+    date,
+  );
   const createAppointment = useCreateAppointment();
+
+  // Pre-select professional via psid query param (now professional.id)
+  useEffect(() => {
+    if (!psid || !professionalsQuery.data) return;
+    const match = professionalsQuery.data.find((p) => p.id === psid);
+    if (match) setSelectedProfessional(match);
+  }, [psid, professionalsQuery.data]);
 
   useEffect(() => {
     if (!accessToken) {
@@ -72,26 +81,25 @@ function BookPage() {
   }, [accessToken, navigate, storeId]);
 
   function selectProfessional(p: StoreProfessionalDTO) {
-    setProfessionalStoreId(p.professional_store_id);
     setSelectedProfessional(p);
-    setSelectedOffering(null);
+    setSelectedService(null);
     setDate("");
     setSlot(null);
   }
 
-  function selectOffering(o: OfferingDTO) {
-    setSelectedOffering(o);
+  function selectService(s: StoreServiceDTO) {
+    setSelectedService(s);
     setDate("");
     setSlot(null);
   }
 
   async function handleConfirm() {
-    if (!professionalStoreId || !selectedOffering || !slot) return;
+    if (!selectedProfessional || !selectedService || !slot) return;
     setConfirmError(null);
     try {
       await createAppointment.mutateAsync({
-        professional_store_id: professionalStoreId,
-        offering_id: selectedOffering.id,
+        professional_id: selectedProfessional.id,
+        service_id: selectedService.service_id,
         starts_at: slot.start,
         notes: notes || undefined,
       });
@@ -104,7 +112,13 @@ function BookPage() {
   if (!accessToken) return null;
 
   const today = new Date().toISOString().split("T")[0];
-  const enabledOfferings = offeringsQuery.data?.filter((o) => o.is_enabled) ?? [];
+
+  // Services available for the selected professional
+  const professionalServices =
+    storeServicesQuery.data?.filter(
+      (s) => s.professional_id === selectedProfessional?.id,
+    ) ?? [];
+
   const ctaClass =
     "bg-linear-to-br from-chart-3 to-primary text-white shadow-[0_3px_14px_rgba(224,80,64,0.28)] disabled:opacity-50";
 
@@ -196,32 +210,33 @@ function BookPage() {
                   <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide mb-2">
                     Serviço
                   </p>
-                  {offeringsQuery.isLoading ? (
+                  {storeServicesQuery.isLoading ? (
                     <div className="flex flex-col gap-2">
                       {[0, 1, 2].map((i) => (
                         <div key={i} className="h-14 rounded-2xl bg-muted animate-pulse" />
                       ))}
                     </div>
-                  ) : enabledOfferings.length === 0 ? (
+                  ) : professionalServices.length === 0 ? (
                     <p className="text-sm text-muted-foreground">Nenhum serviço disponível.</p>
                   ) : (
                     <div className="flex flex-col gap-2">
-                      {enabledOfferings.map((o) => (
+                      {professionalServices.map((s) => (
                         <button
-                          key={o.id}
-                          onClick={() => selectOffering(o)}
+                          key={s.service_id}
+                          onClick={() => selectService(s)}
                           className={cn(
                             "flex items-center justify-between rounded-2xl border border-border bg-card px-4 py-3 text-left shadow-sm transition-colors w-full",
-                            selectedOffering?.id === o.id && "border-primary bg-muted",
+                            selectedService?.service_id === s.service_id &&
+                              "border-primary bg-muted",
                           )}
                         >
                           <span className="text-sm font-medium text-foreground">
-                            {o.service.name}
+                            {s.service_name}
                           </span>
                           <div className="flex items-center gap-3 text-xs text-muted-foreground shrink-0">
-                            <span>{formatDuration(o.effective_duration_minutes)}</span>
+                            <span>{formatDuration(s.duration_minutes)}</span>
                             <span className="font-semibold text-foreground">
-                              {formatPrice(o.effective_price)}
+                              {formatPrice(s.price)}
                             </span>
                           </div>
                         </button>
@@ -238,7 +253,7 @@ function BookPage() {
                   </Link>
                 </Button>
                 <Button
-                  disabled={!selectedProfessional || !selectedOffering}
+                  disabled={!selectedProfessional || !selectedService}
                   onClick={() => setStep(2)}
                   className={ctaClass}
                 >
@@ -255,7 +270,7 @@ function BookPage() {
                   {selectedProfessional?.name}
                 </span>
                 <span className="text-xs bg-muted rounded-full px-3 py-1 font-medium">
-                  {selectedOffering?.service.name}
+                  {selectedService?.service_name}
                 </span>
               </div>
 
@@ -321,9 +336,9 @@ function BookPage() {
           {step === 3 && (
             <div className="flex flex-col gap-6">
               <div className="rounded-2xl border border-border bg-card p-4 shadow-sm flex flex-col gap-2.5">
-                {selectedOffering && <Row label="Serviço" value={selectedOffering.service.name} />}
-                {selectedOffering && (
-                  <Row label="Preço" value={formatPrice(selectedOffering.effective_price)} />
+                {selectedService && <Row label="Serviço" value={selectedService.service_name} />}
+                {selectedService && (
+                  <Row label="Preço" value={formatPrice(selectedService.price)} />
                 )}
                 {selectedProfessional && (
                   <Row label="Profissional" value={selectedProfessional.name} />
@@ -335,10 +350,10 @@ function BookPage() {
                     value={`${formatTime(slot.start)} – ${formatTime(slot.end)}`}
                   />
                 )}
-                {selectedOffering && (
+                {selectedService && (
                   <Row
                     label="Duração"
-                    value={formatDuration(selectedOffering.effective_duration_minutes)}
+                    value={formatDuration(selectedService.duration_minutes)}
                   />
                 )}
               </div>
@@ -391,7 +406,7 @@ function BookPage() {
                   Agendamento confirmado!
                 </h2>
                 <p className="text-sm text-muted-foreground mt-1">
-                  {selectedOffering?.service.name}
+                  {selectedService?.service_name}
                   {selectedProfessional && ` com ${selectedProfessional.name}`}
                   {date && `, ${formatDate(new Date(date + "T12:00:00"))}`}
                   {slot && ` às ${formatTime(slot.start)}`}

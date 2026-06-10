@@ -6,7 +6,9 @@ import { useAuthStore } from "@/store/authStore";
 import { useMyStores } from "@/hooks/useStores";
 import { useMyProfessionals } from "@/hooks/useProfessionals";
 import { useAllStoreAppointments } from "@/hooks/useAppointments";
-import { useAdminOfferings, type AdminOfferingRow } from "@/hooks/useAdminOfferings";
+import { useQueries } from "@tanstack/react-query";
+import { getStoreServices } from "@/lib/api/stores";
+import type { StoreServiceDTO } from "@/types/api";
 import { StatusBadge } from "@/components/agendamentos/StatusBadge";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { StoreFormDialog } from "@/components/store/StoreFormDialog";
@@ -27,7 +29,13 @@ function AdminDashboard() {
     total: apptTotal,
     isLoading: aptsLoading,
   } = useAllStoreAppointments(storeIds);
-  const { rows: offeringRows = [] } = useAdminOfferings();
+  const serviceResults = useQueries({
+    queries: storeIds.map((id) => ({
+      queryKey: ["stores", id, "services"],
+      queryFn: () => getStoreServices(id),
+    })),
+  });
+  const serviceRows: StoreServiceDTO[] = serviceResults.flatMap((r) => r.data ?? []);
 
   const profCount = lojas.reduce((acc, s) => acc + s.professional_count, 0);
   const serviceCount = lojas.reduce((acc, s) => acc + s.service_count, 0);
@@ -231,8 +239,8 @@ function AdminDashboard() {
                   </Link>
                 </div>
                 <div className="flex-1 divide-y divide-border">
-                  {offeringRows.slice(0, 8).map((row) => (
-                    <ServiceRow key={row.offering.id} row={row} />
+                  {serviceRows.slice(0, 8).map((row) => (
+                    <ServiceRow key={`${row.professional_id}-${row.service_id}`} row={row} />
                   ))}
                 </div>
               </div>
@@ -455,9 +463,9 @@ function ApptRow({ appt }: { appt: AppointmentAdminDTO }) {
           </p>
           <p className="text-xs text-muted-foreground">{time}</p>
         </div>
-        {appt.effective_price && !isCancelled && (
+        {appt.price && !isCancelled && (
           <p className="text-sm font-bold shrink-0 text-chart-3">
-            {Number(appt.effective_price).toFixed(0)} €
+            {Number(appt.price).toFixed(0)} €
           </p>
         )}
       </div>
@@ -465,18 +473,16 @@ function ApptRow({ appt }: { appt: AppointmentAdminDTO }) {
   );
 }
 
-function ServiceRow({ row }: { row: AdminOfferingRow }) {
+function ServiceRow({ row }: { row: StoreServiceDTO }) {
   return (
     <div className="flex items-center justify-between px-5 py-3 hover:bg-slate-50/60 transition-colors">
       <div>
-        <p className="text-xs font-semibold text-slate-900">{row.offering.service.name}</p>
+        <p className="text-xs font-semibold text-slate-900">{row.service_name}</p>
         <p className="text-xs text-muted-foreground mt-0.5">
-          {row.professional.name} · {row.offering.effective_duration_minutes} min
+          {row.professional_name} · {row.duration_minutes} min
         </p>
       </div>
-      <p className="text-sm font-bold text-chart-3">
-        {Number(row.offering.effective_price).toFixed(0)} €
-      </p>
+      <p className="text-sm font-bold text-chart-3">{Number(row.price).toFixed(0)} €</p>
     </div>
   );
 }
