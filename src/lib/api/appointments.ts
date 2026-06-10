@@ -7,20 +7,20 @@ export async function listMyProfessionalAppointments(): Promise<AppointmentDTO[]
 }
 
 export async function getAvailableSlots(
-  professionalStoreId: string,
-  offeringId: string,
+  professionalId: string,
+  serviceId: string,
   date: string,
 ): Promise<{ start: string; end: string }[]> {
   const { data } = await api.get<{ start: string; end: string }[]>(
-    `/professional-stores/${professionalStoreId}/available-slots`,
-    { params: { offering_id: offeringId, date } },
+    `/professionals/${professionalId}/available-slots`,
+    { params: { service_id: serviceId, date } },
   );
   return data;
 }
 
 export async function createAppointment(body: {
-  professional_store_id: string;
-  offering_id: string;
+  professional_id: string;
+  service_id: string;
   starts_at: string;
   notes?: string;
 }): Promise<AppointmentDTO> {

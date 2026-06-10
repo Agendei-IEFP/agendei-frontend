@@ -1,4 +1,4 @@
-import type { StoreDTO, StoreOfferingDTO, StoreProfessionalDTO } from "@/types/api";
+import type { StoreDTO, StoreServiceDTO, StoreProfessionalDTO } from "@/types/api";
 import api from "./axios";
 import { stripEmpty } from "../utils";
 import type { StoreFormData } from "../validations/store";
@@ -18,8 +18,8 @@ export async function getStore(id: string): Promise<StoreDTO> {
   return data;
 }
 
-export async function getStoreOfferings(id: string): Promise<StoreOfferingDTO[]> {
-  const { data } = await api.get<StoreOfferingDTO[]>(`/stores/${id}/offerings`);
+export async function getStoreServices(id: string): Promise<StoreServiceDTO[]> {
+  const { data } = await api.get<StoreServiceDTO[]>(`/stores/${id}/services`);
   return data;
 }
 
