@@ -4,17 +4,8 @@ import {
   createService,
   updateService,
   deleteService,
-  listOfferings,
-  createOffering,
-  updateOffering,
-  deleteOffering,
-  listSchedules,
-  createSchedule,
-  updateSchedule,
-  deleteSchedule,
 } from "@/lib/api/services";
-import { replaceWorkSchedules } from "@/lib/api/workSchedule";
-import { getMyProfile, getMyProfessionalStores } from "@/lib/api/professionals";
+import { getMyProfile } from "@/lib/api/professionals";
 
 // ---------------------------------------------------------------------------
 // Perfil do profissional
@@ -27,15 +18,8 @@ export function useMyProfile() {
   });
 }
 
-export function useMyProfessionalStores() {
-  return useQuery({
-    queryKey: ["professional", "stores"],
-    queryFn: getMyProfessionalStores,
-  });
-}
-
 // ---------------------------------------------------------------------------
-// Serviços canónicos
+// Serviços
 // ---------------------------------------------------------------------------
 
 export function useServices() {
@@ -72,115 +56,6 @@ export function useDeleteService() {
     mutationFn: deleteService,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["services"] });
-    },
-  });
-}
-
-// ---------------------------------------------------------------------------
-// Offerings (por loja)
-// ---------------------------------------------------------------------------
-
-export function useOfferings(professionalStoreId: string | null) {
-  return useQuery({
-    queryKey: ["offerings", professionalStoreId],
-    queryFn: () => listOfferings(professionalStoreId ?? ""),
-    enabled: !!professionalStoreId,
-  });
-}
-
-export function useCreateOffering(professionalStoreId: string) {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (body: Parameters<typeof createOffering>[1]) =>
-      createOffering(professionalStoreId, body),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["offerings", professionalStoreId] });
-    },
-  });
-}
-
-export function useUpdateOffering(professionalStoreId: string) {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: ({
-      offeringId,
-      body,
-    }: {
-      offeringId: string;
-      body: Parameters<typeof updateOffering>[2];
-    }) => updateOffering(professionalStoreId, offeringId, body),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["offerings", professionalStoreId] });
-    },
-  });
-}
-
-export function useDeleteOffering(professionalStoreId: string) {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (offeringId: string) => deleteOffering(professionalStoreId, offeringId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["offerings", professionalStoreId] });
-    },
-  });
-}
-
-// ---------------------------------------------------------------------------
-// Horários (por loja)
-// ---------------------------------------------------------------------------
-
-export function useSchedules(professionalStoreId: string) {
-  return useQuery({
-    queryKey: ["schedules", professionalStoreId],
-    queryFn: () => listSchedules(professionalStoreId),
-    enabled: !!professionalStoreId,
-  });
-}
-
-export function useCreateSchedule(professionalStoreId: string) {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (body: Parameters<typeof createSchedule>[1]) =>
-      createSchedule(professionalStoreId, body),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["schedules", professionalStoreId] });
-    },
-  });
-}
-
-export function useUpdateSchedule(professionalStoreId: string) {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: ({
-      scheduleId,
-      body,
-    }: {
-      scheduleId: string;
-      body: Parameters<typeof updateSchedule>[2];
-    }) => updateSchedule(professionalStoreId, scheduleId, body),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["schedules", professionalStoreId] });
-    },
-  });
-}
-
-export function useDeleteSchedule(professionalStoreId: string) {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (scheduleId: string) => deleteSchedule(professionalStoreId, scheduleId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["schedules", professionalStoreId] });
-    },
-  });
-}
-
-export function useReplaceSchedules(professionalStoreId: string) {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (blocks: { weekday: number; start_time: string; end_time: string }[]) =>
-      replaceWorkSchedules(professionalStoreId, blocks),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["schedules", professionalStoreId] });
     },
   });
 }

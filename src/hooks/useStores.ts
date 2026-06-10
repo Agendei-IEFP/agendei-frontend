@@ -4,7 +4,7 @@ import {
   deleteStore,
   getMyStores,
   getStore,
-  getStoreOfferings,
+  getStoreServices,
   listStores,
   listStoreProfessionals,
   updateStore,
@@ -72,10 +72,10 @@ export function useStore(storeId: string) {
   });
 }
 
-export function useStoreOfferings(storeId: string) {
+export function useStoreServices(storeId: string) {
   return useQuery({
-    queryKey: ["stores", storeId, "offerings"],
-    queryFn: () => getStoreOfferings(storeId),
+    queryKey: ["stores", storeId, "services"],
+    queryFn: () => getStoreServices(storeId),
   });
 }
 
