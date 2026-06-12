@@ -39,9 +39,9 @@ export async function createProfessional(
   storeId: string,
   data: ProfessionalCreateFormData,
 ): Promise<ProfessionalDTO> {
-  const { data: response } = await api.post<ProfessionalDTO>(
-    `/stores/${storeId}/professionals`,
-    { ...data, phone: data.phone || null },
-  );
+  const { data: response } = await api.post<ProfessionalDTO>(`/stores/${storeId}/professionals`, {
+    ...data,
+    phone: data.phone || null,
+  });
   return response;
 }

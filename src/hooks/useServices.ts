@@ -1,10 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  listServices,
-  createService,
-  updateService,
-  deleteService,
-} from "@/lib/api/services";
+import { listServices, createService, updateService, deleteService } from "@/lib/api/services";
 import { getMyProfile } from "@/lib/api/professionals";
 
 // ---------------------------------------------------------------------------

@@ -74,9 +74,7 @@ function ServiceCard({ service, onDelete, onEdit, deleting }: ServiceCardProps) 
           <div className="w-px h-8 bg-border" />
           <div>
             <p className="text-xs text-muted-foreground">Duração</p>
-            <p className="text-sm font-bold text-foreground">
-              {service.duration_minutes} min
-            </p>
+            <p className="text-sm font-bold text-foreground">{service.duration_minutes} min</p>
           </div>
         </div>
 
@@ -133,8 +131,7 @@ function ServicesList() {
   }>({ open: false, mode: "create" });
 
   const openCreate = () => setServiceDialog({ open: true, mode: "create", service: undefined });
-  const openEdit = (service: ServiceDTO) =>
-    setServiceDialog({ open: true, mode: "edit", service });
+  const openEdit = (service: ServiceDTO) => setServiceDialog({ open: true, mode: "edit", service });
 
   const { data: services = [], isLoading } = useServices();
   const deleteService = useDeleteService();

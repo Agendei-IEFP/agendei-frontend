@@ -33,13 +33,8 @@ export function useUpdateProfessional() {
 export function useUnlinkProfessional() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({
-      storeId,
-      professionalId,
-    }: {
-      storeId: string;
-      professionalId: string;
-    }) => unlinkProfessional(storeId, professionalId),
+    mutationFn: ({ storeId, professionalId }: { storeId: string; professionalId: string }) =>
+      unlinkProfessional(storeId, professionalId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["professionals"] });
     },

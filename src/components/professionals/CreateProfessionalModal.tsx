@@ -153,11 +153,12 @@ export function CreateProfessionalModal({
               <input
                 {...register("name")}
                 placeholder="Nome completo"
-                className={cn(inputClass, errors.name && "border-destructive focus:ring-destructive/20")}
+                className={cn(
+                  inputClass,
+                  errors.name && "border-destructive focus:ring-destructive/20",
+                )}
               />
-              {errors.name && (
-                <p className="text-xs text-destructive">{errors.name.message}</p>
-              )}
+              {errors.name && <p className="text-xs text-destructive">{errors.name.message}</p>}
             </div>
 
             <div className="flex flex-col gap-1.5">
@@ -166,11 +167,12 @@ export function CreateProfessionalModal({
                 {...register("email")}
                 type="email"
                 placeholder="email@exemplo.com"
-                className={cn(inputClass, errors.email && "border-destructive focus:ring-destructive/20")}
+                className={cn(
+                  inputClass,
+                  errors.email && "border-destructive focus:ring-destructive/20",
+                )}
               />
-              {errors.email && (
-                <p className="text-xs text-destructive">{errors.email.message}</p>
-              )}
+              {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
             </div>
 
             <div className="flex flex-col gap-1.5">
@@ -179,7 +181,10 @@ export function CreateProfessionalModal({
                 {...register("password")}
                 type="password"
                 placeholder="Mínimo 8 caracteres"
-                className={cn(inputClass, errors.password && "border-destructive focus:ring-destructive/20")}
+                className={cn(
+                  inputClass,
+                  errors.password && "border-destructive focus:ring-destructive/20",
+                )}
               />
               {errors.password && (
                 <p className="text-xs text-destructive">{errors.password.message}</p>
@@ -188,8 +193,7 @@ export function CreateProfessionalModal({
 
             <div className="flex flex-col gap-1.5">
               <label className="text-sm font-medium text-foreground">
-                Telefone{" "}
-                <span className="text-muted-foreground font-normal">(opcional)</span>
+                Telefone <span className="text-muted-foreground font-normal">(opcional)</span>
               </label>
               <input
                 {...register("phone")}

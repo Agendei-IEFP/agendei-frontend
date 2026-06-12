@@ -115,9 +115,7 @@ function BookPage() {
 
   // Services available for the selected professional
   const professionalServices =
-    storeServicesQuery.data?.filter(
-      (s) => s.professional_id === selectedProfessional?.id,
-    ) ?? [];
+    storeServicesQuery.data?.filter((s) => s.professional_id === selectedProfessional?.id) ?? [];
 
   const ctaClass =
     "bg-linear-to-br from-chart-3 to-primary text-white shadow-[0_3px_14px_rgba(224,80,64,0.28)] disabled:opacity-50";
@@ -351,10 +349,7 @@ function BookPage() {
                   />
                 )}
                 {selectedService && (
-                  <Row
-                    label="Duração"
-                    value={formatDuration(selectedService.duration_minutes)}
-                  />
+                  <Row label="Duração" value={formatDuration(selectedService.duration_minutes)} />
                 )}
               </div>
 

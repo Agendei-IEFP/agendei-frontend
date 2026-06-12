@@ -120,9 +120,7 @@ export function ServiceForm({
             className={inputClass}
             aria-invalid={!!errors.price}
           />
-          {errors.price && (
-            <p className="mt-1 text-xs text-destructive">{errors.price.message}</p>
-          )}
+          {errors.price && <p className="mt-1 text-xs text-destructive">{errors.price.message}</p>}
         </div>
         <div>
           <label className="block text-sm font-semibold text-foreground mb-1.5">
@@ -138,9 +136,7 @@ export function ServiceForm({
             aria-invalid={!!errors.duration_minutes}
           />
           {errors.duration_minutes && (
-            <p className="mt-1 text-xs text-destructive">
-              {errors.duration_minutes.message}
-            </p>
+            <p className="mt-1 text-xs text-destructive">{errors.duration_minutes.message}</p>
           )}
         </div>
       </div>
