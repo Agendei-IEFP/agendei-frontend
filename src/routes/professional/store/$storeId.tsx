@@ -42,7 +42,7 @@ function ServiceRow({ service }: ServiceRowProps) {
         <span
           className={cn(
             "absolute top-0.5 size-4 rounded-full bg-white shadow-sm transition-transform",
-            service.is_active ? "translate-x-5.5" : "translate-x-0.5",
+            service.is_active ? "-translate-x-5.5" : "translate-x-0.5",
           )}
         />
       </button>
