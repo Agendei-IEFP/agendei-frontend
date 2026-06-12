@@ -218,28 +218,6 @@ export interface SlotsResponse {
 }
 
 // ---------------------------------------------------------------------------
-// Convites
-// ---------------------------------------------------------------------------
-
-export interface InviteCreatedDTO {
-  token: string;
-  url: string;
-  expires_at: ISOTimestamp;
-}
-
-export interface InvitePublicDTO {
-  store_id: string;
-  store_name: string;
-  expires_at: ISOTimestamp;
-}
-
-export interface InviteAcceptResponseDTO {
-  professional: ProfessionalWithStoreDTO;
-  access_token?: string;
-  refresh_token?: string;
-}
-
-// ---------------------------------------------------------------------------
 // Paginação
 // ---------------------------------------------------------------------------
 

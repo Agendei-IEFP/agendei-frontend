@@ -5,7 +5,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ProfessionalCard } from "@/components/professionals/ProfessionalCard";
-import { InviteModal } from "@/components/professionals/InviteModal";
+import { CreateProfessionalModal } from "@/components/professionals/CreateProfessionalModal";
 import { useMyProfessionals } from "@/hooks/useProfessionals";
 
 export const Route = createFileRoute("/admin/professionals/")({
@@ -13,8 +13,8 @@ export const Route = createFileRoute("/admin/professionals/")({
 });
 
 function ProfessionalsPage() {
-  const { data: professionals, isLoading } = useMyProfessionals();
-  const [inviteOpen, setInviteOpen] = useState(false);
+  const { data: professionals, isLoading, refetch } = useMyProfessionals();
+  const [createOpen, setCreateOpen] = useState(false);
 
   const profCount = professionals?.length ?? 0;
 
@@ -32,11 +32,11 @@ function ProfessionalsPage() {
             </div>
           </div>
           <Button
-            onClick={() => setInviteOpen(true)}
+            onClick={() => setCreateOpen(true)}
             className="gap-2 font-bold text-white btn-salmon text-sm h-auto py-2 px-4"
           >
             <UserPlus className="size-4" />
-            <span className="hidden sm:block">Convidar profissional</span>
+            <span className="hidden sm:block">Novo profissional</span>
           </Button>
         </header>
 
@@ -58,14 +58,14 @@ function ProfessionalsPage() {
               </div>
               <p className="font-semibold text-foreground mb-1">Nenhum profissional ainda</p>
               <p className="text-sm text-muted-foreground mb-6 max-w-xs">
-                Convide profissionais para trabalharem nas suas lojas gerando um link de convite.
+                Cadastre profissionais para trabalharem na sua loja.
               </p>
               <Button
-                onClick={() => setInviteOpen(true)}
+                onClick={() => setCreateOpen(true)}
                 className="gap-2 font-bold text-white btn-salmon"
               >
                 <UserPlus className="size-4" />
-                Convidar primeiro profissional
+                Cadastrar primeiro profissional
               </Button>
             </div>
           )}
@@ -81,7 +81,11 @@ function ProfessionalsPage() {
         </main>
       </div>
 
-      <InviteModal open={inviteOpen} onOpenChange={setInviteOpen} />
+      <CreateProfessionalModal
+        open={createOpen}
+        onOpenChange={setCreateOpen}
+        onSuccess={() => refetch()}
+      />
     </>
   );
 }

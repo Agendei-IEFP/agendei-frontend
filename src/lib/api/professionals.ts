@@ -1,4 +1,5 @@
 import type { ProfessionalDTO, ProfessionalWithStoreDTO } from "@/types/api";
+import type { ProfessionalCreateFormData } from "@/lib/validations/professional";
 import api from "./axios";
 
 export async function getMyProfile(): Promise<ProfessionalDTO> {
@@ -31,5 +32,16 @@ export async function updateProfessional(
 }
 
 export async function unlinkProfessional(storeId: string, professionalId: string): Promise<void> {
-  await api.delete(`/stores/${storeId}/professional-links/${professionalId}`);
+  await api.delete(`/stores/${storeId}/professionals/${professionalId}`);
+}
+
+export async function createProfessional(
+  storeId: string,
+  data: ProfessionalCreateFormData,
+): Promise<ProfessionalDTO> {
+  const { data: response } = await api.post<ProfessionalDTO>(
+    `/stores/${storeId}/professionals`,
+    { ...data, phone: data.phone || null },
+  );
+  return response;
 }

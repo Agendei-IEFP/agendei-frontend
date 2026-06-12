@@ -3,6 +3,16 @@ import { cn } from "@/lib/utils";
 import { getInitials } from "@/lib/format";
 import type { ProfessionalWithStoreDTO } from "@/types/api";
 import { useUnlinkProfessional } from "@/hooks/useProfessionals";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { ProfessionalEditDialog } from "./ProfessionalEditDialog";
 
 interface ProfessionalCardProps {
@@ -12,12 +22,12 @@ interface ProfessionalCardProps {
 
 export function ProfessionalCard({ professional, className }: ProfessionalCardProps) {
   const [editOpen, setEditOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const unlinkMutation = useUnlinkProfessional();
 
   const initials = getInitials(professional.name);
 
-  function handleRemove() {
-    if (!window.confirm(`Remover ${professional.name} desta loja?`)) return;
+  function handleConfirmRemove() {
     unlinkMutation.mutate({
       storeId: professional.store_id,
       professionalId: professional.id,
@@ -78,7 +88,7 @@ export function ProfessionalCard({ professional, className }: ProfessionalCardPr
         </button>
         <button
           type="button"
-          onClick={handleRemove}
+          onClick={() => setConfirmOpen(true)}
           disabled={unlinkMutation.isPending}
           className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-red-200 text-destructive bg-red-50 hover:bg-red-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
@@ -91,6 +101,26 @@ export function ProfessionalCard({ professional, className }: ProfessionalCardPr
         open={editOpen}
         onClose={() => setEditOpen(false)}
       />
+
+      <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Remover profissional?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {professional.name} será removido da loja. Esta ação não pode ser desfeita.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleConfirmRemove}
+              className="bg-destructive text-white hover:bg-destructive/90"
+            >
+              Remover
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
