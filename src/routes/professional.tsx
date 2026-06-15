@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, redirect, useRouterState } from "@tanstack/react-router";
-import { CalendarDays, Clock, Home, LogOut, Store, Tag } from "lucide-react";
+import { CalendarDays, Clock, Home, LogOut, Settings, Store, Tag } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { useLogout } from "@/hooks/useAuth";
 import { useMyProfile } from "@/hooks/useServices";
@@ -127,6 +127,15 @@ function ProfissionalLayout() {
               </Link>
             </>
           )}
+
+          <p className="text-xs font-bold uppercase tracking-widest px-2.5 pt-4 pb-1.5 text-muted-warm">
+            Conta
+          </p>
+
+          <SidebarLink to="/professional/settings">
+            <Settings className="size-4 shrink-0" />
+            Configurações
+          </SidebarLink>
         </nav>
 
         {/* Logout */}
