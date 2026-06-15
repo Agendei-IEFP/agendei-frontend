@@ -56,6 +56,8 @@ export interface UserDTO {
   phone: string | null;
   role: RoleEnum;
   created_at: ISOTimestamp;
+  accepted_terms_at: ISOTimestamp | null;
+  accepted_terms_version: string | null;
 }
 
 // ---------------------------------------------------------------------------
