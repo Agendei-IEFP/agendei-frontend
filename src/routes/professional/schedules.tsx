@@ -155,7 +155,7 @@ function Schedules() {
     <>
       <main className="flex-1 p-4 md:p-8 pb-28">
         <div className="max-w-2xl mx-auto">
-          {/* Header */}
+          
           <div className="flex items-center justify-between mb-6">
             <div>
               <p className="text-xs font-semibold text-chart-3">Gestão</p>
@@ -174,7 +174,7 @@ function Schedules() {
             </div>
           </div>
 
-          {/* Info banner */}
+          
           <div className="flex items-start gap-3 p-4 rounded-xl mb-6 bg-muted border border-salmon-100">
             <Info className="size-4 mt-0.5 shrink-0 text-chart-3" />
             <p className="text-xs text-chart-4">
@@ -190,7 +190,7 @@ function Schedules() {
             </div>
           ) : (
             <>
-              {/* Day rows */}
+              
               <div className="space-y-3 mb-6">
                 {entries.map((entry) => {
                   const day = DAYS[entry.weekday];
@@ -204,7 +204,7 @@ function Schedules() {
                       )}
                     >
                       <div className="flex items-center gap-4">
-                        {/* Toggle + day name */}
+                        
                         <div className="flex items-center gap-3 w-28 shrink-0">
                           <button
                             type="button"
@@ -246,7 +246,7 @@ function Schedules() {
                           </div>
                         </div>
 
-                        {/* Time inputs */}
+                        
                         <div className="flex items-center gap-2 flex-1">
                           <input
                             type="time"
@@ -276,7 +276,7 @@ function Schedules() {
                           />
                         </div>
 
-                        {/* Status chip */}
+                        
                         {entry.is_active ? (
                           <span className="hidden sm:inline-flex items-center text-xs font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-800 shrink-0">
                             {formatHours(h)} ativas
@@ -297,7 +297,7 @@ function Schedules() {
         </div>
       </main>
 
-      {/* Fixed save bar */}
+      
       <div className="fixed bottom-0 left-0 md:left-56 right-0 z-20 px-4 md:px-8 py-4 flex items-center justify-between gap-3 bg-white border-t border-border">
         <button
           type="button"

@@ -2,20 +2,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { listServices, createService, updateService, deleteService } from "@/lib/api/services";
 import { getMyProfile } from "@/lib/api/professionals";
 
-// ---------------------------------------------------------------------------
-// Perfil do profissional
-// ---------------------------------------------------------------------------
-
 export function useMyProfile() {
   return useQuery({
     queryKey: ["professional", "me"],
     queryFn: getMyProfile,
   });
 }
-
-// ---------------------------------------------------------------------------
-// Serviços
-// ---------------------------------------------------------------------------
 
 export function useServices() {
   return useQuery({

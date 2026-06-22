@@ -47,15 +47,15 @@ export function RegisterForm() {
   }
 
   return (
-    // Page wrapper — salmon background visible on sm+, full screen on mobile
+
     <div className="min-h-screen bg-brand-panel flex flex-col sm:items-center sm:justify-center sm:p-6">
-      {/* Card — no border/shadow on mobile, rounded with shadow on sm+ */}
+      
       <div className="flex-1 sm:flex-none w-full sm:max-w-4xl sm:rounded-2xl overflow-hidden sm:shadow-xl sm:border sm:border-primary flex flex-col md:flex-row">
-        {/* Left panel — brand/marketing (visible only on md+) */}
+        
         <div className="hidden md:flex flex-1 flex-col justify-between p-10 relative overflow-hidden bg-brand-panel">
-          {/* Top block — logo, headline, tagline */}
+          
           <div className="relative">
-            {/* Logo + brand name */}
+            
             <div className="flex items-center gap-2.5 mb-10">
               <div className="size-8 rounded-xl bg-white/20 flex items-center justify-center">
                 <Calendar className="size-4 text-white" />
@@ -65,7 +65,7 @@ export function RegisterForm() {
               </span>
             </div>
 
-            {/* Headline and tagline */}
+            
             <h2 className="font-heading font-black text-white text-[1.7rem] tracking-[-0.03em] leading-[1.2] mb-3">
               Comece grátis
               <br />
@@ -76,11 +76,11 @@ export function RegisterForm() {
             </p>
           </div>
 
-          {/* Testimonial card — swaps content based on selected role */}
+          
           <div className="relative rounded-2xl p-5 bg-white/14">
-            {/* key={selectedRole} remounts this block on role change, triggering the fade-in animation */}
+            
             <div key={selectedRole} className="animate-in fade-in duration-300">
-              {/* Star rating */}
+              
               <div className="flex gap-0.5 mb-2">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="size-3.5 text-amber-300 fill-current" />
@@ -92,7 +92,7 @@ export function RegisterForm() {
                     "Antes ficava o dia todo no WhatsApp. Agora os clientes agendam sozinhos."
                   </p>
                   <div className="flex items-center gap-2">
-                    {/* Author avatar — initials */}
+                    
                     <div className="size-6 rounded-full bg-white/25 flex items-center justify-center text-xs font-bold text-white">
                       JS
                     </div>
@@ -107,7 +107,7 @@ export function RegisterForm() {
                     "Marquei minha manicure em 2 minutos, direto do celular. Nem precisei ligar."
                   </p>
                   <div className="flex items-center gap-2">
-                    {/* Author avatar — initials */}
+                    
                     <div className="size-6 rounded-full bg-white/25 flex items-center justify-center text-xs font-bold text-white">
                       AL
                     </div>
@@ -119,9 +119,9 @@ export function RegisterForm() {
           </div>
         </div>
 
-        {/* Right panel — registration form */}
+        
         <div className="flex-1 md:flex-none md:w-96 flex flex-col justify-center p-5 sm:p-8 md:p-10 bg-white">
-          {/* Compact logo — shown on mobile/sm where the left panel is hidden */}
+          
           <div className="flex items-center gap-2.5 mb-8 md:hidden">
             <div className="size-8 rounded-xl bg-primary flex items-center justify-center">
               <Calendar className="size-4 text-white" />
@@ -131,7 +131,7 @@ export function RegisterForm() {
             </span>
           </div>
 
-          {/* Form header — title and login link */}
+          
           <div className="mb-8">
             <h3 className="font-heading font-black text-slate-900 text-2xl tracking-tight mb-1.5">
               Criar conta
@@ -145,7 +145,7 @@ export function RegisterForm() {
           </div>
 
           <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-            {/* Role selector — sets hidden "role" field value */}
+            
             <input type="hidden" {...registerField("role")} />
             <div className="flex rounded-lg border border-input p-1 gap-1">
               <button
@@ -172,7 +172,7 @@ export function RegisterForm() {
               </button>
             </div>
 
-            {/* Full name field */}
+            
             <div className="flex flex-col gap-1">
               <Label className="font-semibold text-slate-700" htmlFor="name">
                 Nome completo
@@ -193,7 +193,7 @@ export function RegisterForm() {
               )}
             </div>
 
-            {/* Email field */}
+            
             <div className="flex flex-col gap-1">
               <Label className="font-semibold text-slate-700" htmlFor="email">
                 Email
@@ -214,7 +214,7 @@ export function RegisterForm() {
               )}
             </div>
 
-            {/* Password field */}
+            
             <div className="flex flex-col gap-1">
               <Label className="font-semibold text-slate-700" htmlFor="password">
                 Senha
@@ -235,7 +235,7 @@ export function RegisterForm() {
               )}
             </div>
 
-            {/* Terms and conditions checkbox */}
+            
             <div className="flex items-start gap-2.5 pt-1">
               <input
                 type="checkbox"
@@ -258,7 +258,7 @@ export function RegisterForm() {
               <p className="text-destructive text-xs -mt-2">{errors.accepted_terms.message}</p>
             )}
 
-            {/* Submit button */}
+            
             <button
               className="w-full py-2.5 text-sm font-bold text-white rounded-lg mt-2 btn-salmon flex items-center justify-center gap-2 disabled:opacity-55 disabled:cursor-not-allowed"
               type="submit"

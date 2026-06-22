@@ -79,7 +79,6 @@ function Dashboard() {
     setDate(d);
   }
 
-  // Day stats
   const dayAppointments = appointmentsForDay(appointments, date);
   const confirmed = dayAppointments.filter((a) => a.status === AppointmentStatus.confirmed);
   const cancelled = dayAppointments.filter((a) => a.status === AppointmentStatus.cancelled);
@@ -89,7 +88,6 @@ function Dashboard() {
 
   const totalMinutes = confirmed.reduce((s, a) => s + (a.duration_minutes ?? 0), 0);
 
-  // Weekly overview — next 7 days from today
   const weekDays = Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() + i);
@@ -109,7 +107,7 @@ function Dashboard() {
   return (
     <>
       <main className="flex-1 p-4 md:p-8">
-        {/* Greeting + date nav */}
+        
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div>
             <p className="text-xs font-semibold mb-0.5 text-chart-3">{greeting()}</p>
@@ -140,7 +138,7 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* Stats */}
+        
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
           <div className="rounded-2xl border border-border bg-card p-4 shadow-sm">
             <p className="text-2xl font-bold leading-none mb-1 text-chart-3">
@@ -168,9 +166,9 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* Main grid */}
+        
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* ── Agenda do dia (2/3) ── */}
+          
           <div className="lg:col-span-2">
             <p className="text-xs font-bold uppercase tracking-wider text-muted-warm mb-3">
               Agenda do dia
@@ -201,7 +199,7 @@ function Dashboard() {
                           : "border-border hover:border-salmon-200 hover:shadow-[0_4px_16px_rgba(224,80,64,0.08)] cursor-pointer",
                       )}
                     >
-                      {/* Time column */}
+                      
                       <div className="flex flex-col items-center shrink-0 pt-0.5 w-10">
                         <span className="text-xs font-bold text-foreground">
                           {formatTime(toLocal(appt.starts_at))}
@@ -209,7 +207,7 @@ function Dashboard() {
                         <div className="w-px flex-1 mt-2 bg-border min-h-5" />
                       </div>
 
-                      {/* Content */}
+                      
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2 mb-1.5">
                           <div>
@@ -258,9 +256,9 @@ function Dashboard() {
             )}
           </div>
 
-          {/* ── Sidebar direita (1/3) ── */}
+          
           <div className="space-y-4">
-            {/* Esta semana */}
+            
             <div className="rounded-2xl border border-border bg-card p-4 shadow-sm">
               <p className="text-xs font-bold uppercase tracking-wider text-muted-warm mb-3">
                 Esta semana
@@ -301,7 +299,7 @@ function Dashboard() {
               </div>
             </div>
 
-            {/* Ações rápidas */}
+            
             <div className="rounded-2xl border border-border bg-card p-4 shadow-sm">
               <p className="text-xs font-bold uppercase tracking-wider text-muted-warm mb-3">
                 Ações rápidas

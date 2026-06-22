@@ -55,9 +55,9 @@ function ProfissionalLayout() {
 
   return (
     <div className="flex min-h-screen bg-background">
-      {/* ── Sidebar (desktop) ── */}
+      
       <aside className="hidden md:flex md:w-56 md:flex-col md:fixed md:inset-y-0 bg-white border-r border-border z-30">
-        {/* Logo */}
+        
         <div className="px-4 py-4 flex items-center gap-2.5 border-b border-border">
           <div className="size-7 rounded-xl flex items-center justify-center bg-linear-to-br from-chart-3 to-chart-2">
             <CalendarDays className="size-3.5 text-white" />
@@ -65,7 +65,7 @@ function ProfissionalLayout() {
           <span className="font-heading font-bold text-foreground tracking-tight">Agendei</span>
         </div>
 
-        {/* Avatar + nome */}
+        
         <div className="px-4 py-3 border-b border-border">
           <div className="flex items-center gap-2.5">
             <div className="size-9 rounded-xl flex items-center justify-center text-sm font-bold text-white shrink-0 bg-linear-to-br from-chart-3 to-chart-2">
@@ -78,7 +78,7 @@ function ProfissionalLayout() {
           </div>
         </div>
 
-        {/* Nav */}
+        
         <nav className="flex-1 overflow-y-auto p-3 space-y-0.5">
           <p className="text-xs font-bold uppercase tracking-widest px-2.5 pt-2 pb-1.5 text-muted-warm">
             Geral
@@ -138,7 +138,7 @@ function ProfissionalLayout() {
           </SidebarLink>
         </nav>
 
-        {/* Logout */}
+        
         <div className="p-3 border-t border-border">
           <button
             onClick={() => logout.mutate()}
@@ -150,12 +150,12 @@ function ProfissionalLayout() {
         </div>
       </aside>
 
-      {/* ── Conteúdo principal ── */}
+      
       <div className="flex-1 flex flex-col md:ml-56 pb-16 md:pb-0">
         <Outlet />
       </div>
 
-      {/* ── Bottom nav (mobile) ── */}
+      
       <nav className="fixed bottom-0 inset-x-0 md:hidden bg-white border-t border-border z-30 flex">
         {[
           { to: "/professional/dashboard", icon: Home, label: "Painel" },
@@ -177,7 +177,7 @@ function ProfissionalLayout() {
           );
         })}
 
-        {/* Loja vinculada */}
+        
         {myStore ? (
           <Link
             to="/professional/store/$storeId"

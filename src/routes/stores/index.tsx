@@ -32,7 +32,7 @@ function StoresPage() {
     <div className="min-h-screen bg-background text-foreground">
       <StoresNavbar />
 
-      {/* Hero */}
+      
       <section className="hero-bg pt-20 pb-12 px-6">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="font-heading font-black text-slate-900 mb-4 text-[clamp(1.8rem,5vw,2.6rem)] leading-tight tracking-tight">
@@ -47,7 +47,7 @@ function StoresPage() {
             Descubra salões perto de você, compare serviços e agende em segundos — sem ligações.
           </p>
 
-          {/* Search bar */}
+          
           <div className="flex items-center bg-white rounded-2xl overflow-hidden max-w-xl mx-auto border border-input shadow-[0_4px_24px_rgba(224,80,64,0.08)]">
             <div className="flex items-center gap-2.5 px-4 py-3.5 flex-1">
               <Search className="size-4 shrink-0 text-muted-foreground" />
@@ -63,7 +63,7 @@ function StoresPage() {
         </div>
       </section>
 
-      {/* Grid */}
+      
       <section className="px-6 py-8 max-w-6xl mx-auto">
         {isLoading ? (
           <div className="flex justify-center py-24">

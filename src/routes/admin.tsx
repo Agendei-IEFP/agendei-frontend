@@ -10,7 +10,6 @@ export const Route = createFileRoute("/admin")({
 
     if (!user) throw redirect({ to: "/login" });
 
-    // Token missing = página recarregada, refresh token ainda pode estar no cookie
     if (!accessToken) {
       try {
         const data = await refresh();

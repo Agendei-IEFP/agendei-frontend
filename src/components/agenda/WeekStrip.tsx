@@ -17,7 +17,7 @@ interface WeekStripProps {
   selectedDay: Date;
   appointments: AppointmentDTO[];
   onSelectDay: (day: Date) => void;
-  /** Work blocks per weekday (index 0=Mon … 6=Sun). Used for accurate occupancy. */
+  
   workBlocksByWeekday?: WorkBlock[][];
 }
 

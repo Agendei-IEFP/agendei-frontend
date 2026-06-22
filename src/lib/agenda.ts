@@ -1,7 +1,6 @@
 import type { AppointmentDTO } from "@/types/api";
 import { AppointmentStatus } from "@/types/enums";
 
-// ── Work window fallback (used when no schedule data available) ────────────
 const WORK_START_H = 9;
 const WORK_END_H = 18;
 export const WORK_START_MINUTES = WORK_START_H * 60;
@@ -9,20 +8,15 @@ export const WORK_END_MINUTES = WORK_END_H * 60;
 const WORK_TOTAL_MINUTES = WORK_END_MINUTES - WORK_START_MINUTES;
 const MIN_FREE_SLOT_MINUTES = 15;
 
-// ── Work block ─────────────────────────────────────────────────────────────
-
 export interface WorkBlock {
   startMinutes: number;
   endMinutes: number;
 }
 
-/** "HH:MM:SS" or "HH:MM" → minutes from midnight */
 export function timeToMinutes(time: string): number {
   const [h, m] = time.split(":").map(Number);
   return h * 60 + m;
 }
-
-// ── Date helpers ───────────────────────────────────────────────────────────
 
 export function toLocal(iso: string): Date {
   return new Date(iso);
@@ -32,7 +26,6 @@ export function toMinutes(date: Date): number {
   return date.getHours() * 60 + date.getMinutes();
 }
 
-/** Monday of the week containing `date` */
 export function getWeekStart(date: Date): Date {
   const d = new Date(date);
   d.setHours(0, 0, 0, 0);
@@ -42,7 +35,6 @@ export function getWeekStart(date: Date): Date {
   return d;
 }
 
-/** Array of 7 dates (Mon–Sun) for the week starting at `weekStart` */
 export function getWeekDays(weekStart: Date): Date[] {
   return Array.from({ length: 7 }, (_, i) => {
     const d = new Date(weekStart);
@@ -71,15 +63,10 @@ export function isPastDay(date: Date): boolean {
   return d < today;
 }
 
-// ── Weekday index ──────────────────────────────────────────────────────────
-
-/** Returns 0=Mon … 6=Sun from a Date (JS getDay returns 0=Sun) */
 export function toWeekdayIndex(date: Date): number {
   const d = date.getDay();
   return d === 0 ? 6 : d - 1;
 }
-
-// ── Filtering ──────────────────────────────────────────────────────────────
 
 export function appointmentsForDay(appointments: AppointmentDTO[], day: Date): AppointmentDTO[] {
   return appointments
@@ -87,9 +74,6 @@ export function appointmentsForDay(appointments: AppointmentDTO[], day: Date): A
     .sort((a, b) => toLocal(a.starts_at).getTime() - toLocal(b.starts_at).getTime());
 }
 
-// ── Occupancy ──────────────────────────────────────────────────────────────
-
-/** % of work shift occupied by non-cancelled appointments (0–100) */
 export function occupancyPercent(appointments: AppointmentDTO[], workBlocks?: WorkBlock[]): number {
   const totalWorkMinutes =
     workBlocks && workBlocks.length > 0
@@ -105,7 +89,6 @@ export function occupancyPercent(appointments: AppointmentDTO[], workBlocks?: Wo
   return Math.min(100, Math.round((totalMin / totalWorkMinutes) * 100));
 }
 
-/** Free hours in the day (non-cancelled appointments deducted from shift) */
 export function freeHours(appointments: AppointmentDTO[], workBlocks?: WorkBlock[]): number {
   const totalWorkMinutes =
     workBlocks && workBlocks.length > 0
@@ -121,8 +104,6 @@ export function freeHours(appointments: AppointmentDTO[], workBlocks?: WorkBlock
   return Math.max(0, Math.round((totalWorkMinutes - occupiedMin) / 60));
 }
 
-// ── Timeline builder ───────────────────────────────────────────────────────
-
 export interface FreeSlotItem {
   type: "free";
   startMinutes: number;
@@ -135,7 +116,6 @@ export interface AppointmentItem {
   appointment: AppointmentDTO;
 }
 
-/** Gap between work blocks from different stores/shifts */
 export interface IntervalItem {
   type: "interval";
   startMinutes: number;
@@ -145,12 +125,6 @@ export interface IntervalItem {
 
 export type TimelineItem = FreeSlotItem | AppointmentItem | IntervalItem;
 
-/**
- * Builds the timeline item sequence for a day.
- * When workBlocks are provided, free slots appear only within blocks and
- * gaps between blocks render as IntervalItems (off-shift, not bookable).
- * When workBlocks is empty, only appointment items are returned.
- */
 export function buildTimeline(
   appointments: AppointmentDTO[],
   workBlocks: WorkBlock[] = [],
@@ -223,7 +197,6 @@ export function buildTimeline(
     }
   }
 
-  // Appointments outside all work blocks are always shown, sorted chronologically
   for (const appt of sorted) {
     if (!inBlockIds.has(appt.id)) {
       items.push({ type: "appointment", appointment: appt });
@@ -239,16 +212,12 @@ export function buildTimeline(
   });
 }
 
-// ── Formatting ─────────────────────────────────────────────────────────────
-
-/** "HH:MM" from minutes since midnight */
 export function minutesToTime(minutes: number): string {
   const h = Math.floor(minutes / 60);
   const m = minutes % 60;
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
 
-/** Duration in minutes as "Xh Ymin", "Xh", or "X min" */
 export function formatDuration(minutes: number): string {
   if (minutes < 60) return `${minutes} min`;
   const h = Math.floor(minutes / 60);
@@ -256,7 +225,6 @@ export function formatDuration(minutes: number): string {
   return m === 0 ? `${h}h` : `${h}h ${m}min`;
 }
 
-/** Date to "HH:MM" in local timezone */
 export function formatTime(date: Date): string {
   return date.toLocaleTimeString("pt-BR", {
     hour: "2-digit",

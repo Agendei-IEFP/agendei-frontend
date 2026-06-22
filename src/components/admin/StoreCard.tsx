@@ -59,7 +59,7 @@ export function StoreCard({ store, className }: StoreCardProps) {
         className,
       )}
     >
-      {/* Banner */}
+      
       <div
         className={"h-36 flex items-end p-4 relative bg-[linear-gradient(145deg,#FFE8E2,#FFAA97)]"}
       >
@@ -82,7 +82,7 @@ export function StoreCard({ store, className }: StoreCardProps) {
         </div>
       </div>
 
-      {/* Info */}
+      
       <div className="p-3 md:p-5 flex-1 flex flex-col">
         <h3 className="font-semibold text-foreground mb-1">{store.name}</h3>
         <div className="space-y-1 mb-3">
@@ -110,7 +110,7 @@ export function StoreCard({ store, className }: StoreCardProps) {
             {store.description}
           </p>
         )}
-        {/* Chips + Actions pinned to bottom */}
+        
         <div className="mt-auto">
           <div className="flex items-center gap-2 mb-4">
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-muted text-chart-3">
@@ -121,7 +121,7 @@ export function StoreCard({ store, className }: StoreCardProps) {
             </span>
           </div>
 
-          {/* Actions */}
+          
           <div className="grid items-center gap-2 pt-4 border-t border-border ">
             <Button
               size="sm"
@@ -169,10 +169,10 @@ export function StoreCard({ store, className }: StoreCardProps) {
             </Button>
           </div>
         </div>{" "}
-        {/* end mt-auto */}
+        
       </div>
 
-      {/* Edit dialog */}
+      
       <StoreFormDialog
         open={editOpen}
         onOpenChange={setEditOpen}
@@ -181,7 +181,7 @@ export function StoreCard({ store, className }: StoreCardProps) {
         defaultValues={defaultValues}
       />
 
-      {/* Deactivate confirmation */}
+      
       <AlertDialog open={deactivateOpen} onOpenChange={setDeactivateOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -204,7 +204,7 @@ export function StoreCard({ store, className }: StoreCardProps) {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Permanent delete confirmation */}
+      
       <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>

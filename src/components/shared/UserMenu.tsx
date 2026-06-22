@@ -14,7 +14,7 @@ const PANEL_LINK: Record<RoleEnum, { to: string; label: string }> = {
 };
 
 interface UserMenuProps {
-  /** Classes extra para o wrapper — útil para ajustar espaçamento no contexto do navbar */
+  
   className?: string;
 }
 

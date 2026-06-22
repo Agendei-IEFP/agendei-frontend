@@ -32,7 +32,7 @@ function RouteComponent() {
 
   return (
     <>
-      {/* Header */}
+      
       <header className="sticky top-0 z-20 p-2 md:px-8 py-3.5 flex items-center justify-between bg-background/93 backdrop-blur-[14px] border-b border-border">
         <div className="flex items-center gap-2">
           <SidebarTrigger className="md:hidden text-slate-500" />
@@ -51,7 +51,7 @@ function RouteComponent() {
       </header>
 
       <section className="flex-1 p-2 md:p-8">
-        {/* Filters */}
+        
         <div className="flex items-center gap-3 mb-6">
           <div className="relative max-w-xs flex-1">
             <Store className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
@@ -74,7 +74,7 @@ function RouteComponent() {
           </select>
         </div>
 
-        {/* Grid */}
+        
         {isLoading ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
             {[0, 1, 2].map((i) => (
@@ -97,7 +97,7 @@ function RouteComponent() {
               <StoreCard key={store.id} store={store} />
             ))}
 
-            {/* Add new store card */}
+            
             <button
               onClick={() => setCreateOpen(true)}
               className="rounded-2xl border-2 border-dashed border-input flex flex-col items-center justify-center p-8 text-center cursor-pointer transition-colors hover:border-salmon-200 hover:bg-muted group min-h-85"

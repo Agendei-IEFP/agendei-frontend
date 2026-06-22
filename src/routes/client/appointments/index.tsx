@@ -22,10 +22,6 @@ export const Route = createFileRoute("/client/appointments/")({
   component: ClientAppointmentsPage,
 });
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
 const STATUS_LABELS: Record<AppointmentStatus, string> = {
   confirmed: "Confirmado",
   cancelled: "Cancelado",
@@ -45,10 +41,6 @@ function formatTime(iso: string): string {
 function parseLocalDate(iso: string): Date {
   return new Date(iso);
 }
-
-// ---------------------------------------------------------------------------
-// Cancel dialog
-// ---------------------------------------------------------------------------
 
 interface CancelDialogProps {
   open: boolean;
@@ -99,10 +91,6 @@ function CancelDialog({ open, onClose, onConfirm, isPending }: CancelDialogProps
     </AlertDialog>
   );
 }
-
-// ---------------------------------------------------------------------------
-// Appointment card
-// ---------------------------------------------------------------------------
 
 interface AppointmentCardProps {
   appointment: AppointmentDTO;
@@ -178,10 +166,6 @@ function AppointmentCard({ appointment, onCancel }: AppointmentCardProps) {
     </div>
   );
 }
-
-// ---------------------------------------------------------------------------
-// Page
-// ---------------------------------------------------------------------------
 
 function ClientAppointmentsPage() {
   const [cancelId, setCancelId] = useState<string | null>(null);

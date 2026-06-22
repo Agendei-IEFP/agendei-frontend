@@ -67,7 +67,6 @@ function BookPage() {
   );
   const createAppointment = useCreateAppointment();
 
-  // Pre-select professional via psid query param (now professional.id)
   useEffect(() => {
     if (!psid || !professionalsQuery.data) return;
     const match = professionalsQuery.data.find((p) => p.id === psid);
@@ -113,7 +112,6 @@ function BookPage() {
 
   const today = new Date().toISOString().split("T")[0];
 
-  // Services available for the selected professional
   const professionalServices =
     storeServicesQuery.data?.filter((s) => s.professional_id === selectedProfessional?.id) ?? [];
 

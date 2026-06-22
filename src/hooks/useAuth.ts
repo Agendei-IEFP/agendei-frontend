@@ -9,8 +9,7 @@ export function useLogout() {
 
   return useMutation({
     mutationFn: logout,
-    // onSettled roda mesmo se a chamada à API falhar —
-    // queremos limpar o estado local independentemente
+
     onSettled: () => {
       clearAuth();
       navigate({ to: "/stores" });

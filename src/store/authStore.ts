@@ -23,7 +23,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: "auth-storage",
-      // Persiste apenas o user — accessToken fica só em memória
+
       partialize: (state) => ({ user: state.user }),
     },
   ),

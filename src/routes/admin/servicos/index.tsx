@@ -43,7 +43,7 @@ function RouteComponent() {
 
   return (
     <>
-      {/* Header */}
+      
       <header className="sticky top-0 z-20 p-2 md:px-8 py-3.5 flex items-center gap-2 bg-background/93 backdrop-blur-[14px] border-b border-border">
         <SidebarTrigger className="md:hidden text-slate-500" />
         <h1 className="font-heading font-extrabold tracking-tight text-foreground text-lg">
