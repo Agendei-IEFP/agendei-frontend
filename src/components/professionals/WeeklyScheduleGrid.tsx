@@ -13,17 +13,12 @@ import {
 const WEEKDAYS_SHORT = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
 const WEEKDAYS_FULL = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
 
-// Internal storage is always 15-min slots. Granularity only affects display.
 const SLOT_MINUTES = 15 as const;
 const GRANULARITIES = [15, 30, 60] as const;
 type Granularity = (typeof GRANULARITIES)[number];
 
 const START_HOURS = [5, 6, 7, 8] as const;
 const END_HOURS = [20, 21, 22, 23, 24] as const;
-
-// ---------------------------------------------------------------------------
-// Grid helpers (operate on 15-min slots)
-// ---------------------------------------------------------------------------
 
 function buildSlots(startHour: number, endHour: number): string[] {
   const slots: string[] = [];
@@ -101,8 +96,6 @@ function defaultGrid(slots: string[]): boolean[][] {
   return grid;
 }
 
-// Returns the time label to show at a given blockIdx, or null if no label for this block.
-// Labels appear at whole-hour boundaries (and half-hour boundaries for granularity=30).
 function labelForBlock(
   blockIdx: number,
   n: number,
@@ -118,18 +111,13 @@ function labelForBlock(
     if (m === 30) return `${h}:30`;
     return null;
   }
-  // 15min and 60min: whole hours only
+
   return m === 0 ? `${h}h` : null;
 }
 
-// How many 15-min slots each visual block represents
 function slotsPerBlock(granularity: Granularity): number {
   return granularity / SLOT_MINUTES;
 }
-
-// ---------------------------------------------------------------------------
-// Props
-// ---------------------------------------------------------------------------
 
 export interface WeeklyScheduleGridProps {
   schedules: WorkScheduleDTO[];
@@ -137,10 +125,6 @@ export interface WeeklyScheduleGridProps {
   onSave: (blocks: { weekday: number; start_time: string; end_time: string }[]) => Promise<void>;
   saveLabel?: string;
 }
-
-// ---------------------------------------------------------------------------
-// Inner grid — manages local edits; remounted via `key` on data/settings change
-// ---------------------------------------------------------------------------
 
 interface GridEditorProps {
   initialGrid: boolean[][];
@@ -170,7 +154,6 @@ function GridEditor({
   const blockCount = Math.ceil(slots.length / n);
   const startHour = slots.length > 0 ? Math.floor(timeToMinutes(slots[0]) / 60) : 0;
 
-  // Height expression shared between time-axis cells and grid blocks
   const blockHeightStyle = `clamp(${granularity === 15 ? 6 : granularity === 30 ? 10 : 18}px, ${granularity === 15 ? 1 : granularity === 30 ? 1.6 : 2.8}vh, ${granularity === 15 ? 12 : granularity === 30 ? 18 : 30}px)`;
 
   function applyBlock(day: number, blockIdx: number, mode: boolean) {
@@ -219,7 +202,6 @@ function GridEditor({
     setConfirmOpen(true);
   }
 
-  // Group pending blocks by weekday for display in the confirm modal
   const blocksByDay = useMemo(() => {
     const byDay: Record<number, string[]> = {};
     for (const b of pendingBlocks) {
@@ -234,12 +216,12 @@ function GridEditor({
   return (
     <>
       <div className="rounded-sm sm:rounded-2xl sm:border sm:border-border sm:bg-card shadow-sm overflow-hidden">
-        {/* Scrollable grid area */}
+        
         <div className="overflow-y-auto overflow-x-auto max-h-[70vh]">
           <div className="flex p-1 sm:p-2 md:p-4 min-w-75" style={{ touchAction: "none" }}>
-            {/* Time axis — one block per grid block, same height, perfectly aligned */}
+            
             <div className="w-10 shrink-0 select-none flex flex-col" aria-hidden>
-              {/* Spacer to match the day-label header height */}
+              
               <div className="pb-0.5 text-xs invisible select-none">X</div>
               {Array.from({ length: blockCount }, (_, blockIdx) => {
                 const label = labelForBlock(blockIdx, n, startHour, granularity);
@@ -259,16 +241,16 @@ function GridEditor({
               })}
             </div>
 
-            {/* Day columns */}
+            
             <div className="flex-1 grid grid-cols-7 gap-1">
               {WEEKDAYS_SHORT.map((dayLabel, day) => (
                 <div key={day} className="flex flex-col gap-1">
-                  {/* Day label header */}
+                  
                   <div className="text-center text-xs font-medium text-foreground pb-0.5">
                     {dayLabel}
                   </div>
 
-                  {/* Paintable column */}
+                  
                   <div
                     className="flex-1 flex flex-col cursor-crosshair select-none rounded-md overflow-hidden"
                     onPointerDown={(e) => handleColumnPointerDown(day, e)}
@@ -322,7 +304,7 @@ function GridEditor({
         </div>
       </div>
 
-      {/* Save */}
+      
       <div className="flex justify-end">
         <button
           type="button"
@@ -334,7 +316,7 @@ function GridEditor({
         </button>
       </div>
 
-      {/* Confirm modal */}
+      
       <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
         <DialogContent>
           <DialogHeader>
@@ -385,10 +367,6 @@ function GridEditor({
   );
 }
 
-// ---------------------------------------------------------------------------
-// Outer shell — manages display settings; passes key to GridEditor for clean reset
-// ---------------------------------------------------------------------------
-
 export function WeeklyScheduleGrid({
   schedules,
   isSaving = false,
@@ -416,7 +394,7 @@ export function WeeklyScheduleGrid({
 
   return (
     <div className="flex flex-col gap-3">
-      {/* Controls */}
+      
       <div className="flex flex-wrap gap-3 items-center">
         <label className="flex items-center gap-2 text-sm text-muted-foreground">
           Bloco:

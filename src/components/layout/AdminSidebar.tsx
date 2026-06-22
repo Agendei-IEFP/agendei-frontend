@@ -131,9 +131,11 @@ export function AdminSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton disabled>
-                  <Settings />
-                  <span>Configurações</span>
+                <SidebarMenuButton asChild isActive={isActive("/admin/settings")}>
+                  <Link to="/admin/settings">
+                    <Settings />
+                    <span>Configurações</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

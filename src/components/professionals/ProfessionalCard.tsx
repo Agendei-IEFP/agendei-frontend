@@ -3,6 +3,16 @@ import { cn } from "@/lib/utils";
 import { getInitials } from "@/lib/format";
 import type { ProfessionalWithStoreDTO } from "@/types/api";
 import { useUnlinkProfessional } from "@/hooks/useProfessionals";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { ProfessionalEditDialog } from "./ProfessionalEditDialog";
 
 interface ProfessionalCardProps {
@@ -10,27 +20,17 @@ interface ProfessionalCardProps {
   className?: string;
 }
 
-const AVATAR_COLORS = [
-  "bg-salmon-100 text-chart-4",
-  "bg-blue-100 text-blue-700",
-  "bg-emerald-100 text-emerald-700",
-  "bg-amber-100 text-amber-700",
-  "bg-purple-100 text-purple-700",
-];
-
 export function ProfessionalCard({ professional, className }: ProfessionalCardProps) {
   const [editOpen, setEditOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const unlinkMutation = useUnlinkProfessional();
 
-  const colorIndex = professional.id.charCodeAt(0) % AVATAR_COLORS.length;
-  const avatarColor = AVATAR_COLORS[colorIndex];
   const initials = getInitials(professional.name);
 
-  function handleRemove() {
-    if (!window.confirm(`Remover ${professional.name} desta loja?`)) return;
+  function handleConfirmRemove() {
     unlinkMutation.mutate({
       storeId: professional.store_id,
-      professionalStoreId: professional.professional_store_id,
+      professionalId: professional.id,
     });
   }
 
@@ -41,13 +41,12 @@ export function ProfessionalCard({ professional, className }: ProfessionalCardPr
         className,
       )}
     >
-      {/* Header */}
+      
       <div className="flex items-start gap-3 mb-4">
         <div
-          className={cn(
-            "size-12 rounded-full flex items-center justify-center text-sm font-bold shrink-0",
-            avatarColor,
-          )}
+          className={
+            "size-12 rounded-full flex items-center justify-center text-sm font-bold shrink-0 bg-salmon-100 text-chart-4"
+          }
         >
           {initials}
         </div>
@@ -69,7 +68,7 @@ export function ProfessionalCard({ professional, className }: ProfessionalCardPr
         </div>
       </div>
 
-      {/* Bio */}
+      
       {professional.bio ? (
         <p className="text-xs text-muted-foreground leading-relaxed mb-4 line-clamp-2">
           {professional.bio}
@@ -78,7 +77,7 @@ export function ProfessionalCard({ professional, className }: ProfessionalCardPr
         <p className="text-xs text-muted-warm italic mb-4">Sem bio cadastrada</p>
       )}
 
-      {/* Actions */}
+      
       <div className="flex gap-2 pt-4 border-t border-border">
         <button
           type="button"
@@ -89,7 +88,7 @@ export function ProfessionalCard({ professional, className }: ProfessionalCardPr
         </button>
         <button
           type="button"
-          onClick={handleRemove}
+          onClick={() => setConfirmOpen(true)}
           disabled={unlinkMutation.isPending}
           className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-red-200 text-destructive bg-red-50 hover:bg-red-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
@@ -102,6 +101,26 @@ export function ProfessionalCard({ professional, className }: ProfessionalCardPr
         open={editOpen}
         onClose={() => setEditOpen(false)}
       />
+
+      <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Remover profissional?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {professional.name} será removido da loja. Esta ação não pode ser desfeita.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleConfirmRemove}
+              className="bg-destructive text-white hover:bg-destructive/90"
+            >
+              Remover
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

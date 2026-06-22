@@ -1,25 +1,23 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
-import { Bell, Calendar, ClipboardList, MapPin, Pencil, Plus, Store, Users } from "lucide-react";
+import { Calendar, ClipboardList, MapPin, Pencil, Plus, Store, Users } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { useMyStores } from "@/hooks/useStores";
 import { useMyProfessionals } from "@/hooks/useProfessionals";
 import { useAllStoreAppointments } from "@/hooks/useAppointments";
-import { useAdminOfferings, type AdminOfferingRow } from "@/hooks/useAdminOfferings";
+import { useQueries } from "@tanstack/react-query";
+import { getStoreServices } from "@/lib/api/stores";
+import type { StoreServiceDTO } from "@/types/api";
 import { StatusBadge } from "@/components/agendamentos/StatusBadge";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { StoreFormDialog } from "@/components/store/StoreFormDialog";
-import { capitalize, formatCurrentDate } from "@/lib/format";
+import { capitalize, formatCurrentDate, getGreetingName, getInitials } from "@/lib/format";
 import type { AppointmentAdminDTO, ProfessionalWithStoreDTO, StoreDTO } from "@/types/api";
 
 export const Route = createFileRoute("/admin/dashboard")({
   component: AdminDashboard,
 });
-
-function getGreetingName(nome: string): string {
-  return nome.split(" ")[0];
-}
 
 function AdminDashboard() {
   const user = useAuthStore((s) => s.user);
@@ -31,7 +29,13 @@ function AdminDashboard() {
     total: apptTotal,
     isLoading: aptsLoading,
   } = useAllStoreAppointments(storeIds);
-  const { rows: offeringRows = [] } = useAdminOfferings();
+  const serviceResults = useQueries({
+    queries: storeIds.map((id) => ({
+      queryKey: ["stores", id, "services"],
+      queryFn: () => getStoreServices(id),
+    })),
+  });
+  const serviceRows: StoreServiceDTO[] = serviceResults.flatMap((r) => r.data ?? []);
 
   const profCount = lojas.reduce((acc, s) => acc + s.professional_count, 0);
   const serviceCount = lojas.reduce((acc, s) => acc + s.service_count, 0);
@@ -48,8 +52,8 @@ function AdminDashboard() {
 
   return (
     <div className="flex flex-col flex-1">
-      {/* ── Header ── */}
-      <header className="sticky top-0 z-20 px-4 md:px-8 py-3.5 flex items-center justify-between bg-background/93 backdrop-blur-sm border-b border-border">
+      
+      <header className="sticky top-0 z-20 px-2 md:px-8 py-3.5 flex items-center justify-between bg-background/93 backdrop-blur-sm border-b border-border">
         <div className="flex items-center gap-2">
           <SidebarTrigger className="md:hidden text-slate-500" />
           <div>
@@ -60,9 +64,6 @@ function AdminDashboard() {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <button className="p-2 rounded-lg text-slate-500 hover:bg-muted hover:text-slate-800 transition-colors">
-            <Bell className="size-4.5" />
-          </button>
           <button
             type="button"
             onClick={openCreate}
@@ -74,16 +75,16 @@ function AdminDashboard() {
         </div>
       </header>
 
-      {/* ── Content ── */}
+      
       <main className="flex-1 p-2 md:p-8">
-        {/* Welcome banner — shown only when there are no stores yet */}
+        
         {!hasLojas && (
           <div className="rounded-2xl p-6 mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 overflow-hidden relative border border-salmon-200 bg-linear-to-br from-muted via-salmon-100 to-salmon-200">
             <div className="relative">
               <p className="text-[0.7rem] font-bold uppercase tracking-widest mb-1 text-chart-4">
                 Bem-vindo ao Agendei
               </p>
-              <h2 className="font-heading font-bold text-slate-900 text-xl tracking-[-0.025em] mb-1">
+              <h2 className="font-heading font-bold text-slate-900 text-xl tracking-tight mb-1">
                 Olá, {user ? getGreetingName(user.name) : ""}!
               </h2>
               <p className="text-sm text-muted-foreground">
@@ -101,7 +102,7 @@ function AdminDashboard() {
           </div>
         )}
 
-        {/* ── Stats row ── */}
+        
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 mb-7">
           <StatCard
             label="Lojas"
@@ -133,23 +134,18 @@ function AdminDashboard() {
           />
         </div>
 
-        {/* ── Main sections (only when stores exist) ── */}
+        
         {hasLojas && (
           <>
-            {/* Row 1: Stores + Team */}
+            
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-5 mb-5">
-              {/* Minhas Lojas — 2/3 */}
+              
               <div className="xl:col-span-2 rounded-2xl border border-border bg-card">
                 <div className="flex items-center justify-between px-4 md:px-6 py-4 border-b border-border">
-                  <div>
-                    <h2 className="font-heading font-bold text-slate-900 text-[1.05rem] tracking-[-0.02em]">
-                      Minhas Lojas
-                    </h2>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      {lojas.length} estabelecimento{lojas.length !== 1 ? "s" : ""} ativo
-                      {lojas.length !== 1 ? "s" : ""}
-                    </p>
-                  </div>
+                  <h2 className="font-heading font-bold text-slate-900 text-[1.05rem] tracking-[-0.02em]">
+                    Minhas Lojas
+                  </h2>
+
                   <button
                     type="button"
                     onClick={openCreate}
@@ -160,24 +156,18 @@ function AdminDashboard() {
                   </button>
                 </div>
                 <div className="p-3 md:p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {lojas.map((store, i) => (
-                    <DashboardStoreCard key={store.id} store={store} index={i} onEdit={openEdit} />
+                  {lojas.map((store) => (
+                    <DashboardStoreCard key={store.id} store={store} onEdit={openEdit} />
                   ))}
                 </div>
               </div>
 
-              {/* Equipe — 1/3 */}
+              
               <div className="rounded-2xl border border-border bg-card flex flex-col">
                 <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-                  <div>
-                    <h2 className="font-heading font-bold text-slate-900 text-[1.05rem] tracking-[-0.02em]">
-                      Equipe
-                    </h2>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      {professionals.length} profissional{professionals.length !== 1 ? "is" : ""}{" "}
-                      ativo{professionals.length !== 1 ? "s" : ""}
-                    </p>
-                  </div>
+                  <h2 className="font-heading font-bold text-slate-900 text-[1.05rem] tracking-[-0.02em]">
+                    Equipa
+                  </h2>
                   <Link
                     to="/admin/professionals"
                     className="text-xs text-slate-500 hover:text-slate-900 flex items-center gap-1 px-2.5 py-1.5 rounded-lg hover:bg-muted transition-colors"
@@ -186,7 +176,7 @@ function AdminDashboard() {
                   </Link>
                 </div>
                 <div className="flex-1 p-3 space-y-0.5">
-                  {professionals.slice(0, 7).map((p) => (
+                  {professionals.slice(0, 6).map((p) => (
                     <ProfRow key={p.id} prof={p} />
                   ))}
                 </div>
@@ -202,9 +192,9 @@ function AdminDashboard() {
               </div>
             </div>
 
-            {/* Row 2: Appointments + Services */}
+            
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-3 md:gap-5">
-              {/* Agendamentos recentes — 2/3 */}
+              
               <div className="xl:col-span-2 rounded-2xl border border-border bg-card">
                 <div className="flex items-center justify-between px-6 py-4 border-b border-border">
                   <div>
@@ -235,17 +225,12 @@ function AdminDashboard() {
                 </div>
               </div>
 
-              {/* Serviços — 1/3 */}
+              
               <div className="rounded-2xl border border-border bg-card flex flex-col">
                 <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-                  <div>
-                    <h2 className="font-heading font-bold text-slate-900 text-[1.05rem] tracking-[-0.02em]">
-                      Serviços
-                    </h2>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      {serviceCount} cadastrado{serviceCount !== 1 ? "s" : ""}
-                    </p>
-                  </div>
+                  <h2 className="font-heading font-bold text-slate-900 text-[1.05rem] tracking-[-0.02em]">
+                    Serviços
+                  </h2>
                   <Link
                     to="/admin/servicos"
                     className="text-xs text-slate-500 hover:text-slate-900 flex items-center gap-1 px-2.5 py-1.5 rounded-lg hover:bg-muted transition-colors"
@@ -254,8 +239,8 @@ function AdminDashboard() {
                   </Link>
                 </div>
                 <div className="flex-1 divide-y divide-border">
-                  {offeringRows.slice(0, 8).map((row) => (
-                    <ServiceRow key={row.offering.id} row={row} />
+                  {serviceRows.slice(0, 8).map((row) => (
+                    <ServiceRow key={`${row.professional_id}-${row.service_id}`} row={row} />
                   ))}
                 </div>
               </div>
@@ -263,7 +248,7 @@ function AdminDashboard() {
           </>
         )}
 
-        {/* ── O que você vai poder fazer (empty state only) ── */}
+        
         {!hasLojas && (
           <>
             <div className="mb-5">
@@ -328,8 +313,6 @@ function AdminDashboard() {
   );
 }
 
-// ── Sub-components ──────────────────────────────────────────────────────────
-
 interface StatCardProps {
   label: string;
   icon: React.ReactNode;
@@ -353,24 +336,16 @@ function StatCard({ label, icon, iconBg, value, sub }: StatCardProps) {
   );
 }
 
-const STORE_BANNERS = [
-  "from-salmon-100 to-salmon-200",
-  "from-blue-100 to-blue-200",
-  "from-violet-100 to-violet-200",
-  "from-emerald-100 to-emerald-200",
-];
-
 interface DashboardStoreCardProps {
   store: StoreDTO;
-  index: number;
   onEdit: (store: StoreDTO) => void;
 }
 
-function DashboardStoreCard({ store, index, onEdit }: DashboardStoreCardProps) {
+function DashboardStoreCard({ store, onEdit }: DashboardStoreCardProps) {
   return (
     <div className="rounded-2xl border border-border overflow-hidden transition-all hover:border-salmon-200 hover:shadow-salmon-card">
       <div
-        className={`h-24 bg-linear-to-br ${STORE_BANNERS[index % STORE_BANNERS.length]} relative flex items-end p-3.5`}
+        className={`h-24 bg-linear-to-br from-salmon-100 to-salmon-200 relative flex items-end p-3.5`}
       >
         <span className="absolute top-2.5 right-2.5 flex items-center gap-1 text-[0.65rem] font-semibold px-2 py-0.5 rounded-full bg-white text-emerald-700">
           <span className="size-1.5 rounded-full bg-emerald-500 inline-block" />
@@ -423,16 +398,10 @@ function DashboardStoreCard({ store, index, onEdit }: DashboardStoreCardProps) {
 }
 
 function ProfRow({ prof }: { prof: ProfessionalWithStoreDTO }) {
-  const initials = prof.name
-    .split(" ")
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
   return (
     <div className="flex items-center gap-3 px-2 py-2.5 rounded-xl hover:bg-slate-50 transition-colors">
       <div className="size-8 rounded-full bg-salmon-100 text-chart-4 flex items-center justify-center text-[0.7rem] font-bold shrink-0">
-        {initials}
+        {getInitials(prof.name)}
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-xs font-semibold text-slate-900 truncate">{prof.name}</p>
@@ -459,12 +428,7 @@ function apptDateLabel(isoString: string): string {
 }
 
 function ApptRow({ appt }: { appt: AppointmentAdminDTO }) {
-  const initials = (appt.client_name ?? "?")
-    .split(" ")
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
+
   const time = new Date(appt.starts_at).toLocaleTimeString("pt-PT", {
     hour: "2-digit",
     minute: "2-digit",
@@ -476,7 +440,7 @@ function ApptRow({ appt }: { appt: AppointmentAdminDTO }) {
       <div
         className={`flex size-9 rounded-full items-center justify-center text-xs font-bold shrink-0 ${isCancelled ? "bg-red-100 text-red-700" : "bg-salmon-100 text-chart-4"}`}
       >
-        {initials}
+        {getInitials(appt.client_name ?? "—")}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
@@ -498,9 +462,9 @@ function ApptRow({ appt }: { appt: AppointmentAdminDTO }) {
           </p>
           <p className="text-xs text-muted-foreground">{time}</p>
         </div>
-        {appt.effective_price && !isCancelled && (
+        {appt.price && !isCancelled && (
           <p className="text-sm font-bold shrink-0 text-chart-3">
-            {Number(appt.effective_price).toFixed(0)} €
+            {Number(appt.price).toFixed(0)} €
           </p>
         )}
       </div>
@@ -508,18 +472,16 @@ function ApptRow({ appt }: { appt: AppointmentAdminDTO }) {
   );
 }
 
-function ServiceRow({ row }: { row: AdminOfferingRow }) {
+function ServiceRow({ row }: { row: StoreServiceDTO }) {
   return (
     <div className="flex items-center justify-between px-5 py-3 hover:bg-slate-50/60 transition-colors">
       <div>
-        <p className="text-xs font-semibold text-slate-900">{row.offering.service.name}</p>
+        <p className="text-xs font-semibold text-slate-900">{row.service_name}</p>
         <p className="text-xs text-muted-foreground mt-0.5">
-          {row.professional.name} · {row.offering.effective_duration_minutes} min
+          {row.professional_name} · {row.duration_minutes} min
         </p>
       </div>
-      <p className="text-sm font-bold text-chart-3">
-        {Number(row.offering.effective_price).toFixed(0)} €
-      </p>
+      <p className="text-sm font-bold text-chart-3">{Number(row.price).toFixed(0)} €</p>
     </div>
   );
 }

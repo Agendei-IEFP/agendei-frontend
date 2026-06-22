@@ -27,29 +27,17 @@ import { StoreFormDialog } from "@/components/store/StoreFormDialog";
 import { useUpdateStore, useDeleteStore } from "@/hooks/useStores";
 import type { StoreDTO } from "@/types/api";
 
-const BANNER_BG = [
-  "bg-[linear-gradient(145deg,#FFE8E2,#FFAA97)]",
-  "bg-[linear-gradient(145deg,#DBEAFE,#93C5FD)]",
-  "bg-[linear-gradient(145deg,#D1FAE5,#6EE7B7)]",
-] as const;
-
-const ICON_COLORS = ["text-chart-3", "text-blue-700", "text-emerald-700"] as const;
-
 interface StoreCardProps {
   store: StoreDTO;
-  index: number;
   className?: string;
 }
 
-export function StoreCard({ store, index, className }: StoreCardProps) {
+export function StoreCard({ store, className }: StoreCardProps) {
   const [editOpen, setEditOpen] = useState(false);
   const [deactivateOpen, setDeactivateOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const { mutate: updateStore, isPending: isUpdating } = useUpdateStore();
   const { mutate: deleteStore, isPending: isDeleting } = useDeleteStore();
-
-  const bannerBg = BANNER_BG[index % BANNER_BG.length];
-  const iconColor = ICON_COLORS[index % ICON_COLORS.length];
 
   const defaultValues = {
     name: store.name,
@@ -65,14 +53,16 @@ export function StoreCard({ store, index, className }: StoreCardProps) {
     <div
       className={cn(
         "rounded-2xl border border-border bg-card overflow-hidden transition-all",
-        "hover:border-salmon-200 hover:shadow-[0_8px_28px_rgba(224,80,64,.1)]",
+        "hover:border-salmon-200",
         "flex flex-col",
         !store.is_active && "opacity-75",
         className,
       )}
     >
-      {/* Banner */}
-      <div className={cn("h-36 flex items-end p-4 relative", bannerBg)}>
+      
+      <div
+        className={"h-36 flex items-end p-4 relative bg-[linear-gradient(145deg,#FFE8E2,#FFAA97)]"}
+      >
         <span
           className={cn(
             "absolute top-3 right-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-white shadow-sm",
@@ -88,11 +78,11 @@ export function StoreCard({ store, index, className }: StoreCardProps) {
           {store.is_active ? "Ativa" : "Inativa"}
         </span>
         <div className="size-12 rounded-2xl flex items-center justify-center bg-white/65 backdrop-blur-sm">
-          <Building2 className={cn("size-6", iconColor)} />
+          <Building2 className={"size-6 text-chart-3"} />
         </div>
       </div>
 
-      {/* Info */}
+      
       <div className="p-3 md:p-5 flex-1 flex flex-col">
         <h3 className="font-semibold text-foreground mb-1">{store.name}</h3>
         <div className="space-y-1 mb-3">
@@ -120,7 +110,7 @@ export function StoreCard({ store, index, className }: StoreCardProps) {
             {store.description}
           </p>
         )}
-        {/* Chips + Actions pinned to bottom */}
+        
         <div className="mt-auto">
           <div className="flex items-center gap-2 mb-4">
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-muted text-chart-3">
@@ -131,8 +121,8 @@ export function StoreCard({ store, index, className }: StoreCardProps) {
             </span>
           </div>
 
-          {/* Actions */}
-          <div className="grid sm:flex items-center gap-2 pt-4 border-t border-border ">
+          
+          <div className="grid items-center gap-2 pt-4 border-t border-border ">
             <Button
               size="sm"
               className="flex-1 bg-linear-to-br from-chart-3 to-primary text-white shadow-[0_3px_14px_rgba(224,80,64,0.28)] hover:-translate-y-px hover:shadow-[0_6px_20px_rgba(224,80,64,0.38)]"
@@ -179,10 +169,10 @@ export function StoreCard({ store, index, className }: StoreCardProps) {
             </Button>
           </div>
         </div>{" "}
-        {/* end mt-auto */}
+        
       </div>
 
-      {/* Edit dialog */}
+      
       <StoreFormDialog
         open={editOpen}
         onOpenChange={setEditOpen}
@@ -191,7 +181,7 @@ export function StoreCard({ store, index, className }: StoreCardProps) {
         defaultValues={defaultValues}
       />
 
-      {/* Deactivate confirmation */}
+      
       <AlertDialog open={deactivateOpen} onOpenChange={setDeactivateOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -214,7 +204,7 @@ export function StoreCard({ store, index, className }: StoreCardProps) {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Permanent delete confirmation */}
+      
       <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>

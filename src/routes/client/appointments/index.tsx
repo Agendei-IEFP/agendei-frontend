@@ -22,10 +22,6 @@ export const Route = createFileRoute("/client/appointments/")({
   component: ClientAppointmentsPage,
 });
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
 const STATUS_LABELS: Record<AppointmentStatus, string> = {
   confirmed: "Confirmado",
   cancelled: "Cancelado",
@@ -45,10 +41,6 @@ function formatTime(iso: string): string {
 function parseLocalDate(iso: string): Date {
   return new Date(iso);
 }
-
-// ---------------------------------------------------------------------------
-// Cancel dialog
-// ---------------------------------------------------------------------------
 
 interface CancelDialogProps {
   open: boolean;
@@ -100,10 +92,6 @@ function CancelDialog({ open, onClose, onConfirm, isPending }: CancelDialogProps
   );
 }
 
-// ---------------------------------------------------------------------------
-// Appointment card
-// ---------------------------------------------------------------------------
-
 interface AppointmentCardProps {
   appointment: AppointmentDTO;
   onCancel: (id: string) => void;
@@ -151,8 +139,8 @@ function AppointmentCard({ appointment, onCancel }: AppointmentCardProps) {
           <Clock className="size-3 shrink-0" />
           {formatTime(apt.starts_at)} – {formatTime(apt.ends_at)}
         </span>
-        {apt.effective_price && (
-          <span className="font-semibold text-foreground">{formatPrice(apt.effective_price)}</span>
+        {apt.price && (
+          <span className="font-semibold text-foreground">{formatPrice(apt.price)}</span>
         )}
       </div>
 
@@ -178,10 +166,6 @@ function AppointmentCard({ appointment, onCancel }: AppointmentCardProps) {
     </div>
   );
 }
-
-// ---------------------------------------------------------------------------
-// Page
-// ---------------------------------------------------------------------------
 
 function ClientAppointmentsPage() {
   const [cancelId, setCancelId] = useState<string | null>(null);

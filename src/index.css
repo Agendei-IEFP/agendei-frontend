@@ -105,7 +105,6 @@
 }
 
 @layer utilities {
-  /* Gradiente do painel de marca (login, cadastro, etc.) */
   .bg-brand-panel {
     background: linear-gradient(145deg, var(--chart-4) 0%, var(--chart-3) 45%, var(--primary) 100%);
   }
@@ -129,7 +128,6 @@
   }
 }
 
-/* Gradiente de fundo do hero */
 .hero-bg {
   background:
     radial-gradient(ellipse 110% 70% at 65% -15%, rgba(240, 106, 88, 0.13) 0%, transparent 55%),
@@ -137,7 +135,6 @@
     linear-gradient(175deg, var(--background) 0%, var(--muted) 100%);
 }
 
-/* Texto com gradiente (headline hero) */
 .gradient-text {
   background: linear-gradient(130deg, var(--chart-4) 0%, var(--primary) 50%, var(--chart-2) 100%);
   -webkit-background-clip: text;
@@ -145,7 +142,6 @@
   background-clip: text;
 }
 
-/* Animações dos cards flutuantes do hero */
 .animate-float {
   animation: float 4s ease-in-out infinite;
 }
@@ -153,7 +149,6 @@
   animation: float 4s ease-in-out 1.8s infinite;
 }
 
-/* Animação de entrada ao fazer scroll */
 .reveal {
   opacity: 0;
   transform: translateY(18px);
@@ -191,7 +186,6 @@
     animation-delay: 0.6s;
   }
 
-  /* ── Hero mockup ──────────────────────────────────────────── */
   .hero-fade-badge {
     animation: fadeUp 0.5s ease-out both;
   }
@@ -211,7 +205,6 @@
     animation: fadeUp 0.8s 0.35s ease-out both;
   }
 
-  /* ── Badges de seção ─────────────────────────────────────────── */
   .section-badge {
     display: inline-flex;
     align-items: center;
@@ -236,7 +229,6 @@
     border-radius: 9999px;
   }
 
-  /* ── Hover de cards ──────────────────────────────────────────── */
   .card-hover-landing {
     transition:
       transform 0.25s ease,
@@ -247,12 +239,10 @@
     box-shadow: 0 14px 44px rgba(224, 80, 64, 0.1);
   }
 
-  /* ── Cards flutuantes do hero ─────────────────────────────────── */
   .hero-float-card {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   }
 
-  /* ── Janela mockup ────────────────────────────────────────────── */
   .mockup-window {
     background: white;
     border: 1.5px solid var(--border);
@@ -261,7 +251,6 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   }
 
-  /* ── Abas "Como funciona" ─────────────────────────────────────── */
   .como-tab {
     padding: 0.5rem 1.25rem;
     font-size: 0.875rem;
@@ -286,7 +275,6 @@
     border-color: var(--primary);
   }
 
-  /* ── Previews dos passos (HowItWorks) ─────────────────────────── */
   .step-preview-card {
     background: white;
     border: 1px solid var(--border);
@@ -305,7 +293,6 @@
     padding: 6px 8px;
   }
 
-  /* ── CTA final ────────────────────────────────────────────────── */
   .cta-box {
     background: linear-gradient(135deg, var(--chart-4) 0%, var(--chart-3) 40%, var(--primary) 100%);
     border-radius: 24px;
@@ -314,7 +301,6 @@
     box-shadow: 0 32px 80px rgba(192, 56, 48, 0.28);
   }
 
-  /* ── Botão primário da marca ──────────────────────────────────── */
   .btn-salmon {
     background: linear-gradient(135deg, var(--chart-3), var(--primary));
     box-shadow: 0 3px 14px rgba(224, 80, 64, 0.28);
@@ -327,7 +313,6 @@
     box-shadow: 0 6px 20px rgba(224, 80, 64, 0.38);
   }
 
-  /* ── Navegação landing (::after não tem equivalente em Tailwind) ── */
   .nav-link-landing {
     position: relative;
     transition: color 0.2s;
@@ -349,7 +334,6 @@
   }
 }
 
-/* ── Keyframes ────────────────────────────────────────────────── */
 @keyframes fadeUp {
   0% {
     opacity: 0;
@@ -370,7 +354,6 @@
   }
 }
 
-/* ── Agenda ───────────────────────────────────────────────────────────────── */
 .appt-cancelled {
   background-image: repeating-linear-gradient(
     -55deg,

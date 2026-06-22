@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { StoreFormDialog } from "@/components/store/StoreFormDialog";
 import { StoreCard } from "@/components/admin/StoreCard";
 import { useMyStores } from "@/hooks/useStores";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export const Route = createFileRoute("/admin/store/")({
   component: RouteComponent,
@@ -31,16 +32,14 @@ function RouteComponent() {
 
   return (
     <>
-      {/* Header */}
+      
       <header className="sticky top-0 z-20 p-2 md:px-8 py-3.5 flex items-center justify-between bg-background/93 backdrop-blur-[14px] border-b border-border">
-        <div>
+        <div className="flex items-center gap-2">
+          <SidebarTrigger className="md:hidden text-slate-500" />
+
           <h1 className="font-heading font-extrabold tracking-tight text-foreground text-lg">
             Minhas Lojas
           </h1>
-          <p className="text-xs text-muted-foreground">
-            {stores.length}{" "}
-            {stores.length === 1 ? "estabelecimento cadastrado" : "estabelecimentos cadastrados"}
-          </p>
         </div>
         <Button
           className="bg-linear-to-br from-chart-3 to-primary text-white shadow-[0_3px_14px_rgba(224,80,64,0.28)] hover:-translate-y-px hover:shadow-[0_6px_20px_rgba(224,80,64,0.38)]"
@@ -52,7 +51,7 @@ function RouteComponent() {
       </header>
 
       <section className="flex-1 p-2 md:p-8">
-        {/* Filters */}
+        
         <div className="flex items-center gap-3 mb-6">
           <div className="relative max-w-xs flex-1">
             <Store className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
@@ -75,7 +74,7 @@ function RouteComponent() {
           </select>
         </div>
 
-        {/* Grid */}
+        
         {isLoading ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
             {[0, 1, 2].map((i) => (
@@ -94,11 +93,11 @@ function RouteComponent() {
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
-            {filtered.map((store, i) => (
-              <StoreCard key={store.id} store={store} index={i} />
+            {filtered.map((store) => (
+              <StoreCard key={store.id} store={store} />
             ))}
 
-            {/* Add new store card */}
+            
             <button
               onClick={() => setCreateOpen(true)}
               className="rounded-2xl border-2 border-dashed border-input flex flex-col items-center justify-center p-8 text-center cursor-pointer transition-colors hover:border-salmon-200 hover:bg-muted group min-h-85"

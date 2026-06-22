@@ -1,9 +1,11 @@
 import { createFileRoute, Link, Outlet, redirect, useRouterState } from "@tanstack/react-router";
-import { CalendarDays, Home, LogOut, Store, Tag } from "lucide-react";
+import { CalendarDays, Clock, Home, LogOut, Settings, Store, Tag } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { useLogout } from "@/hooks/useAuth";
-import { useMyProfessionalStores } from "@/hooks/useServices";
+import { useMyProfile } from "@/hooks/useServices";
+import { useStore } from "@/hooks/useStores";
 import { refresh } from "@/lib/api/auth";
+import { getInitials } from "@/lib/format";
 
 export const Route = createFileRoute("/professional")({
   beforeLoad: async () => {
@@ -47,27 +49,15 @@ function SidebarLink({ to, children }: { to: string; children: React.ReactNode }
 function ProfissionalLayout() {
   const user = useAuthStore((s) => s.user);
   const logout = useLogout();
-  const { data: professionalStores = [] } = useMyProfessionalStores();
+  const { data: profile } = useMyProfile();
+  const { data: myStore } = useStore(profile?.store_id ?? "");
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-
-  const initials = user?.name
-    ? user.name
-        .split(" ")
-        .map((n) => n[0])
-        .slice(0, 2)
-        .join("")
-        .toUpperCase()
-    : "?";
-
-  const sortedStores = [...professionalStores].sort((a, b) =>
-    a.store.name.localeCompare(b.store.name),
-  );
 
   return (
     <div className="flex min-h-screen bg-background">
-      {/* ── Sidebar (desktop) ── */}
+      
       <aside className="hidden md:flex md:w-56 md:flex-col md:fixed md:inset-y-0 bg-white border-r border-border z-30">
-        {/* Logo */}
+        
         <div className="px-4 py-4 flex items-center gap-2.5 border-b border-border">
           <div className="size-7 rounded-xl flex items-center justify-center bg-linear-to-br from-chart-3 to-chart-2">
             <CalendarDays className="size-3.5 text-white" />
@@ -75,11 +65,11 @@ function ProfissionalLayout() {
           <span className="font-heading font-bold text-foreground tracking-tight">Agendei</span>
         </div>
 
-        {/* Avatar + nome */}
+        
         <div className="px-4 py-3 border-b border-border">
           <div className="flex items-center gap-2.5">
             <div className="size-9 rounded-xl flex items-center justify-center text-sm font-bold text-white shrink-0 bg-linear-to-br from-chart-3 to-chart-2">
-              {initials}
+              {getInitials(user?.name || "--")}
             </div>
             <div className="min-w-0">
               <p className="text-xs font-bold text-foreground truncate">{user?.name}</p>
@@ -88,7 +78,7 @@ function ProfissionalLayout() {
           </div>
         </div>
 
-        {/* Nav */}
+        
         <nav className="flex-1 overflow-y-auto p-3 space-y-0.5">
           <p className="text-xs font-bold uppercase tracking-widest px-2.5 pt-2 pb-1.5 text-muted-warm">
             Geral
@@ -113,34 +103,42 @@ function ProfissionalLayout() {
             Meus Serviços
           </SidebarLink>
 
-          {sortedStores.length > 0 && (
+          <SidebarLink to="/professional/schedules">
+            <Clock className="size-4 shrink-0" />
+            Meus Horários
+          </SidebarLink>
+
+          {myStore && (
             <>
               <p className="text-xs font-bold uppercase tracking-widest px-2.5 pt-4 pb-1.5 text-muted-warm">
-                Estabelecimentos
+                Minha Loja
               </p>
-              {sortedStores.map((ps) => {
-                const isActive = pathname.startsWith(`/professional/store/${ps.store_id}`);
-                return (
-                  <Link
-                    key={ps.id}
-                    to="/professional/store/$storeId"
-                    params={{ storeId: ps.store_id }}
-                    className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors ${
-                      isActive
-                        ? "bg-salmon-100 text-chart-3"
-                        : "text-foreground hover:bg-muted hover:text-chart-3"
-                    }`}
-                  >
-                    <Store className="size-4 shrink-0" />
-                    <span className="truncate">{ps.store.name}</span>
-                  </Link>
-                );
-              })}
+              <Link
+                to="/professional/store/$storeId"
+                params={{ storeId: myStore.id }}
+                className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors ${
+                  pathname.startsWith(`/professional/store/${myStore.id}`)
+                    ? "bg-salmon-100 text-chart-3"
+                    : "text-foreground hover:bg-muted hover:text-chart-3"
+                }`}
+              >
+                <Store className="size-4 shrink-0" />
+                <span className="truncate">{myStore.name}</span>
+              </Link>
             </>
           )}
+
+          <p className="text-xs font-bold uppercase tracking-widest px-2.5 pt-4 pb-1.5 text-muted-warm">
+            Conta
+          </p>
+
+          <SidebarLink to="/professional/settings">
+            <Settings className="size-4 shrink-0" />
+            Configurações
+          </SidebarLink>
         </nav>
 
-        {/* Logout */}
+        
         <div className="p-3 border-t border-border">
           <button
             onClick={() => logout.mutate()}
@@ -152,12 +150,12 @@ function ProfissionalLayout() {
         </div>
       </aside>
 
-      {/* ── Conteúdo principal ── */}
+      
       <div className="flex-1 flex flex-col md:ml-56 pb-16 md:pb-0">
         <Outlet />
       </div>
 
-      {/* ── Bottom nav (mobile) ── */}
+      
       <nav className="fixed bottom-0 inset-x-0 md:hidden bg-white border-t border-border z-30 flex">
         {[
           { to: "/professional/dashboard", icon: Home, label: "Painel" },
@@ -179,22 +177,22 @@ function ProfissionalLayout() {
           );
         })}
 
-        {/* Estabelecimentos — navega para primeiro */}
-        {sortedStores.length > 0 ? (
+        
+        {myStore ? (
           <Link
             to="/professional/store/$storeId"
-            params={{ storeId: sortedStores[0].store_id }}
+            params={{ storeId: myStore.id }}
             className={`flex-1 flex flex-col items-center justify-center gap-1 py-3 text-xs font-medium transition-colors ${
               pathname.startsWith("/professional/store") ? "text-chart-3" : "text-muted-foreground"
             }`}
           >
             <Store className="size-5" />
-            Lojas
+            Loja
           </Link>
         ) : (
           <span className="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-xs font-medium text-muted-foreground opacity-40 cursor-not-allowed">
             <Store className="size-5" />
-            Lojas
+            Loja
           </span>
         )}
       </nav>

@@ -1,29 +1,14 @@
+import { useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { Calendar, Mail, Lock, User, Star, Loader2 } from "lucide-react";
 import { registerSchema, type RegisterFormData } from "@/lib/validations/auth";
-import { useRegister } from "@/hooks/useAuth";
+import { register } from "@/lib/api/auth";
+import { useAuthStore } from "@/store/authStore";
 import { getApiErrorMessage } from "@/lib/api/errorUtils";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-function getPasswordStrength(password: string): number {
-  return [
-    password.length >= 8,
-    /[A-Z]/.test(password),
-    /[0-9]/.test(password),
-    /[^A-Za-z0-9]/.test(password),
-  ].filter(Boolean).length;
-}
-
-const strengthConfig = [
-  { label: "Fraca", color: "bg-red-500" },
-  { label: "Fraca", color: "bg-red-500" },
-  { label: "Razoável", color: "bg-orange-400" },
-  { label: "Boa", color: "bg-amber-400" },
-  { label: "Forte", color: "bg-green-500" },
-] as const;
 
 export function RegisterForm() {
   const {
@@ -36,28 +21,41 @@ export function RegisterForm() {
     resolver: zodResolver(registerSchema),
     defaultValues: { role: "client" },
   });
-  const { mutate: registerUser, isPending, error } = useRegister();
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState<unknown>(null);
+  const setAuth = useAuthStore((s) => s.login);
+  const navigate = useNavigate();
 
-  // useWatch subscribes only to the "role" field — avoids re-rendering the whole form on every keystroke
   const selectedRole = useWatch({ control, name: "role" });
-  const passwordValue = useWatch({ control, name: "password" }) ?? "";
-  const strength = getPasswordStrength(passwordValue);
+
+  async function onSubmit(data: RegisterFormData) {
+    setIsPending(true);
+    setError(null);
+    try {
+      const result = await register(data);
+      setAuth(result.access_token, result.user);
+      if (result.user.role === "store_admin") {
+        navigate({ to: "/admin/dashboard" });
+      } else {
+        navigate({ to: "/stores" });
+      }
+    } catch (err) {
+      setError(err);
+    } finally {
+      setIsPending(false);
+    }
+  }
 
   return (
-    // Page wrapper — salmon background visible on sm+, full screen on mobile
-    <div className="min-h-screen bg-brand-panel flex flex-col sm:items-center sm:justify-center sm:p-6">
-      {/* Card — no border/shadow on mobile, rounded with shadow on sm+ */}
-      <div className="flex-1 sm:flex-none w-full sm:max-w-4xl sm:rounded-2xl overflow-hidden sm:shadow-xl sm:border sm:border-primary flex flex-col md:flex-row">
-        {/* Left panel — brand/marketing (visible only on md+) */}
-        <div className="hidden md:flex flex-1 flex-col justify-between p-10 relative overflow-hidden bg-brand-panel">
-          {/* Decorative background circles */}
-          <div className="absolute -top-16 -right-16 size-56 rounded-full bg-white/7" />
-          <div className="absolute bottom-10 -left-12 size-40 rounded-full bg-white/5" />
-          <div className="absolute top-1/2 -translate-y-1/2 right-8 size-20 rounded-full bg-white/6" />
 
-          {/* Top block — logo, headline, tagline */}
+    <div className="min-h-screen bg-brand-panel flex flex-col sm:items-center sm:justify-center sm:p-6">
+      
+      <div className="flex-1 sm:flex-none w-full sm:max-w-4xl sm:rounded-2xl overflow-hidden sm:shadow-xl sm:border sm:border-primary flex flex-col md:flex-row">
+        
+        <div className="hidden md:flex flex-1 flex-col justify-between p-10 relative overflow-hidden bg-brand-panel">
+          
           <div className="relative">
-            {/* Logo + brand name */}
+            
             <div className="flex items-center gap-2.5 mb-10">
               <div className="size-8 rounded-xl bg-white/20 flex items-center justify-center">
                 <Calendar className="size-4 text-white" />
@@ -67,7 +65,7 @@ export function RegisterForm() {
               </span>
             </div>
 
-            {/* Headline and tagline */}
+            
             <h2 className="font-heading font-black text-white text-[1.7rem] tracking-[-0.03em] leading-[1.2] mb-3">
               Comece grátis
               <br />
@@ -78,11 +76,11 @@ export function RegisterForm() {
             </p>
           </div>
 
-          {/* Testimonial card — swaps content based on selected role */}
+          
           <div className="relative rounded-2xl p-5 bg-white/14">
-            {/* key={selectedRole} remounts this block on role change, triggering the fade-in animation */}
+            
             <div key={selectedRole} className="animate-in fade-in duration-300">
-              {/* Star rating */}
+              
               <div className="flex gap-0.5 mb-2">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="size-3.5 text-amber-300 fill-current" />
@@ -94,7 +92,7 @@ export function RegisterForm() {
                     "Antes ficava o dia todo no WhatsApp. Agora os clientes agendam sozinhos."
                   </p>
                   <div className="flex items-center gap-2">
-                    {/* Author avatar — initials */}
+                    
                     <div className="size-6 rounded-full bg-white/25 flex items-center justify-center text-xs font-bold text-white">
                       JS
                     </div>
@@ -109,7 +107,7 @@ export function RegisterForm() {
                     "Marquei minha manicure em 2 minutos, direto do celular. Nem precisei ligar."
                   </p>
                   <div className="flex items-center gap-2">
-                    {/* Author avatar — initials */}
+                    
                     <div className="size-6 rounded-full bg-white/25 flex items-center justify-center text-xs font-bold text-white">
                       AL
                     </div>
@@ -121,9 +119,9 @@ export function RegisterForm() {
           </div>
         </div>
 
-        {/* Right panel — registration form */}
+        
         <div className="flex-1 md:flex-none md:w-96 flex flex-col justify-center p-5 sm:p-8 md:p-10 bg-white">
-          {/* Compact logo — shown on mobile/sm where the left panel is hidden */}
+          
           <div className="flex items-center gap-2.5 mb-8 md:hidden">
             <div className="size-8 rounded-xl bg-primary flex items-center justify-center">
               <Calendar className="size-4 text-white" />
@@ -133,9 +131,9 @@ export function RegisterForm() {
             </span>
           </div>
 
-          {/* Form header — title and login link */}
+          
           <div className="mb-8">
-            <h3 className="font-heading font-black text-slate-900 text-2xl tracking-[-0.025em] mb-1.5">
+            <h3 className="font-heading font-black text-slate-900 text-2xl tracking-tight mb-1.5">
               Criar conta
             </h3>
             <p className="text-sm text-slate-500">
@@ -146,8 +144,8 @@ export function RegisterForm() {
             </p>
           </div>
 
-          <form className="space-y-4" onSubmit={handleSubmit((data) => registerUser(data))}>
-            {/* Role selector — sets hidden "role" field value */}
+          <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+            
             <input type="hidden" {...registerField("role")} />
             <div className="flex rounded-lg border border-input p-1 gap-1">
               <button
@@ -174,7 +172,7 @@ export function RegisterForm() {
               </button>
             </div>
 
-            {/* Full name field */}
+            
             <div className="flex flex-col gap-1">
               <Label className="font-semibold text-slate-700" htmlFor="name">
                 Nome completo
@@ -195,7 +193,7 @@ export function RegisterForm() {
               )}
             </div>
 
-            {/* Email field */}
+            
             <div className="flex flex-col gap-1">
               <Label className="font-semibold text-slate-700" htmlFor="email">
                 Email
@@ -216,8 +214,8 @@ export function RegisterForm() {
               )}
             </div>
 
-            {/* Password field */}
-            <div className="flex flex-col gap-1 mb-2">
+            
+            <div className="flex flex-col gap-1">
               <Label className="font-semibold text-slate-700" htmlFor="password">
                 Senha
               </Label>
@@ -232,32 +230,12 @@ export function RegisterForm() {
                   aria-invalid={!!errors.password}
                 />
               </div>
-              <div
-                className={`mt-2 flex flex-col gap-1.5 transition-opacity duration-200 ${passwordValue.length === 0 ? "invisible" : ""}`}
-              >
-                <div className="flex gap-1">
-                  {[1, 2, 3, 4].map((level) => (
-                    <div
-                      key={level}
-                      className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
-                        strength >= level ? strengthConfig[strength].color : "bg-border"
-                      }`}
-                    />
-                  ))}
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Força:{" "}
-                  <span className="font-medium text-foreground">
-                    {strengthConfig[strength].label}
-                  </span>
-                </p>
-              </div>
               {errors.password && (
                 <p className="text-destructive text-xs mt-1">{errors.password.message}</p>
               )}
             </div>
 
-            {/* Terms and conditions checkbox */}
+            
             <div className="flex items-start gap-2.5 pt-1">
               <input
                 type="checkbox"
@@ -280,7 +258,7 @@ export function RegisterForm() {
               <p className="text-destructive text-xs -mt-2">{errors.accepted_terms.message}</p>
             )}
 
-            {/* Submit button */}
+            
             <button
               className="w-full py-2.5 text-sm font-bold text-white rounded-lg mt-2 btn-salmon flex items-center justify-center gap-2 disabled:opacity-55 disabled:cursor-not-allowed"
               type="submit"
@@ -290,7 +268,7 @@ export function RegisterForm() {
               {isPending ? "Criando conta..." : "Criar conta grátis →"}
             </button>
 
-            {error && (
+            {error !== null && (
               <div className="rounded-lg border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm text-destructive">
                 {getApiErrorMessage(error)}
               </div>

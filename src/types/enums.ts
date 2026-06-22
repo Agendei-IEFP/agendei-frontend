@@ -14,7 +14,6 @@ export const AppointmentStatus = {
 
 export type AppointmentStatus = (typeof AppointmentStatus)[keyof typeof AppointmentStatus];
 
-// Backend armazena como inteiro: 0 = segunda ... 6 = domingo
 export const DiaSemana = {
   SEGUNDA: 0,
   TERCA: 1,

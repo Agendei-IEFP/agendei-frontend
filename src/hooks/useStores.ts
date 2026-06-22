@@ -4,18 +4,17 @@ import {
   deleteStore,
   getMyStores,
   getStore,
-  getStoreOfferings,
+  getStoreServices,
   listStores,
   listStoreProfessionals,
   updateStore,
 } from "@/lib/api/stores";
 import type { StoreFormData } from "@/lib/validations/store";
-import type { StoreType } from "@/types/api";
 
-export function useStores(storeType?: StoreType) {
+export function useStores() {
   return useQuery({
-    queryKey: ["stores", "public", storeType ?? "all"],
-    queryFn: () => listStores(storeType),
+    queryKey: ["stores", "public"],
+    queryFn: listStores,
   });
 }
 
@@ -73,10 +72,10 @@ export function useStore(storeId: string) {
   });
 }
 
-export function useStoreOfferings(storeId: string) {
+export function useStoreServices(storeId: string) {
   return useQuery({
-    queryKey: ["stores", storeId, "offerings"],
-    queryFn: () => getStoreOfferings(storeId),
+    queryKey: ["stores", storeId, "services"],
+    queryFn: () => getStoreServices(storeId),
   });
 }
 

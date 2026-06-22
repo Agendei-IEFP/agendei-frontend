@@ -65,7 +65,7 @@ function AdminAgenda() {
 
   return (
     <div className="flex flex-col h-full min-h-screen bg-background">
-      {/* Header */}
+      
       <header className="flex items-center gap-3 px-6 py-4 border-b border-border bg-card">
         <SidebarTrigger className="-ml-1" />
         <div>
@@ -77,7 +77,7 @@ function AdminAgenda() {
       </header>
 
       <div className="flex-1 px-6 py-5 space-y-5 max-w-3xl w-full mx-auto">
-        {/* Store filter pills */}
+        
         {stores.length > 1 && (
           <div className="flex flex-wrap gap-2">
             {stores.map((store) => (
@@ -98,7 +98,7 @@ function AdminAgenda() {
           </div>
         )}
 
-        {/* Date navigation */}
+        
         <div className="flex items-center gap-3">
           <button
             type="button"
@@ -119,7 +119,7 @@ function AdminAgenda() {
           </button>
         </div>
 
-        {/* Appointments list */}
+        
         {isLoading ? (
           <div className="flex justify-center py-16">
             <div className="size-8 animate-spin rounded-full border-2 border-border border-t-primary" />
@@ -138,16 +138,16 @@ function AdminAgenda() {
                 key={appt.id}
                 className="rounded-2xl border border-border bg-card p-4 shadow-sm flex items-start gap-4"
               >
-                {/* Time column */}
+                
                 <div className="shrink-0 text-center min-w-[52px]">
                   <p className="text-sm font-bold text-foreground">{formatTime(appt.starts_at)}</p>
                   <p className="text-xs text-muted-foreground">{formatTime(appt.ends_at)}</p>
                 </div>
 
-                {/* Divider */}
+                
                 <div className="w-px self-stretch bg-border" />
 
-                {/* Details */}
+                
                 <div className="flex-1 min-w-0 space-y-0.5">
                   <p className="text-sm font-semibold text-foreground truncate">
                     {appt.service_name ?? "—"}
@@ -160,7 +160,7 @@ function AdminAgenda() {
                   )}
                 </div>
 
-                {/* Status badge */}
+                
                 <span
                   className={cn(
                     "chip shrink-0 self-start",

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { getInitials } from "@/lib/format";
-import { useBookingStore } from "@/store/bookingStore";
+import { useNavigate } from "@tanstack/react-router";
 import type { StoreProfessionalDTO } from "@/types/api";
 
 interface ProfessionalCardProps {
@@ -9,7 +9,7 @@ interface ProfessionalCardProps {
 }
 
 export function ProfessionalCard({ professional, storeId }: ProfessionalCardProps) {
-  const openWizard = useBookingStore((s) => s.openWizard);
+  const navigate = useNavigate();
 
   return (
     <div className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4 shadow-sm">
@@ -39,10 +39,10 @@ export function ProfessionalCard({ professional, storeId }: ProfessionalCardProp
 
       <button
         onClick={() =>
-          openWizard({
-            storeId,
-            professionalStoreId: professional.professional_store_id,
-            professional,
+          void navigate({
+            to: "/stores/$storeId/book",
+            params: { storeId },
+            search: { psid: professional.id },
           })
         }
         className={cn(

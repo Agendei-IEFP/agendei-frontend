@@ -3,9 +3,8 @@ import { StoresNavbar } from "@/components/stores/StoresNavbar";
 import { StoreHero } from "@/components/stores/StoreHero";
 import { OfferingList } from "@/components/stores/OfferingList";
 import { StoreProfessionalList } from "@/components/stores/StoreProfessionalList";
-import { BookingWizard } from "@/components/booking/BookingWizard";
 import { Footer } from "@/components/layout/Footer";
-import { useStore, useStoreOfferings, useStoreProfessionals } from "@/hooks/useStores";
+import { useStore, useStoreServices, useStoreProfessionals } from "@/hooks/useStores";
 
 export const Route = createFileRoute("/stores/$storeId/")({
   component: StoreDetailPage,
@@ -15,7 +14,7 @@ function StoreDetailPage() {
   const { storeId } = Route.useParams();
 
   const storeQuery = useStore(storeId);
-  const offeringsQuery = useStoreOfferings(storeId);
+  const offeringsQuery = useStoreServices(storeId);
   const professionalsQuery = useStoreProfessionals(storeId);
 
   const isLoading =
@@ -58,7 +57,6 @@ function StoreDetailPage() {
         <OfferingList offerings={offeringsQuery.data ?? []} />
         <StoreProfessionalList professionals={professionalsQuery.data ?? []} storeId={storeId} />
         <Footer />
-        <BookingWizard storeId={storeId} />
       </div>
     </>
   );

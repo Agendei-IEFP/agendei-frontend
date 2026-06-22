@@ -94,7 +94,6 @@ export function DayTimeline({
           );
         }
 
-        // appointment item
         const appt = item.appointment;
         const apptStart = toLocal(appt.starts_at);
         const apptStartMin = toMinutes(apptStart);
@@ -135,7 +134,7 @@ export function DayTimeline({
         );
       })}
 
-      {/* Now line after last item if now is past everything */}
+      
       {showNowLine &&
         (() => {
           const last = items[items.length - 1];

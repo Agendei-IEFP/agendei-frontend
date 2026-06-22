@@ -86,4 +86,32 @@ A autenticação usa dois tokens:
 - **Access token** — armazenado em memória (Zustand), enviado como `Bearer` header
 - **Refresh token** — cookie httpOnly, enviado automaticamente pelo browser
 
-O interceptor do Axios renova o access token silenciosamente ao receber um `401`, enfileirando as requisições paralelas para evitar múltiplas chamadas ao `/auth/refresh`.
+O interceptor do Axios renova o access token silenciosamente ao receber um `401` enviando requisições para `/auth/refresh`.
+
+---
+
+# Backend
+
+Para rodar o projeto backend deve criar um ambiente virtual .venv (basicamente um npm i do python).
+O projeto usa uv como gerenciador. Caso esteja utilizando o mesmo basta rodar:
+
+```bash
+uv sync
+```
+
+Este comando sincroniza as dependências do `pyproject` e inicializa o `.venv`.
+
+O projeto já está com uma cópia do .env então nada a esse respeito precisa ser configurado.
+
+Inicializar container docker subindo base de dados Postgresql.
+
+```bash
+docker compose up
+```
+
+Sincroniza migrations e depois rodar o servidor.
+
+```bash
+uv run alembic upgrade head
+uv run uvicorn app.main:app --reload
+```
