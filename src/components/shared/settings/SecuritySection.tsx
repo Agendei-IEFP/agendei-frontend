@@ -38,7 +38,6 @@ export function SecuritySection() {
       },
     );
   }
-
   return (
     <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
       <h2 className="font-heading font-extrabold tracking-tight text-slate-900 text-lg mb-0.5">
@@ -62,9 +61,7 @@ export function SecuritySection() {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label className="text-xs font-semibold text-foreground mb-1.5 block">
-              Nova senha
-            </Label>
+            <Label className="text-xs font-semibold text-foreground mb-1.5 block">Nova senha</Label>
             <Input
               type="password"
               placeholder="Mín. 8 caracteres"

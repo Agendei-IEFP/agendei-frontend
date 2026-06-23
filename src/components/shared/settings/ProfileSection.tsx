@@ -61,9 +61,7 @@ export function ProfileSection({ user }: ProfileSectionProps) {
               Nome completo
             </Label>
             <Input {...register("name")} className={inputClass} />
-            {errors.name && (
-              <p className="text-xs text-destructive mt-1">{errors.name.message}</p>
-            )}
+            {errors.name && <p className="text-xs text-destructive mt-1">{errors.name.message}</p>}
           </div>
           <div>
             <Label className="text-xs font-semibold text-foreground mb-1.5 block">Email</Label>

@@ -52,7 +52,6 @@ function AdminDashboard() {
 
   return (
     <div className="flex flex-col flex-1">
-      
       <header className="sticky top-0 z-20 px-2 md:px-8 py-3.5 flex items-center justify-between bg-background/93 backdrop-blur-sm border-b border-border">
         <div className="flex items-center gap-2">
           <SidebarTrigger className="md:hidden text-slate-500" />
@@ -75,9 +74,7 @@ function AdminDashboard() {
         </div>
       </header>
 
-      
       <main className="flex-1 p-2 md:p-8">
-        
         {!hasLojas && (
           <div className="rounded-2xl p-6 mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 overflow-hidden relative border border-salmon-200 bg-linear-to-br from-muted via-salmon-100 to-salmon-200">
             <div className="relative">
@@ -102,7 +99,6 @@ function AdminDashboard() {
           </div>
         )}
 
-        
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 mb-7">
           <StatCard
             label="Lojas"
@@ -134,12 +130,9 @@ function AdminDashboard() {
           />
         </div>
 
-        
         {hasLojas && (
           <>
-            
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-5 mb-5">
-              
               <div className="xl:col-span-2 rounded-2xl border border-border bg-card">
                 <div className="flex items-center justify-between px-4 md:px-6 py-4 border-b border-border">
                   <h2 className="font-heading font-bold text-slate-900 text-[1.05rem] tracking-[-0.02em]">
@@ -162,7 +155,6 @@ function AdminDashboard() {
                 </div>
               </div>
 
-              
               <div className="rounded-2xl border border-border bg-card flex flex-col">
                 <div className="flex items-center justify-between px-5 py-4 border-b border-border">
                   <h2 className="font-heading font-bold text-slate-900 text-[1.05rem] tracking-[-0.02em]">
@@ -192,9 +184,7 @@ function AdminDashboard() {
               </div>
             </div>
 
-            
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-3 md:gap-5">
-              
               <div className="xl:col-span-2 rounded-2xl border border-border bg-card">
                 <div className="flex items-center justify-between px-6 py-4 border-b border-border">
                   <div>
@@ -225,7 +215,6 @@ function AdminDashboard() {
                 </div>
               </div>
 
-              
               <div className="rounded-2xl border border-border bg-card flex flex-col">
                 <div className="flex items-center justify-between px-5 py-4 border-b border-border">
                   <h2 className="font-heading font-bold text-slate-900 text-[1.05rem] tracking-[-0.02em]">
@@ -248,7 +237,6 @@ function AdminDashboard() {
           </>
         )}
 
-        
         {!hasLojas && (
           <>
             <div className="mb-5">
@@ -428,7 +416,6 @@ function apptDateLabel(isoString: string): string {
 }
 
 function ApptRow({ appt }: { appt: AppointmentAdminDTO }) {
-
   const time = new Date(appt.starts_at).toLocaleTimeString("pt-PT", {
     hour: "2-digit",
     minute: "2-digit",

@@ -109,7 +109,6 @@ export function CreateProfessionalModal({
           </DialogDescription>
         </DialogHeader>
 
-        
         {step === "selecting" && (
           <div className="flex flex-col gap-2 mt-2">
             {stores?.map((store) => (
@@ -139,7 +138,6 @@ export function CreateProfessionalModal({
           </div>
         )}
 
-        
         {step === "form" && (
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mt-2">
             {submitError && (

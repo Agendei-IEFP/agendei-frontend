@@ -48,15 +48,10 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
   }
 
   return (
-
     <div className="min-h-screen bg-brand-panel flex flex-col sm:items-center sm:justify-center sm:p-6">
-      
       <div className="flex-1 sm:flex-none w-full sm:max-w-4xl sm:rounded-2xl overflow-hidden sm:shadow-xl sm:border sm:border-primary flex flex-col md:flex-row">
-        
         <div className="hidden md:flex flex-1 flex-col justify-between p-10 relative overflow-hidden bg-brand-panel">
-          
           <div className="relative">
-            
             <div className="flex items-center gap-2.5 mb-10">
               <div className="size-8 rounded-xl bg-white/20 flex items-center justify-center">
                 <Calendar className="size-4 text-white" />
@@ -66,7 +61,6 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
               </span>
             </div>
 
-            
             <h2 className="font-heading font-black text-white text-[1.7rem] tracking-[-0.03em] leading-[1.2] mb-3">
               Sua agenda,
               <br />
@@ -77,7 +71,6 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
             </p>
           </div>
 
-          
           <div className="relative space-y-3">
             {[
               "Sem ligações para confirmar horários",
@@ -95,9 +88,7 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
           </div>
         </div>
 
-        
         <div className="flex-1 md:flex-none md:w-96 flex flex-col justify-center p-5 sm:p-8 md:p-10 bg-white">
-          
           <div className="flex items-center gap-2.5 mb-8 md:hidden">
             <div className="size-8 rounded-xl bg-primary flex items-center justify-center">
               <Calendar className="size-4 text-white" />
@@ -107,7 +98,6 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
             </span>
           </div>
 
-          
           <div className="mb-8">
             <h3 className="font-heading font-black text-slate-900 text-2xl tracking-tight mb-1.5">
               Entrar na conta
@@ -120,9 +110,7 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
             </p>
           </div>
 
-          
           <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-            
             <div className="flex flex-col gap-1">
               <Label className="font-semibold text-slate-700" htmlFor="email">
                 Email
@@ -143,7 +131,6 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
               )}
             </div>
 
-            
             <div className="flex flex-col gap-1">
               <div className="flex items-center justify-between">
                 <Label className="font-semibold text-slate-700" htmlFor="password">

@@ -10,12 +10,9 @@ interface StoreHeroProps {
 export function StoreHero({ store, className }: StoreHeroProps) {
   return (
     <div className={cn("bg-card border-b border-border", className)}>
-      
       <div className="h-28 md:h-40 w-full bg-[linear-gradient(145deg,#FFE8E2,#FFAA97)]" />
 
-      
       <div className="max-w-4xl mx-auto px-6 pb-8">
-        
         <div className="-mt-10 mb-4">
           <div className="size-20 rounded-2xl border-4 border-white shadow-md bg-white flex items-center justify-center overflow-hidden">
             {store.logo_url ? (
@@ -26,19 +23,16 @@ export function StoreHero({ store, className }: StoreHeroProps) {
           </div>
         </div>
 
-        
         <div className="flex flex-wrap items-center gap-3 mb-2">
           <h1 className="font-heading font-extrabold tracking-tight text-2xl md:text-3xl text-foreground">
             {store.name}
           </h1>
         </div>
 
-        
         {store.description && (
           <p className="text-sm text-muted-foreground mb-4 max-w-xl">{store.description}</p>
         )}
 
-        
         <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground mb-6">
           {store.address && (
             <span className="flex items-center gap-1.5">
@@ -60,7 +54,6 @@ export function StoreHero({ store, className }: StoreHeroProps) {
           )}
         </div>
 
-        
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex gap-5 text-sm">
             <span className="flex items-center gap-1.5 text-muted-foreground">

@@ -142,7 +142,6 @@ function ServicesList() {
 
   return (
     <main className="flex-1 p-4 md:p-8">
-      
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div className="flex items-center justify-between gap-2">
           <h2 className="font-heading font-bold text-foreground text-2xl tracking-tight">
@@ -159,7 +158,6 @@ function ServicesList() {
         </div>
       </div>
 
-      
       <div className="flex flex-col sm:flex-row gap-3 mb-5">
         <div className="flex items-center gap-1 p-1 rounded-lg bg-muted/60">
           {(["all", "active", "inactive"] as Filter[]).map((f) => (
@@ -179,7 +177,6 @@ function ServicesList() {
         </div>
       </div>
 
-      
       {isLoading ? (
         <div className="flex items-center justify-center py-16">
           <div className="size-8 animate-spin rounded-full border-2 border-border border-t-primary" />

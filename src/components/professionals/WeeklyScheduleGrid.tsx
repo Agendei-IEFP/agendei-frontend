@@ -216,12 +216,9 @@ function GridEditor({
   return (
     <>
       <div className="rounded-sm sm:rounded-2xl sm:border sm:border-border sm:bg-card shadow-sm overflow-hidden">
-        
         <div className="overflow-y-auto overflow-x-auto max-h-[70vh]">
           <div className="flex p-1 sm:p-2 md:p-4 min-w-75" style={{ touchAction: "none" }}>
-            
             <div className="w-10 shrink-0 select-none flex flex-col" aria-hidden>
-              
               <div className="pb-0.5 text-xs invisible select-none">X</div>
               {Array.from({ length: blockCount }, (_, blockIdx) => {
                 const label = labelForBlock(blockIdx, n, startHour, granularity);
@@ -241,16 +238,13 @@ function GridEditor({
               })}
             </div>
 
-            
             <div className="flex-1 grid grid-cols-7 gap-1">
               {WEEKDAYS_SHORT.map((dayLabel, day) => (
                 <div key={day} className="flex flex-col gap-1">
-                  
                   <div className="text-center text-xs font-medium text-foreground pb-0.5">
                     {dayLabel}
                   </div>
 
-                  
                   <div
                     className="flex-1 flex flex-col cursor-crosshair select-none rounded-md overflow-hidden"
                     onPointerDown={(e) => handleColumnPointerDown(day, e)}
@@ -304,7 +298,6 @@ function GridEditor({
         </div>
       </div>
 
-      
       <div className="flex justify-end">
         <button
           type="button"
@@ -316,7 +309,6 @@ function GridEditor({
         </button>
       </div>
 
-      
       <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
         <DialogContent>
           <DialogHeader>
@@ -394,7 +386,6 @@ export function WeeklyScheduleGrid({
 
   return (
     <div className="flex flex-col gap-3">
-      
       <div className="flex flex-wrap gap-3 items-center">
         <label className="flex items-center gap-2 text-sm text-muted-foreground">
           Bloco:

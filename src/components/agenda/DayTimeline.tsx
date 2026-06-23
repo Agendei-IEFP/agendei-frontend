@@ -134,7 +134,6 @@ export function DayTimeline({
         );
       })}
 
-      
       {showNowLine &&
         (() => {
           const last = items[items.length - 1];

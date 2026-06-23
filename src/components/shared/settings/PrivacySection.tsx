@@ -70,9 +70,7 @@ export function PrivacySection({ user }: PrivacySectionProps) {
       <div>
         <p className="text-sm font-semibold text-red-700 mb-3">Zona de perigo</p>
         <div className="rounded-xl px-4 py-4 bg-red-50 border border-red-200">
-          <p className="text-sm font-semibold text-red-800 mb-1">
-            Solicitar anonimização da conta
-          </p>
+          <p className="text-sm font-semibold text-red-800 mb-1">Solicitar anonimização da conta</p>
           <p className="text-xs leading-relaxed text-red-900/70 mb-4">
             Ao anonimizar sua conta, todos os seus dados pessoais identificáveis serão removidos
             permanentemente (nome, email, telefone). Seus registros de agendamento serão mantidos

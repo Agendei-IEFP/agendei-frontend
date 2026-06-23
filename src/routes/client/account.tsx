@@ -79,7 +79,6 @@ function ClientAccountPage() {
     <div className="max-w-lg mx-auto px-4 pt-6 pb-4 flex flex-col gap-6">
       <h1 className="font-heading font-extrabold text-xl text-foreground">A minha conta</h1>
 
-      
       <form
         onSubmit={handleSave}
         className="rounded-2xl border border-border bg-card p-5 shadow-sm flex flex-col gap-4"
@@ -141,7 +140,6 @@ function ClientAccountPage() {
         </button>
       </form>
 
-      
       <div className="rounded-2xl border border-red-200 bg-card p-5 shadow-sm flex flex-col gap-3">
         <h2 className="text-sm font-semibold text-destructive">Zona de perigo</h2>
         <p className="text-xs text-muted-foreground">

@@ -14,7 +14,6 @@ const PANEL_LINK: Record<RoleEnum, { to: string; label: string }> = {
 };
 
 interface UserMenuProps {
-  
   className?: string;
 }
 

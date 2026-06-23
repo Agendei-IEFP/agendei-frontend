@@ -69,7 +69,6 @@ function StoreView() {
 
   return (
     <main className="flex-1 p-2 sm:p-4 md:p-8">
-      
       <div className="flex items-center gap-3 mb-6">
         <div className="size-10 rounded-xl bg-muted flex items-center justify-center">
           <Store className="size-5 text-chart-3" />
@@ -82,7 +81,6 @@ function StoreView() {
         </div>
       </div>
 
-      
       <section>
         <div className="flex items-center gap-2 mb-4">
           <Tag className="size-4 text-chart-3" />

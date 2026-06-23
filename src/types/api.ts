@@ -115,9 +115,9 @@ export interface ServiceDTO {
 export interface WorkScheduleDTO {
   id: string;
   professional_id: string;
-  
+
   weekday: number;
-  
+
   start_time: string;
   end_time: string;
   is_active: boolean;
@@ -163,7 +163,7 @@ export interface AppointmentAdminDTO {
 }
 
 export interface SlotsResponse {
-  date: string; 
+  date: string;
   professional_id: string;
   service_id: string;
   duration_minutes: number;

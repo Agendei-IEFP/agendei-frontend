@@ -13,7 +13,6 @@ export function useRevealAnimation<T extends HTMLElement = HTMLDivElement>(deps:
     );
     ref.current?.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-
   }, deps);
 
   return ref;

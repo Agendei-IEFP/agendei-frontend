@@ -21,7 +21,6 @@ function ProfessionalsPage() {
   return (
     <>
       <div className="flex flex-col flex-1">
-        
         <header className="sticky top-0 z-20 px-4 md:px-8 py-3.5 flex items-center justify-between bg-background/95 backdrop-blur-sm border-b border-border">
           <div className="flex items-center gap-3">
             <SidebarTrigger className="md:hidden text-slate-500" />
@@ -41,7 +40,6 @@ function ProfessionalsPage() {
         </header>
 
         <main className="flex-1 p-2 md:p-8">
-          
           {isLoading && (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
               {Array.from({ length: 3 }).map((_, i) => (
@@ -50,7 +48,6 @@ function ProfessionalsPage() {
             </div>
           )}
 
-          
           {!isLoading && profCount === 0 && (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <div className="size-16 rounded-2xl bg-muted flex items-center justify-center mb-4">
@@ -70,7 +67,6 @@ function ProfessionalsPage() {
             </div>
           )}
 
-          
           {!isLoading && (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
               {professionals?.map((professional) => (

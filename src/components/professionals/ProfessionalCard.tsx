@@ -41,7 +41,6 @@ export function ProfessionalCard({ professional, className }: ProfessionalCardPr
         className,
       )}
     >
-      
       <div className="flex items-start gap-3 mb-4">
         <div
           className={
@@ -68,7 +67,6 @@ export function ProfessionalCard({ professional, className }: ProfessionalCardPr
         </div>
       </div>
 
-      
       {professional.bio ? (
         <p className="text-xs text-muted-foreground leading-relaxed mb-4 line-clamp-2">
           {professional.bio}
@@ -77,7 +75,6 @@ export function ProfessionalCard({ professional, className }: ProfessionalCardPr
         <p className="text-xs text-muted-warm italic mb-4">Sem bio cadastrada</p>
       )}
 
-      
       <div className="flex gap-2 pt-4 border-t border-border">
         <button
           type="button"

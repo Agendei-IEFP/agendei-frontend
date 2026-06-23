@@ -4,7 +4,6 @@ import { useAuthStore } from "@/store/authStore";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 export const Route = createRootRoute({
-  
   beforeLoad: async () => {
     const { user, accessToken, setAccessToken, logout } = useAuthStore.getState();
     if (user && !accessToken) {

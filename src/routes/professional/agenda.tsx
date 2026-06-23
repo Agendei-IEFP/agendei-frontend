@@ -93,7 +93,6 @@ function Agenda() {
   return (
     <>
       <main className="flex-1 p-4 md:p-6 max-w-2xl mx-auto w-full">
-        
         <div className="flex items-center justify-between gap-2 mb-3">
           <button
             onClick={() => shiftWeek(-1)}
@@ -110,7 +109,6 @@ function Agenda() {
           </button>
         </div>
 
-        
         <div className="bg-card border border-border rounded-xl p-3 mb-4">
           <WeekStrip
             weekDays={weekDays}
@@ -121,7 +119,6 @@ function Agenda() {
           />
         </div>
 
-        
         <div className="flex items-center justify-between mb-3">
           <p className="text-sm font-bold text-foreground capitalize">
             {dayLabel}
@@ -139,7 +136,6 @@ function Agenda() {
           )}
         </div>
 
-        
         {isLoading ? (
           <div className="flex justify-center py-16">
             <div className="size-7 animate-spin rounded-full border-2 border-border border-t-primary" />

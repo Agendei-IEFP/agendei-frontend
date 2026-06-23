@@ -79,7 +79,6 @@ export function HeroSection() {
           <div className="absolute inset-0 rounded-3xl scale-95 blur-3xl bg-primary/14" />
 
           <div className="relative bg-white rounded-2xl border border-border overflow-hidden shadow-[0_32px_80px_rgba(192,56,48,0.12),0_4px_16px_rgba(0,0,0,0.06)]">
-            
             <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-background">
               <div className="size-3 rounded-full bg-red-400" />
               <div className="size-3 rounded-full bg-amber-400" />
@@ -92,7 +91,6 @@ export function HeroSection() {
             </div>
 
             <div className="flex md:h-90">
-              
               <div className="hidden md:flex w-48 border-r border-border p-4 flex-col gap-1 shrink-0 bg-background">
                 <div className="mb-4 flex items-center gap-2">
                   <div className="size-8 rounded-full flex items-center justify-center shrink-0 bg-muted">
@@ -120,7 +118,6 @@ export function HeroSection() {
                 ))}
               </div>
 
-              
               <div className="flex-1 p-3 sm:p-5 overflow-hidden">
                 <div className="flex items-center justify-between mb-4">
                   <div>
@@ -182,7 +179,6 @@ export function HeroSection() {
             </div>
           </div>
 
-          
           <div className="absolute -right-4 top-10 bg-white rounded-xl border border-border px-4 py-3 w-56 hidden md:block animate-float hero-float-card">
             <div className="flex items-center gap-2">
               <div className="size-8 rounded-full bg-green-100 flex items-center justify-center shrink-0">
@@ -195,7 +191,6 @@ export function HeroSection() {
             </div>
           </div>
 
-          
           <div className="absolute -left-4 bottom-16 bg-white rounded-xl border border-border px-4 py-3 w-44 hidden md:block animate-float-delayed hero-float-card">
             <p className="text-xs font-bold text-slate-500 mb-1">Esta semana</p>
             <p className="text-2xl font-black text-chart-3">28</p>

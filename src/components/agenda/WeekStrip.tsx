@@ -17,7 +17,7 @@ interface WeekStripProps {
   selectedDay: Date;
   appointments: AppointmentDTO[];
   onSelectDay: (day: Date) => void;
-  
+
   workBlocksByWeekday?: WorkBlock[][];
 }
 
