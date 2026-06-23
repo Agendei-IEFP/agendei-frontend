@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Info } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, localTimezoneOffset } from "@/lib/utils";
 import { getMyProfile } from "@/lib/api/professionals";
 import { listWorkSchedules, replaceWorkSchedules } from "@/lib/api/workSchedule";
 import type { ProfessionalDTO, WorkScheduleDTO } from "@/types/api";
@@ -113,10 +113,11 @@ function Schedules() {
     setSaving(true);
     setError(null);
     try {
+      const tz = localTimezoneOffset();
       const payload = entries.map((e) => ({
         weekday: e.weekday,
-        start_time: toHHMMSS(e.start_time),
-        end_time: toHHMMSS(e.end_time),
+        start_time: `${toHHMMSS(e.start_time)}${tz}`,
+        end_time: `${toHHMMSS(e.end_time)}${tz}`,
         is_active: e.is_active,
       }));
       await replaceWorkSchedules(profile.id, payload);

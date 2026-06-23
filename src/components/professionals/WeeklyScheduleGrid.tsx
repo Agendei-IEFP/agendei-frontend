@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef } from "react";
-import { cn } from "@/lib/utils";
+import { cn, localTimezoneOffset } from "@/lib/utils";
 import type { WorkScheduleDTO } from "@/types/api";
 import {
   Dialog,
@@ -59,6 +59,7 @@ function gridToScheduleBlocks(
   grid: boolean[][],
   slots: string[],
 ): { weekday: number; start_time: string; end_time: string }[] {
+  const tz = localTimezoneOffset();
   const blocks: { weekday: number; start_time: string; end_time: string }[] = [];
   for (let day = 0; day < 7; day++) {
     let i = 0;
@@ -72,11 +73,11 @@ function gridToScheduleBlocks(
       const endMinutes = timeToMinutes(slots[i - 1]) + SLOT_MINUTES;
       const endH = Math.floor(endMinutes / 60) % 24;
       const endM = endMinutes % 60;
-      const end =
+      const endTime =
         endMinutes >= 24 * 60
           ? "00:00:00"
           : `${String(endH).padStart(2, "0")}:${String(endM).padStart(2, "0")}:00`;
-      blocks.push({ weekday: day, start_time: `${start}:00`, end_time: end });
+      blocks.push({ weekday: day, start_time: `${start}:00${tz}`, end_time: `${endTime}${tz}` });
     }
   }
   return blocks;
@@ -206,7 +207,7 @@ function GridEditor({
     const byDay: Record<number, string[]> = {};
     for (const b of pendingBlocks) {
       const start = b.start_time.slice(0, 5);
-      const end = b.end_time === "00:00:00" ? "24:00" : b.end_time.slice(0, 5);
+      const end = b.end_time.startsWith("00:00:00") ? "24:00" : b.end_time.slice(0, 5);
       if (!byDay[b.weekday]) byDay[b.weekday] = [];
       byDay[b.weekday].push(`${start} – ${end}`);
     }
