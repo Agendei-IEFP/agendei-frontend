@@ -38,9 +38,7 @@ export function WeekStrip({
         const selected = isSameDay(day, selectedDay);
         const today = isToday(day);
         const past = isPastDay(day);
-        const isSunday = idx === 6;
-        const hasContent = dayAppts.length > 0 || (dayBlocks && dayBlocks.length > 0);
-        const isDisabled = isSunday && !hasContent;
+        const isDisabled = false;
 
         return (
           <button

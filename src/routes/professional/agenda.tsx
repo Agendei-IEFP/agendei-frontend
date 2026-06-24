@@ -48,7 +48,7 @@ function Agenda() {
   const { data: appointments = [], isLoading } = useMyProfessionalAppointments();
   const { data: workSchedules = [] } = useQuery({
     queryKey: ["schedules", profile?.id],
-    queryFn: () => listWorkSchedules(profile!.id),
+    queryFn: () => listWorkSchedules(profile?.id ?? ""),
     enabled: !!profile?.id,
   });
 

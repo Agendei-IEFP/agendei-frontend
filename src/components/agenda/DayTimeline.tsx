@@ -4,12 +4,12 @@ import {
   buildTimeline,
   formatTime,
   minutesToTime,
-  formatDuration,
   isToday,
   toLocal,
   toMinutes,
   type WorkBlock,
 } from "@/lib/agenda";
+import { formatDuration } from "@/lib/format";
 import type { AppointmentDTO } from "@/types/api";
 
 interface DayTimelineProps {

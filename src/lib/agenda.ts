@@ -1,7 +1,7 @@
 import type { AppointmentDTO } from "@/types/api";
 import { AppointmentStatus } from "@/types/enums";
 
-const WORK_START_H = 9;
+const WORK_START_H = 7;
 const WORK_END_H = 18;
 export const WORK_START_MINUTES = WORK_START_H * 60;
 export const WORK_END_MINUTES = WORK_END_H * 60;
@@ -218,15 +218,8 @@ export function minutesToTime(minutes: number): string {
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
 
-export function formatDuration(minutes: number): string {
-  if (minutes < 60) return `${minutes} min`;
-  const h = Math.floor(minutes / 60);
-  const m = minutes % 60;
-  return m === 0 ? `${h}h` : `${h}h ${m}min`;
-}
-
 export function formatTime(date: Date): string {
-  return date.toLocaleTimeString("pt-BR", {
+  return date.toLocaleTimeString("pt-pt", {
     hour: "2-digit",
     minute: "2-digit",
   });

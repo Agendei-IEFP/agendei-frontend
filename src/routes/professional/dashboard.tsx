@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Tag } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/authStore";
-import { formatDate } from "@/lib/format";
+import { formatDate, formatDuration } from "@/lib/format";
 import { formatTime } from "@/lib/agenda";
 import { useMyProfessionalAppointments } from "@/hooks/useAppointments";
 import { AppointmentDetailModal } from "@/components/agenda/AppointmentDetailModal";
@@ -32,14 +32,6 @@ function greeting(): string {
   if (hour < 12) return "Bom dia";
   if (hour < 18) return "Boa tarde";
   return "Boa noite";
-}
-
-function formatDuration(minutes: number): string {
-  const h = Math.floor(minutes / 60);
-  const m = minutes % 60;
-  if (h === 0) return `${m}min`;
-  if (m === 0) return `${h}h`;
-  return `${h}h ${m}min`;
 }
 
 const STATUS_CHIP: Record<AppointmentStatus, { label: string; className: string }> = {
