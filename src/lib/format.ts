@@ -36,6 +36,11 @@ export function formatDate(date: Date): string {
   return `${WEEKDAYS[date.getDay()]}, ${date.getDate()} de ${MONTHS[date.getMonth()]}`;
 }
 
+export function formatTime(iso: string): string {
+  const d = new Date(iso);
+  return d.toLocaleTimeString("pt-PT", { hour: "2-digit", minute: "2-digit" });
+}
+
 export function formatCurrentDate(): string {
   return new Intl.DateTimeFormat("pt-pt", {
     weekday: "long",

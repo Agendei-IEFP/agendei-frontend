@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { createFileRoute, Link, Outlet, redirect, useRouterState } from "@tanstack/react-router";
-import { CalendarDays, Clock, Home, LogOut, Settings, Store, Tag } from "lucide-react";
+import { CalendarDays, Clock, Home, LogOut, MoreHorizontal, Settings, Store, Tag } from "lucide-react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useAuthStore } from "@/store/authStore";
 import { useLogout } from "@/hooks/useAuth";
 import { useMyProfile } from "@/hooks/useServices";
@@ -52,6 +54,7 @@ function ProfissionalLayout() {
   const { data: profile } = useMyProfile();
   const { data: myStore } = useStore(profile?.store_id ?? "");
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const [moreOpen, setMoreOpen] = useState(false);
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -170,24 +173,57 @@ function ProfissionalLayout() {
           );
         })}
 
-        {myStore ? (
-          <Link
-            to="/professional/store/$storeId"
-            params={{ storeId: myStore.id }}
-            className={`flex-1 flex flex-col items-center justify-center gap-1 py-3 text-xs font-medium transition-colors ${
-              pathname.startsWith("/professional/store") ? "text-chart-3" : "text-muted-foreground"
-            }`}
-          >
-            <Store className="size-5" />
-            Loja
-          </Link>
-        ) : (
-          <span className="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-xs font-medium text-muted-foreground opacity-40 cursor-not-allowed">
-            <Store className="size-5" />
-            Loja
-          </span>
-        )}
+        <button
+          onClick={() => setMoreOpen(true)}
+          className={`flex-1 flex flex-col items-center justify-center gap-1 py-3 text-xs font-medium transition-colors ${
+            moreOpen ? "text-chart-3" : "text-muted-foreground"
+          }`}
+        >
+          <MoreHorizontal className="size-5" />
+          Mais
+        </button>
       </nav>
+
+      <Sheet open={moreOpen} onOpenChange={setMoreOpen}>
+        <SheetContent side="bottom" className="rounded-t-2xl pb-8">
+          <SheetHeader>
+            <SheetTitle className="text-left text-xs font-bold text-muted-warm uppercase tracking-widest">
+              Mais opções
+            </SheetTitle>
+          </SheetHeader>
+
+          <div className="mt-3 space-y-1">
+            {myStore && (
+              <Link
+                to="/professional/store/$storeId"
+                params={{ storeId: myStore.id }}
+                onClick={() => setMoreOpen(false)}
+                className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-foreground hover:bg-muted transition-colors"
+              >
+                <Store className="size-5 shrink-0" />
+                {myStore.name}
+              </Link>
+            )}
+
+            <Link
+              to="/professional/settings"
+              onClick={() => setMoreOpen(false)}
+              className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-foreground hover:bg-muted transition-colors"
+            >
+              <Settings className="size-5 shrink-0" />
+              Configurações
+            </Link>
+
+            <button
+              onClick={() => { logout.mutate(); setMoreOpen(false); }}
+              className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-destructive hover:bg-red-50 transition-colors w-full"
+            >
+              <LogOut className="size-5 shrink-0" />
+              Sair
+            </button>
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }

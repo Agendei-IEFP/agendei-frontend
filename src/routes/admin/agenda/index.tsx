@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { formatDate } from "@/lib/format";
+import { formatDate, formatTime } from "@/lib/format";
 import { useMyStores } from "@/hooks/useStores";
 import { useStoreAppointments } from "@/hooks/useAppointments";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -14,11 +14,6 @@ export const Route = createFileRoute("/admin/agenda/")({
 
 function toDateString(date: Date): string {
   return date.toISOString().slice(0, 10);
-}
-
-function formatTime(iso: string): string {
-  const d = new Date(iso);
-  return d.toLocaleTimeString("pt-PT", { hour: "2-digit", minute: "2-digit" });
 }
 
 const STATUS_STYLES: Record<AppointmentStatus, string> = {
@@ -134,7 +129,7 @@ function AdminAgenda() {
                 key={appt.id}
                 className="rounded-2xl border border-border bg-card p-4 shadow-sm flex items-start gap-4"
               >
-                <div className="shrink-0 text-center min-w-[52px]">
+                <div className="shrink-0 text-center min-w-13">
                   <p className="text-sm font-bold text-foreground">{formatTime(appt.starts_at)}</p>
                   <p className="text-xs text-muted-foreground">{formatTime(appt.ends_at)}</p>
                 </div>
