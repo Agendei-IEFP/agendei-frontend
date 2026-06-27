@@ -35,6 +35,9 @@ function Row({ label, value }: { label: string; value: string }) {
   );
 }
 
+const ctaClass =
+  "bg-linear-to-br from-chart-3 to-primary text-white shadow-[0_3px_14px_rgba(224,80,64,0.28)] disabled:opacity-50";
+
 function BookPage() {
   const { storeId } = Route.useParams();
   const { psid } = Route.useSearch();
@@ -48,7 +51,6 @@ function BookPage() {
   const [selectedService, setSelectedService] = useState<StoreServiceDTO | null>(null);
   const [date, setDate] = useState("");
   const [slot, setSlot] = useState<{ start: string; end: string } | null>(null);
-  const [notes, setNotes] = useState("");
   const [confirmError, setConfirmError] = useState<string | null>(null);
 
   const professionalsQuery = useStoreProfessionals(storeId);
@@ -92,7 +94,6 @@ function BookPage() {
         professional_id: effectiveProfessional.id,
         service_id: selectedService.service_id,
         starts_at: slot.start,
-        notes: notes || undefined,
       });
       setStep("success");
     } catch (err) {
@@ -106,9 +107,6 @@ function BookPage() {
 
   const professionalServices =
     storeServicesQuery.data?.filter((s) => s.professional_id === effectiveProfessional?.id) ?? [];
-
-  const ctaClass =
-    "bg-linear-to-br from-chart-3 to-primary text-white shadow-[0_3px_14px_rgba(224,80,64,0.28)] disabled:opacity-50";
 
   return (
     <>
@@ -342,19 +340,6 @@ function BookPage() {
                   <Row label="Duração" value={formatDuration(selectedService.duration_minutes)} />
                 )}
               </div>
-
-              <section>
-                <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide block mb-2">
-                  Observações (opcional)
-                </label>
-                <textarea
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  rows={2}
-                  placeholder="Alguma informação adicional..."
-                  className="w-full rounded-xl border border-border bg-card px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/40 resize-none"
-                />
-              </section>
 
               {confirmError && <p className="text-sm text-destructive">{confirmError}</p>}
 
