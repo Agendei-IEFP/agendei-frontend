@@ -10,7 +10,13 @@ interface StoreHeroProps {
 export function StoreHero({ store, className }: StoreHeroProps) {
   return (
     <div className={cn("bg-card border-b border-border", className)}>
-      <div className="h-28 md:h-40 w-full bg-[linear-gradient(145deg,#FFE8E2,#FFAA97)]" />
+      <div className="h-28 md:h-40 w-full overflow-hidden">
+        {store.banner_url ? (
+          <img src={store.banner_url} alt="" className="size-full object-cover" />
+        ) : (
+          <div className="size-full bg-[linear-gradient(145deg,#FFE8E2,#FFAA97)]" />
+        )}
+      </div>
 
       <div className="max-w-4xl mx-auto px-6 pb-8">
         <div className="-mt-10 mb-4">

@@ -53,6 +53,7 @@ export interface StoreDTO {
   email: string | null;
   address: string | null;
   logo_url: string | null;
+  banner_url: string | null;
   is_active: boolean;
   store_types: StoreType[];
   created_at: ISOTimestamp;

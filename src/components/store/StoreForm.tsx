@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Store, Phone, Mail, MapPin, Image } from "lucide-react";
+import { Store, Mail, MapPin, Image } from "lucide-react";
 import { storeSchema, type StoreFormData } from "@/lib/validations/store";
 import { useCreateStore, useUpdateStore } from "@/hooks/useStores";
 import { getApiErrorMessage } from "@/lib/api/errorUtils";
@@ -40,10 +40,11 @@ export function StoreForm({
     defaultValues: {
       name: defaultValues?.name ?? "",
       description: defaultValues?.description ?? "",
-      phone: defaultValues?.phone ?? "",
+      phone: defaultValues?.phone?.replace(/^\+351\s?/, "") ?? "",
       email: defaultValues?.email ?? "",
       address: defaultValues?.address ?? "",
       logo_url: defaultValues?.logo_url ?? "",
+      banner_url: defaultValues?.banner_url ?? "",
       store_types: defaultValues?.store_types ?? [],
     },
   });
@@ -55,12 +56,16 @@ export function StoreForm({
   }, [isPending, onSubmittingChange]);
 
   async function onSubmit(data: StoreFormData) {
+    const payload = {
+      ...data,
+      phone: data.phone ? `+351 ${data.phone}` : undefined,
+    };
     try {
       if (mode === "create") {
-        await createStore.mutateAsync(data);
+        await createStore.mutateAsync(payload);
       } else {
         if (!storeId) throw new Error("storeId é obrigatório no modo edit");
-        await updateStore.mutateAsync({ id: storeId, body: data });
+        await updateStore.mutateAsync({ id: storeId, body: payload });
       }
       onSuccess();
     } catch (err) {
@@ -109,11 +114,13 @@ export function StoreForm({
             Telefone <span className="text-muted-foreground font-normal">(opcional)</span>
           </Label>
           <div className="relative">
-            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground select-none">
+              +351
+            </span>
             <Input
               id="phone"
-              className="pl-10"
-              placeholder="(+351) 999 999 999"
+              className="pl-14"
+              placeholder="912 345 678"
               {...register("phone")}
             />
           </div>
@@ -171,6 +178,29 @@ export function StoreForm({
         ) : (
           <p className="text-xs text-muted-foreground">
             Apenas URL por agora. Upload de arquivo em breve.
+          </p>
+        )}
+      </div>
+
+      <div className="flex flex-col gap-1.5">
+        <Label className="font-semibold text-slate-700" htmlFor="banner_url">
+          Banner <span className="text-muted-foreground font-normal">(opcional)</span>
+        </Label>
+        <div className="relative">
+          <Image className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
+          <Input
+            id="banner_url"
+            className="pl-10"
+            placeholder="https://exemplo.com/banner.jpg"
+            aria-invalid={!!errors.banner_url}
+            {...register("banner_url")}
+          />
+        </div>
+        {errors.banner_url ? (
+          <p className="text-destructive text-xs">{errors.banner_url.message}</p>
+        ) : (
+          <p className="text-xs text-muted-foreground">
+            Imagem de fundo do cabeçalho da página da loja.
           </p>
         )}
       </div>
