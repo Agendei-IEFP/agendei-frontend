@@ -31,7 +31,7 @@ export function ProfileSection({ user }: ProfileSectionProps) {
     defaultValues: {
       name: user?.name ?? "",
       email: user?.email ?? "",
-      phone: user?.phone ?? "",
+      phone: user?.phone?.replace(/^\+351\s?/, "") ?? "",
     },
   });
 
@@ -39,7 +39,7 @@ export function ProfileSection({ user }: ProfileSectionProps) {
     setError(null);
     setSuccess(false);
     updateMe(
-      { name: data.name, email: data.email, phone: data.phone || undefined },
+      { name: data.name, email: data.email, phone: data.phone ? `+351 ${data.phone}` : undefined },
       {
         onSuccess: () => setSuccess(true),
         onError: (err) => setError(getApiErrorMessage(err)),
@@ -72,7 +72,16 @@ export function ProfileSection({ user }: ProfileSectionProps) {
           </div>
           <div>
             <Label className="text-xs font-semibold text-foreground mb-1.5 block">Telefone</Label>
-            <Input type="tel" {...register("phone")} className={inputClass} />
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground select-none">
+                +351
+              </span>
+              <Input
+                {...register("phone")}
+                className={`${inputClass} pl-14`}
+                placeholder="912 345 678"
+              />
+            </div>
           </div>
           <div>
             <Label className="text-xs font-semibold text-foreground mb-1.5 block">Role</Label>

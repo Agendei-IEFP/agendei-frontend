@@ -10,7 +10,7 @@ interface StoreHeroProps {
 export function StoreHero({ store, className }: StoreHeroProps) {
   return (
     <div className={cn("bg-card border-b border-border", className)}>
-      <div className="h-28 md:h-40 w-full overflow-hidden">
+      <div className="aspect-2/1 md:aspect-4/1 w-full overflow-hidden">
         {store.banner_url ? (
           <img src={store.banner_url} alt="" className="size-full object-cover" />
         ) : (
@@ -19,12 +19,12 @@ export function StoreHero({ store, className }: StoreHeroProps) {
       </div>
 
       <div className="max-w-4xl mx-auto px-6 pb-8">
-        <div className="-mt-10 mb-4">
+        <div className="-mt-10 mb-4 relative z-10">
           <div className="size-20 rounded-2xl border-4 border-white shadow-md bg-white flex items-center justify-center overflow-hidden">
             {store.logo_url ? (
               <img src={store.logo_url} alt={store.name} className="size-full object-cover" />
             ) : (
-              <Building2 className="size-9 text-chart-4" strokeWidth={1.5} />
+              <Building2 className="size-9 text-chart-4 " strokeWidth={1.5} />
             )}
           </div>
         </div>
