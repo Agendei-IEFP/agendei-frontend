@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Search } from "lucide-react";
 import { StoresNavbar } from "@/components/stores/StoresNavbar";
 import { StoreCard } from "@/components/stores/StoreCard";
-import { listStores } from "@/lib/api/stores";
+import { useStores } from "@/hooks/useStores";
 import { Footer } from "@/components/layout/Footer";
-import type { StoreDTO } from "@/types/api";
 
 export const Route = createFileRoute("/stores/")({
   component: StoresPage,
@@ -13,15 +12,7 @@ export const Route = createFileRoute("/stores/")({
 
 function StoresPage() {
   const [query, setQuery] = useState("");
-  const [stores, setStores] = useState<StoreDTO[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    listStores().then((data) => {
-      setStores(data);
-      setIsLoading(false);
-    });
-  }, []);
+  const { data: stores = [], isLoading } = useStores();
 
   const q = query.toLowerCase();
   const filteredStores = query.trim()
