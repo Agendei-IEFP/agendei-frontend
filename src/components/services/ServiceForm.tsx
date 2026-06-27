@@ -1,17 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { serviceSchema, type ServiceFormData } from "@/lib/validations/service";
 import { useCreateService, useUpdateService } from "@/hooks/useServices";
 import { getApiErrorMessage } from "@/lib/api/errorUtils";
 import { cn } from "@/lib/utils";
-
-const inputClass = cn(
-  "w-full rounded-lg border border-input bg-white px-3 py-2.5 text-sm text-foreground",
-  "placeholder:text-muted-foreground",
-  "focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20",
-  "transition-colors duration-150",
-);
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 interface ServiceFormProps {
   formId: string;
@@ -51,13 +46,9 @@ export function ServiceForm({
 
   const [isActive, setIsActive] = useState(defaultValues?.is_active ?? true);
 
-  const isPending = createService.isPending || updateService.isPending;
-
-  useEffect(() => {
-    onSubmittingChange(isPending);
-  }, [isPending, onSubmittingChange]);
-
   async function onSubmit(data: ServiceFormData) {
+    onSubmittingChange(true);
+
     try {
       if (mode === "create") {
         await createService.mutateAsync({
@@ -81,6 +72,8 @@ export function ServiceForm({
       onSuccess();
     } catch (err) {
       onError(getApiErrorMessage(err));
+    } finally {
+      onSubmittingChange(false);
     }
   }
 
@@ -90,10 +83,9 @@ export function ServiceForm({
         <label className="block text-sm font-semibold text-foreground mb-1.5">
           Nome <span className="text-destructive">*</span>
         </label>
-        <input
+        <Input
           {...register("name")}
           placeholder="Ex: Corte feminino"
-          className={inputClass}
           aria-invalid={!!errors.name}
         />
         {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name.message}</p>}
@@ -101,11 +93,11 @@ export function ServiceForm({
 
       <div>
         <label className="block text-sm font-semibold text-foreground mb-1.5">Descrição</label>
-        <textarea
+        <Textarea
           {...register("description")}
           rows={3}
           placeholder="Descreva brevemente o serviço..."
-          className={cn(inputClass, "resize-none")}
+          className="resize-none"
         />
       </div>
 
@@ -114,10 +106,9 @@ export function ServiceForm({
           <label className="block text-sm font-semibold text-foreground mb-1.5">
             Preço (€) <span className="text-destructive">*</span>
           </label>
-          <input
+          <Input
             {...register("price")}
             placeholder="0.00"
-            className={inputClass}
             aria-invalid={!!errors.price}
           />
           {errors.price && <p className="mt-1 text-xs text-destructive">{errors.price.message}</p>}
@@ -126,13 +117,12 @@ export function ServiceForm({
           <label className="block text-sm font-semibold text-foreground mb-1.5">
             Duração (min) <span className="text-destructive">*</span>
           </label>
-          <input
+          <Input
             {...register("duration_minutes", { valueAsNumber: true })}
             type="number"
             min={15}
             step={5}
             placeholder="60"
-            className={inputClass}
             aria-invalid={!!errors.duration_minutes}
           />
           {errors.duration_minutes && (
