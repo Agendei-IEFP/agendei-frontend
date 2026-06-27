@@ -1,9 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  getMyProfile,
   getMyProfessionals,
   unlinkProfessional,
   updateProfessional,
 } from "@/lib/api/professionals";
+
+export function useMyProfile() {
+  return useQuery({
+    queryKey: ["myProfile"],
+    queryFn: getMyProfile,
+  });
+}
 
 export function useMyProfessionals() {
   return useQuery({
