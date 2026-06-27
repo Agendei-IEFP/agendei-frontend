@@ -2,10 +2,11 @@ import { z } from "zod";
 
 export const professionalEditSchema = z.object({
   bio: z.string().nullable().optional(),
-  photo_url: z.preprocess(
-    (v) => (v === "" ? null : v),
-    z.url("URL inválida").nullable().optional(),
-  ),
+  photo_url: z
+    .string()
+    .nullable()
+    .optional()
+    .refine((v) => !v || z.string().url().safeParse(v).success, "URL inválida"),
   is_active: z.boolean(),
 });
 

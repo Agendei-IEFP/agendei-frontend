@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,14 +39,14 @@ export function ProfessionalEditDialog({
     register,
     handleSubmit,
     reset,
-    watch,
+    control,
     setValue,
     formState: { errors, isSubmitting },
   } = useForm<ProfessionalEditFormData>({
     resolver: zodResolver(professionalEditSchema),
     defaultValues: {
       bio: professional.bio ?? "",
-      photo_url: professional.photo_url ?? "",
+      photo_url: professional.photo_url ?? null,
       is_active: professional.is_active,
     },
   });
@@ -61,7 +61,7 @@ export function ProfessionalEditDialog({
     }
   }, [open, professional, reset]);
 
-  const isActive = watch("is_active");
+  const isActive = useWatch({ control, name: "is_active" });
 
   async function onSubmit(values: ProfessionalEditFormData) {
     await updateMutation.mutateAsync({
