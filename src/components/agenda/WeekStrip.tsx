@@ -1,55 +1,30 @@
 import { cn } from "@/lib/utils";
-import {
-  isSameDay,
-  isToday,
-  isPastDay,
-  occupancyPercent,
-  appointmentsForDay,
-  toWeekdayIndex,
-  type WorkBlock,
-} from "@/lib/agenda";
-import type { AppointmentDTO } from "@/types/api";
+import { isSameDay, isToday, isPastDay } from "@/lib/agenda";
 
 const DAY_LABELS = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
 
 interface WeekStripProps {
   weekDays: Date[];
   selectedDay: Date;
-  appointments: AppointmentDTO[];
   onSelectDay: (day: Date) => void;
-
-  workBlocksByWeekday?: WorkBlock[][];
 }
 
-export function WeekStrip({
-  weekDays,
-  selectedDay,
-  appointments,
-  onSelectDay,
-  workBlocksByWeekday,
-}: WeekStripProps) {
+export function WeekStrip({ weekDays, selectedDay, onSelectDay }: WeekStripProps) {
   return (
     <div className="flex gap-1.5">
       {weekDays.map((day, idx) => {
-        const dayAppts = appointmentsForDay(appointments, day);
-        const weekday = toWeekdayIndex(day);
-        const dayBlocks = workBlocksByWeekday?.[weekday];
-        const pct = occupancyPercent(dayAppts, dayBlocks);
         const selected = isSameDay(day, selectedDay);
         const today = isToday(day);
         const past = isPastDay(day);
-        const isDisabled = false;
 
         return (
           <button
             key={idx}
-            onClick={() => !isDisabled && onSelectDay(day)}
-            disabled={isDisabled}
+            onClick={() => onSelectDay(day)}
             className={cn(
               "flex-1 flex flex-col items-center gap-1 rounded-lg py-1.5 px-1 transition-colors",
-              selected && !isDisabled && "bg-muted border border-border",
-              !selected && !isDisabled && "hover:bg-muted/60",
-              isDisabled && "opacity-30 cursor-not-allowed",
+              selected && "bg-muted border border-border",
+              !selected && "hover:bg-muted/60",
             )}
           >
             <span
@@ -77,18 +52,6 @@ export function WeekStrip({
                 {day.getDate()}
               </span>
             )}
-
-            <div className="w-full h-1 bg-border rounded-full overflow-hidden">
-              {pct > 0 && (
-                <div
-                  className={cn(
-                    "h-full rounded-full transition-all",
-                    past ? "bg-violet-400/60" : "bg-chart-3",
-                  )}
-                  style={{ width: `${pct}%` }}
-                />
-              )}
-            </div>
           </button>
         );
       })}
